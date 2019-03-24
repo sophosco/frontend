@@ -60,7 +60,7 @@ export class CartService {
         }; 
     }
 
-    public updateCart(data:Cart){
+    public updateCart(data: Cart){
 
         let headers = new Headers({
             'Content-Type': 'application/json',
@@ -73,7 +73,35 @@ export class CartService {
           let cartRequest = new CartRequest("234255", data);
           //console.log(cartRequest);
           return this._http
-            .post(environment.URLService + '/api-catalogo/producto/consultarCatalogo', cartRequest, options)
+            .post(environment.URLService + '/gestioncarrito/updatecart', cartRequest, options)
+            .pipe(
+              map(((response: any) => {
+                this.cartResponse = response.json();
+                if (this.cartResponse.cart != null) {
+                  this.Data = this.cartResponse.cart;
+                }
+                return this.Data;
+              }),
+                catchError((e: Response) => throwError(e)))
+            );
+    }
+
+    public getCart(idSession: String){
+
+        let headers = new Headers({
+            'Content-Type': 'application/json',
+            'X-RqUID': 'application/json', 'X-IPAddr': 'application/json'
+            , 'X-Session': 'application/json'
+          });
+      
+          let options = new RequestOptions({ headers: headers });
+      
+          let getCartRequest = {
+            "IdSesion": idSession
+          };
+          //console.log(cartRequest);
+          return this._http
+            .post(environment.URLService + '/gestioncarrito/getcart', getCartRequest, options)
             .pipe(
               map(((response: any) => {
                 this.cartResponse = response.json();
