@@ -52,14 +52,13 @@ export class CategoryService {
     let options = new RequestOptions({ headers: headers });
 
     return this._httpClient
-      .get(this.url + 'categoriesResponse.json')
+      .get(this.url + 'categories-response.json')
       .pipe(
         map(((response: any) => {
           this.categoryResponse = response;
           if (this.categoryResponse.categories.length > 0) {
             this.category = this.categoryResponse.categories;
           }
- 
           return this.category;
         }),
           catchError((e: Response) => throwError(e)))
