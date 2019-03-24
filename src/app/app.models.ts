@@ -15,6 +15,8 @@ export class Product {
               public ratingsCount: number,
               public ratingsValue: number,
               public description: string,
+              public detailDescription: string,
+              public additionalInformation: string,
               public availibilityCount: number,
               public cartCount: number,
               public color: Array<string>,

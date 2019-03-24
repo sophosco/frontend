@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpModule } from "@angular/http";
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AgmCoreModule } from '@agm/core';
 
@@ -22,6 +23,8 @@ import { BreadcrumbComponent } from './theme/components/breadcrumb/breadcrumb.co
 
 import { AppSettings } from './app.settings';
 import { AppService } from './app.service';
+import { CategoryService } from './services/category.service';
+import { ProductService } from './services/product.service';
 import { AppInterceptor } from './theme/utils/app-interceptor';
 import { OptionsComponent } from './theme/components/options/options.component';
 import { FooterComponent } from './theme/components/footer/footer.component';
@@ -32,6 +35,7 @@ import { FooterComponent } from './theme/components/footer/footer.component';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    HttpModule,
     NgxSpinnerModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAAYi6itRZ0rPgI76O3I83BhhzZHIgMwPg'
@@ -52,6 +56,8 @@ import { FooterComponent } from './theme/components/footer/footer.component';
   ], 
   providers: [
     AppSettings,
+    CategoryService,
+    ProductService,
     AppService,   
     { provide: OverlayContainer, useClass: CustomOverlayContainer },
     { provide: MAT_MENU_SCROLL_STRATEGY, useFactory: menuScrollStrategy, deps: [Overlay] },
