@@ -45,6 +45,7 @@ export class AddressesComponent implements OnInit {
   }
 
   public onBillingFormSubmit(values:Object):void {
+    console.log("PaymentPrueba Billing: " +values);
     if (this.billingForm.valid) {
       this.snackBar.open('Your billing address information updated successfully!', '×', { panelClass: 'success', verticalPosition: 'top', duration: 3000 });
     }
