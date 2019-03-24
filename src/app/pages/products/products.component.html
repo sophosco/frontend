@@ -168,7 +168,7 @@
                                 <mat-chip color="warn" selected="true">{{product.discount}}% OFF</mat-chip>
                             </mat-chip-list>
                             <a [routerLink]="['/products', product.id, product.name]" class="image-link">
-                                <img [src]="product.images[0].medium" alt="">
+                                <img *ngIf="product.images[0].medium" [src]="product.images[0].medium" alt="">
                             </a>
                         </div>
                         <div fxFlex="100" fxFlex.gt-xs="60" class="p-2">

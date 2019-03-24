@@ -3,10 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { SwiperConfigInterface, SwiperDirective } from 'ngx-swiper-wrapper';
-import { Data, AppService } from '../../../app.service';
+import { Data, AppServiceProduct } from '../../../products.service';
 import { Product } from "../../../app.models";
 import { emailValidator } from '../../../theme/utils/app-validators';
 import { ProductZoomComponent } from './product-zoom/product-zoom.component';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-product',
@@ -23,8 +25,10 @@ export class ProductComponent implements OnInit {
   private sub: any;
   public form: FormGroup;
   public relatedProducts: Array<Product>;
+  
 
-  constructor(public appService:AppService, private activatedRoute: ActivatedRoute, public dialog: MatDialog, public formBuilder: FormBuilder) {  }
+
+  constructor(public appService:AppServiceProduct, private activatedRoute: ActivatedRoute, public dialog: MatDialog, public formBuilder: FormBuilder, private _sanitizer: DomSanitizer) {  }
 
   ngOnInit() {      
     this.sub = this.activatedRoute.params.subscribe(params => { 
@@ -62,25 +66,31 @@ export class ProductComponent implements OnInit {
 
   public getProductById(id){
     this.appService.getProductById(id).subscribe(data=>{
-      this.product = data;
-      this.image = data.images[0].medium;
-      this.zoomImage = data.images[0].big;
+      this.product = this.appService.convertProductDataToProduct(data)
+      this.image = this.product.images[0].medium;
+      this.zoomImage = this.product.images[0].big;
       setTimeout(() => { 
         this.config.observer = true;
        // this.directiveRef.setIndex(0);
       });
-    });
+    })
   }
 
   public getRelatedProducts(){
     this.appService.getProducts('related').subscribe(data => {
-      this.relatedProducts = data;
+      this.relatedProducts = this.appService.convertProductDatblaArrayToProductArray(data);
     })
   }
 
   public selectImage(image){
     this.image = image.medium;
-    this.zoomImage = image.big;
+    this.zoomImage = image.big
+  }
+
+  makeTrustedImage(item) {
+    const imageString =  JSON.stringify(item.changingThisBreaksApplicationSecurity).replace(/\\n/g, '');
+    const style = 'url(' + imageString + ')';
+    return this._sanitizer.bypassSecurityTrustStyle(style);
   }
 
   public onMouseMove(e){

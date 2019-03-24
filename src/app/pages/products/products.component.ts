@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { ProductDialogComponent } from '../../shared/products-carousel/product-dialog/product-dialog.component';
-import { AppService } from '../../app.service';
+import { AppServiceProduct } from '../../products.service';
 import { Product, Category } from "../../app.models";
 
 @Component({
@@ -29,7 +29,7 @@ export class ProductsComponent implements OnInit {
   public sizes = ["S","M","L","XL","2XL","32","36","38","46","52","13.3\"","15.4\"","17\"","21\"","23.4\""];
   public page:any;
 
-  constructor(private activatedRoute: ActivatedRoute, public appService:AppService, public dialog: MatDialog, private router: Router) { }
+  constructor(private activatedRoute: ActivatedRoute, public appService:AppServiceProduct, public dialog: MatDialog, private router: Router) { }
 
   ngOnInit() {
     this.count = this.counts[0];
@@ -50,14 +50,21 @@ export class ProductsComponent implements OnInit {
   }
 
   public getAllProducts(){
-    this.appService.getProducts("featured").subscribe(data=>{
-      this.products = data; 
+    this.appService.getProducts("featured").subscribe(data=>{getComputedStyle
+      console.log(data);
+      
+      this.products = this.appService.convertProductDatblaArrayToProductArray(data);
+
+      console.log(this.products);
+      
       //for show more product  
-      for (var index = 0; index < 3; index++) {
-        this.products = this.products.concat(this.products);        
-      }
+      //for (var index = 0; index < 3; index++) {
+        //this.products = this.products.concat(this.products);        
+      //}
     });
   }
+
+
 
   public getCategories(){  
     if(this.appService.Data.categories.length == 0) { 

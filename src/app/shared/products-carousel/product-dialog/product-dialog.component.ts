@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation, OnInit, Inject} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
-import { Data, AppService } from '../../../app.service';
+import { Data, AppServiceProduct } from '../../../products.service';
 import { Product } from '../../../app.models';
 
 @Component({
@@ -12,7 +12,7 @@ import { Product } from '../../../app.models';
 })
 export class ProductDialogComponent implements OnInit {
   public config: SwiperConfigInterface = {};
-  constructor(public appService:AppService, 
+  constructor(public appService:AppServiceProduct, 
               public dialogRef: MatDialogRef<ProductDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public product: Product) { }
 
