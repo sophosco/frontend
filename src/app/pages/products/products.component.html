@@ -5,7 +5,7 @@
             <mat-expansion-panel expanded>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <h4>Categories</h4>
+                        <h4>Categorias</h4>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="categories-wrapper categories-dropdown" perfectScrollbar>
@@ -16,12 +16,12 @@
             <mat-expansion-panel expanded>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <h4>Price</h4>
+                        <h4>Precio</h4>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
-                    <span>From: <b>${{priceFrom}}</b></span>
-                    <span>To: <b>${{priceTo}}</b></span>
+                    <span>Desde: <b>${{priceFrom}}</b></span>
+                    <span>Hasta: <b>${{priceTo}}</b></span>
                 </div>
                 <div fxLayout="row" fxLayoutAlign="space-between center" class="filter-price">
                     <mat-slider color="primary" max="2000" min="1" thumb-label="true" [(ngModel)]="priceFrom"></mat-slider>
@@ -32,35 +32,11 @@
             <mat-expansion-panel expanded>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <h4>Color</h4>
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-buttons">
-                    <button mat-raised-button *ngFor="let color of colors" [style.background]="color">&nbsp;</button>
-                </div>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel expanded>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <h4>Size</h4>
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-buttons">
-                    <button mat-raised-button *ngFor="let size of sizes">{{size}}</button>
-                </div>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel expanded>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <h4>Condition</h4>
+                        <h4>Dispobilidad</h4>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div fxLayout="column">
-                    <mat-checkbox color="primary">New</mat-checkbox>
-                    <mat-checkbox color="primary">Used</mat-checkbox>
-                    <mat-checkbox color="primary">Not Specified</mat-checkbox>
+                    <mat-checkbox color="primary" (change)="onChangeAvailability($event)" [checked] >Disponible"</mat-checkbox>
                 </div>
             </mat-expansion-panel>
 
@@ -74,17 +50,6 @@
                     <button mat-raised-button *ngFor="let brand of brands">
                         <img [src]="brand.image"/>
                     </button>
-                </div>
-            </mat-expansion-panel>
-
-            <mat-expansion-panel expanded>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <h4>Now starting at $1379</h4>
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <div fxLayout="row wrap" fxLayoutAlign="center center">
-                   <a [routerLink]="['/products/electronics']"><img src="assets/images/products/probook/2-medium.png" alt="" class="mw-100"></a>
                 </div>
             </mat-expansion-panel>
 

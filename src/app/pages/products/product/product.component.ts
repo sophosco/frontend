@@ -3,11 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { SwiperConfigInterface, SwiperDirective } from 'ngx-swiper-wrapper';
-import { Data, AppServiceProduct } from '../../../products.service';
+import { ProductService } from '../../../services/product.service';
 import { Product } from "../../../app.models";
 import { emailValidator } from '../../../theme/utils/app-validators';
 import { ProductZoomComponent } from './product-zoom/product-zoom.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CategoryService } from 'src/app/services/category.service';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class ProductComponent implements OnInit {
   
 
 
-  constructor(public appService:AppServiceProduct, private activatedRoute: ActivatedRoute, public dialog: MatDialog, public formBuilder: FormBuilder, private _sanitizer: DomSanitizer) {  }
+  constructor(public appService:ProductService, public appServiceCategory:CategoryService, private activatedRoute: ActivatedRoute, public dialog: MatDialog, public formBuilder: FormBuilder, private _sanitizer: DomSanitizer) {  }
 
   ngOnInit() {      
     this.sub = this.activatedRoute.params.subscribe(params => { 
@@ -66,7 +67,7 @@ export class ProductComponent implements OnInit {
 
   public getProductById(id){
     this.appService.getProductById(id).subscribe(data=>{
-      this.product = this.appService.convertProductDataToProduct(data)
+      this.product = this.appService.convertImages64BitToImages(data)
       this.image = this.product.images[0].medium;
       this.zoomImage = this.product.images[0].big;
       setTimeout(() => { 
@@ -77,8 +78,8 @@ export class ProductComponent implements OnInit {
   }
 
   public getRelatedProducts(){
-    this.appService.getProducts('related').subscribe(data => {
-      this.relatedProducts = this.appService.convertProductDatblaArrayToProductArray(data);
+    this.appService.getProductsByTopProductMock(5).subscribe(data => {
+      this.relatedProducts = this.appService.convertImages64BitToImagesArray(data);
     })
   }
 

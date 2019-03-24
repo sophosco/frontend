@@ -7,13 +7,6 @@ export class Category {
               public parentId: number){ }
 }
 
-export class ProductData {
-  constructor(public statusCode: string,
-              public statusMessage: string,
-              public product: Product){}
-  }
-
-
 export class Product {
   constructor(public id: number,
               public name: string,
@@ -24,6 +17,8 @@ export class Product {
               public ratingsCount: number,
               public ratingsValue: number,
               public description: string,
+              public detailDescription: string,
+              public additionalInformation: string,
               public availibilityCount: number,
               public cartCount: number,
               public color: Array<string>,

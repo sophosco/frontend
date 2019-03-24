@@ -103,7 +103,7 @@
         "color": ["#1D1D1D","#DADADA","#597087"],
         "size": ["24''","28''","32''"],
         "weight": 9550,
-        "categoryId": 100
+        "categoryId": 4
     },    
     { 
         "id": 3,
@@ -136,7 +136,7 @@
         "color": ["#474543","#8B8B8B","#FFFFFF"],
         "size": ["14","22"],
         "weight": 150,
-        "categoryId": 100
+        "categoryId": 4
     },   
     { 
         "id": 4,
@@ -179,7 +179,7 @@
         "color": ["#4C4C4C","#B6B7B9"],
         "size": ["13.3''","15.4''","17''"],
         "weight": 2150,
-        "categoryId": 100
+        "categoryId": 4
     },
     { 
         "id": 5,
@@ -207,7 +207,7 @@
         "color": ["#1E1B00","#898E8B"],
         "size": null,
         "weight": 3250,
-        "categoryId": 100
+        "categoryId": 1
     },
     { 
         "id": 6,
@@ -250,6 +250,6 @@
         "color": ["#464646","#F3F3F3","#E6E6E6"],
         "size": null,
         "weight": 9750,
-        "categoryId": 100
+        "categoryId": 4
     }
 ]

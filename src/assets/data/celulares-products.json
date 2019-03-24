@@ -1,0 +1,197 @@
+{
+    "statusCode": "string",
+    "statusMessage": "string",
+    "products": [
+        {
+            "id": 1,
+            "name": "Keyboard",
+            "images": [
+                {
+                    "small": "assets/images/products/keyboard/1-small.png",
+                    "medium": "assets/images/products/keyboard/1-medium.png",
+                    "big": "assets/images/products/keyboard/1-big.png"
+                },
+                {
+                    "small": "assets/images/products/keyboard/2-small.png",
+                    "medium": "assets/images/products/keyboard/2-medium.png",
+                    "big": "assets/images/products/keyboard/2-big.png"
+                },
+                {
+                    "small": "assets/images/products/keyboard/3-small.png",
+                    "medium": "assets/images/products/keyboard/3-medium.png",
+                    "big": "assets/images/products/keyboard/3-big.png"
+                }
+            ],
+            "oldPrice": null,
+            "newPrice": 175,
+            "discount": null,
+            "ratingsCount": 4,
+            "ratingsValue": 350,
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+            "availibilityCount": 5,
+            "color": [
+                "#5C6BC0",
+                "#66BB6A",
+                "#90A4AE"
+            ],
+            "size": [
+                "S",
+                "M",
+                "L",
+                "XL"
+            ],
+            "weight": 150,
+            "categoryId": 2
+        },
+        {
+            "id": 2,
+            "name": "Product 2",
+            "images": [
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 2",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 2",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 2"
+                },
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 2",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 2",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 2"
+                },
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 2",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 2",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 2"
+                }
+            ],
+            "oldPrice": 510,
+            "newPrice": 179.99,
+            "discount": 5,
+            "ratingsCount": 6,
+            "ratingsValue": 600,
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+            "availibilityCount": 3,
+            "cartCount": 0,
+            "categoryId": 1
+        },
+        {
+            "id": 3,
+            "name": "Product 3",
+            "images": [
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 3",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 3",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 3"
+                },
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 3",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 3",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 3"
+                },
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 3",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 3",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 3"
+                }
+            ],
+            "oldPrice": null,
+            "newPrice": 30,
+            "discount": null,
+            "ratingsCount": 11,
+            "ratingsValue": 1050,
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+            "availibilityCount": 5,
+            "cartCount": 0,
+            "categoryId": 2
+        },
+        {
+            "id": 4,
+            "name": "Product 4",
+            "images": [
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 4",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 4",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 4"
+                },
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 4",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 4",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 4"
+                },
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 4",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 4",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 4"
+                }
+            ],
+            "oldPrice": 655,
+            "newPrice": 379.99,
+            "discount": 20,
+            "ratingsCount": 6,
+            "ratingsValue": 500,
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+            "availibilityCount": 2,
+            "cartCount": 0,
+            "categoryId": 2
+        },
+        {
+            "id": 5,
+            "name": "Product 5",
+            "images": [
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 5",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 5",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 5"
+                },
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 5",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 5",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 5"
+                },
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 5",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 5",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 5"
+                }
+            ],
+            "oldPrice": null,
+            "newPrice": 876,
+            "discount": null,
+            "ratingsCount": 2,
+            "ratingsValue": 200,
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+            "availibilityCount": 0,
+            "cartCount": 0,
+            "categoryId": 3
+        },
+        {
+            "id": 6,
+            "name": "Product 6",
+            "images": [
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 6",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 6",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 6"
+                },
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 6",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 6",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 6"
+                },
+                {
+                    "small": "https://via.placeholder.com/180x135/00838F/fff/?text=Rated Product 6",
+                    "medium": "https://via.placeholder.com/480x365/00838F/fff/?text=Rated Product 6",
+                    "big": "https://via.placeholder.com/960x720/00838F/fff/?text=Rated Product 6"
+                }
+            ],
+            "oldPrice": null,
+            "newPrice": 450,
+            "discount": null,
+            "ratingsCount": 4,
+            "ratingsValue": 300,
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+            "availibilityCount": 3,
+            "cartCount": 0,
+            "categoryId": 4
+        }
+    ]
+}
