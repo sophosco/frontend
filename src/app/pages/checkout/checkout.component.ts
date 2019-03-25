@@ -60,14 +60,16 @@ export class CheckoutComponent implements OnInit {
   public placeOrder(){
     
     let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value);
-
+//TODO: REVISION Y TERMINAR DE IMPLEMENTAR
     //reservar producto (Exitoso) (car.products)
     //Order create (order)
     //Pago creatre (order.payment)
-
-    this.orderService.createOrder(order).subscribe(data => {
+    console.log(order);
+    console.log(JSON.stringify(order));
+   /* this.orderService.createOrder(order).subscribe(data => {
       console.log(data);
-    });
+    });*/
+
 
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);

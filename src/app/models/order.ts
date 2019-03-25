@@ -1,15 +1,14 @@
 export class Order {
-    constructor(public id: number, 
+    constructor(public idSession: number, 
                 public billing:Billing, 
-                public deliveryMethod: Delivery,
-                public paymentMethod: Payment
+                public delivery: Delivery,
+                public payment: Payment
                 ){}
   }
 
   
   export class Billing{
     constructor(
-
       public firstName: String,
       public lastName:  String,
       public middleName: String, 
@@ -31,7 +30,6 @@ export class Order {
   
     export class Delivery{  
       constructor(
-        public id: number,
         public delivery: IDelivery
       ){}
       }
@@ -42,7 +40,6 @@ export class Order {
         name:String,
         value: String
     }
-
   
      export class Payment{
      constructor(
