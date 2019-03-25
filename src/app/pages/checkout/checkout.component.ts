@@ -56,6 +56,9 @@ export class CheckoutComponent implements OnInit {
   }
 
   public placeOrder(){
+    
+    console.log(this.paymentForm.value);
+
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
     this.appService.Data.cartList.length = 0;    
