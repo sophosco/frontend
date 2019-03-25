@@ -4,8 +4,9 @@ import { DecimalPipe } from '@angular/common';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { MatDialog } from '@angular/material';
 import { ProductDialogComponent } from './product-dialog/product-dialog.component';
-import { Data, AppService } from '../../app.service';
+import { ProductService } from '../../services/product.service';
 import { Product } from "../../app.models";
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-products-carousel',
@@ -16,7 +17,7 @@ export class ProductsCarouselComponent implements OnInit {
 
   @Input('products') products: Array<Product> = [];
   public config: SwiperConfigInterface = {};
-  constructor(public appService:AppService, public dialog: MatDialog, private router: Router) { }
+  constructor(public appService:ProductService,public appCategoryService:CategoryService, public dialog: MatDialog, private router: Router) { }
 
   ngOnInit() {
    }

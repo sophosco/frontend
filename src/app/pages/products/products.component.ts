@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { ProductDialogComponent } from '../../shared/products-carousel/product-dialog/product-dialog.component';
-import { AppService } from '../../app.service';
 import { Product, Category } from "../../app.models";
 import { ProductService } from '../../services/product.service';
+import { CategoryService } from 'src/app/services/category.service';
+import { Utils } from 'src/app/services/utils/utils';
 
 @Component({
   selector: 'app-products',
@@ -28,11 +29,8 @@ export class ProductsComponent implements OnInit {
   public priceTo: number = 1599;
   public page: any;
 
-  constructor(private activatedRoute: ActivatedRoute,
-    public appService: AppService,
-    public productService: ProductService,
-    public dialog: MatDialog,
-    private router: Router) { }
+  constructor(private activatedRoute: ActivatedRoute, public appService:ProductService, public appServiceCategory: CategoryService, public dialog: MatDialog, private router: Router, public utils : Utils) {
+   }
 
   ngOnInit() {
     this.count = this.counts[0];
@@ -46,43 +44,33 @@ export class ProductsComponent implements OnInit {
     if (window.innerWidth < 1280) {
       this.viewCol = 33.3;
     };
-
+    this.categories=[]
     this.getCategories();
     this.getBrands();
-
+    
   }
 
   public getProductsByCategory(nameCategory: string) {
-    this.productService.getProductsByCategoryMock(nameCategory).subscribe(data => {
+    this.appService.getProductsByCategoryMock(nameCategory).subscribe(data => {
+      data = this.appService.convertImages64BitToImagesArray(data);
       this.products = data;
 
     });
   }
 
-  public getAllProducts() {
-    this.appService.getProducts("featured").subscribe(data => {
-      this.products = data;
-      //for show more product  
-      for (var index = 0; index < 3; index++) {
-        this.products = this.products.concat(this.products);
-      }
-    });
-  }
-
-  public getCategories() {
-    if (this.appService.Data.categories.length == 0) {
-      this.appService.getCategories().subscribe(data => {
+  public getCategories(){  
+    if(this.appServiceCategory.categories.length == 0) { 
+      this.appServiceCategory.getCategoriesMock().subscribe(data => {
         this.categories = data;
-        this.appService.Data.categories = data;
       });
     }
     else {
-      this.categories = this.appService.Data.categories;
+      this.categories = this.appServiceCategory.categories;
     }
   }
 
   public getBrands() {
-    this.brands = this.appService.getBrands();
+    this.brands = this.utils.getBrands();
   }
 
   ngOnDestroy() {
@@ -126,7 +114,7 @@ export class ProductsComponent implements OnInit {
 
   public onPageChanged(event) {
     this.page = event;
-    this.getAllProducts();
+    this.getProductsByCategory("");
     window.scrollTo(0, 0);
   }
 

@@ -4,7 +4,7 @@ export class ProductResponse {
 
   constructor(public statusCode: string,
     public statusMessage: string,
-    public products: Product[],
+    public product: Product,
   ) {
   }
 
