@@ -25,10 +25,14 @@ export class CheckoutComponent implements OnInit {
   deliveryMethods = [];
   grandTotal = 0;
 
+  
+
+
+
   constructor(public appService:AppService, public cartService:CartService,public orderService:OrderService, public formBuilder: FormBuilder) { }
 
   ngOnInit() {    
-    this.appService.Data.cartList.forEach(product=>{
+    this.cartService.Data.products.forEach(product=>{
       this.grandTotal += product.cartCount*product.newPrice;
     });
     this.countries = this.appService.getCountries();
@@ -59,23 +63,21 @@ export class CheckoutComponent implements OnInit {
       cvv: ['', Validators.required]
     });
     this.cartForm = this.formBuilder.group({
-      compareList:      this.cartService.Data.products.forEach(cartProduct=>{
-        this.cartService.Data.compareList.forEach(product=>{
-          if(cartProduct.id == product.id){
-            product.cartCount = cartProduct.cartCount;
-          }
-        });
-      }),
-      wishList:this.cartService.Data.products.forEach(cartProduct=>{
-        this.cartService.Data.wishList.forEach(product=>{
-          if(cartProduct.id == product.id){
-            product.cartCount = cartProduct.cartCount;
-          }
-        });
-      }),
       products: this.cartService.Data.products.forEach(product=>{
-        this.cartService.Data.totalPrice = this.cartService.Data.totalPrice + (product.cartCount * product.newPrice);
-        this.cartService.Data.totalCartCount = this.cartService.Data.totalCartCount + product.cartCount;
+
+
+        // idProd: product.id
+         nameProd: product.name
+         oldPrice: product.oldPrice
+         //descriptionProd: product.description
+         //categoryProdId: product.categoryId
+
+         //console.log("id:" +idProd)
+         console.log("PRODUCT.NAME:" +product.name)
+        // console.log("NAME:" +nameProd)
+        // console.log("nameprod" +oldPrice)
+         //console.log("descr:" +this.descriptionProd)
+         //console.log("categ: " +this.categoryProdId)
     }),
       totalPrice: this.cartService.Data.totalPrice,
       totalCartCount: this.cartService.Data.products.length
