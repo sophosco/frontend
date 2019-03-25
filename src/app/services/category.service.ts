@@ -54,7 +54,7 @@ export class CategoryService {
     });
 
     let options = new RequestOptions({ headers: headers });
-
+    console.log("entro a caterorias");
     return this._httpClient
       .get(this.url + 'categories-response.json')
       .pipe(

@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material';
 import { Data, AppService } from '../../app.service';
+import { Order } from 'src/app/models/order';
+import { OrderService } from 'src/app/services/order.service';
 
 @Component({
   selector: 'app-checkout',
@@ -20,7 +22,7 @@ export class CheckoutComponent implements OnInit {
   deliveryMethods = [];
   grandTotal = 0;
 
-  constructor(public appService:AppService, public formBuilder: FormBuilder) { }
+  constructor(public appService:AppService, public orderService:OrderService, public formBuilder: FormBuilder) { }
 
   ngOnInit() {    
     this.appService.Data.cartList.forEach(product=>{
@@ -57,7 +59,18 @@ export class CheckoutComponent implements OnInit {
 
   public placeOrder(){
     
-    console.log(this.paymentForm.value);
+    let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value);
+//TODO: REVISION Y TERMINAR DE IMPLEMENTAR
+    //reservar producto (Exitoso) (car.products)
+    //Order create (order)
+    //Pago creatre (order.payment)
+    console.log(order);
+    console.log(JSON.stringify(order));
+   /* this.orderService.createOrder(order).subscribe(data => {
+      console.log(data);
+    });*/
+
+
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
