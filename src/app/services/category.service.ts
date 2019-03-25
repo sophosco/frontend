@@ -12,9 +12,13 @@ export class CategoryService {
 
   public url = "assets/data/";
   private categoryResponse: CategoryResponse;
-  private category:Category[];
+  public categories:Category[];
 
-  constructor(private _httpClient: HttpClient) { }
+  constructor(private _httpClient: HttpClient) {
+    this.getCategoriesMock().subscribe(data => {
+      this.categories = data;
+    })
+   }
 
   public getCategories(): Observable<Category[]> {
 
@@ -32,9 +36,9 @@ export class CategoryService {
         map(((response: any) => {
           this.categoryResponse = response;
           if (this.categoryResponse.categories.length > 0) {
-            this.category = this.categoryResponse.categories;
+            this.categories = this.categoryResponse.categories;
           }
-          return this.category;
+          return this.categories;
         }),
           catchError((e: Response) => throwError(e)))
       );
@@ -57,10 +61,10 @@ export class CategoryService {
         map(((response: any) => {
           this.categoryResponse = response;
           if (this.categoryResponse.categories.length > 0) {
-            this.category = this.categoryResponse.categories;
+            this.categories = this.categoryResponse.categories;
           }
  
-          return this.category;
+          return this.categories;
         }),
           catchError((e: Response) => throwError(e)))
       );

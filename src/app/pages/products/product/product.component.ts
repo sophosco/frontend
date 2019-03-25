@@ -3,10 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { SwiperConfigInterface, SwiperDirective } from 'ngx-swiper-wrapper';
-import { Data, AppService } from '../../../app.service';
-import { Product } from "../../../app.models";
+import { ProductService } from '../../../services/product.service';
+import { Product, Category } from "../../../app.models";
 import { emailValidator } from '../../../theme/utils/app-validators';
 import { ProductZoomComponent } from './product-zoom/product-zoom.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { CategoryService } from 'src/app/services/category.service';
+
 
 @Component({
   selector: 'app-product',
@@ -23,8 +26,11 @@ export class ProductComponent implements OnInit {
   private sub: any;
   public form: FormGroup;
   public relatedProducts: Array<Product>;
+  
+  
 
-  constructor(public appService:AppService, private activatedRoute: ActivatedRoute, public dialog: MatDialog, public formBuilder: FormBuilder) {  }
+
+  constructor(public appService:ProductService, public appServiceCategory:CategoryService, private activatedRoute: ActivatedRoute, public dialog: MatDialog, public formBuilder: FormBuilder, private _sanitizer: DomSanitizer) {  }
 
   ngOnInit() {      
     this.sub = this.activatedRoute.params.subscribe(params => { 
@@ -62,25 +68,32 @@ export class ProductComponent implements OnInit {
 
   public getProductById(id){
     this.appService.getProductById(id).subscribe(data=>{
-      this.product = data;
-      this.image = data.images[0].medium;
-      this.zoomImage = data.images[0].big;
+      this.product = this.appService.convertImages64BitToImages(data)
+      this.product = this.appService.convertNumberToStringRating(data,true)
+      this.image = this.product.images[0].medium;
+      this.zoomImage = this.product.images[0].big;
       setTimeout(() => { 
         this.config.observer = true;
        // this.directiveRef.setIndex(0);
       });
-    });
+    })
   }
 
   public getRelatedProducts(){
-    this.appService.getProducts('related').subscribe(data => {
-      this.relatedProducts = data;
+    this.appService.getProductsByTopProductMock(5).subscribe(data => {
+      this.relatedProducts = this.appService.convertImages64BitToImagesArray(data);
     })
   }
 
   public selectImage(image){
     this.image = image.medium;
-    this.zoomImage = image.big;
+    this.zoomImage = image.big
+  }
+
+  makeTrustedImage(item) {
+    const imageString =  JSON.stringify(item.changingThisBreaksApplicationSecurity).replace(/\\n/g, '');
+    const style = 'url(' + imageString + ')';
+    return this._sanitizer.bypassSecurityTrustStyle(style);
   }
 
   public onMouseMove(e){
