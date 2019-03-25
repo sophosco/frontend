@@ -5,6 +5,7 @@ import { Settings, AppSettings } from '../app.settings';
 import { AppService } from '../app.service';
 import { Category, Product } from '../app.models';
 import { SidenavMenuService } from '../theme/components/sidenav-menu/sidenav-menu.service';
+import { CartService } from '../services/cart.services';
 
 @Component({
   selector: 'app-pages',
@@ -23,7 +24,8 @@ export class PagesComponent implements OnInit {
   constructor(public appSettings:AppSettings, 
               public appService:AppService, 
               public sidenavMenuService:SidenavMenuService,
-              public router:Router) { 
+              public router:Router,
+              public cartService:CartService) { 
     this.settings = this.appSettings.settings; 
   }
 
@@ -50,22 +52,22 @@ export class PagesComponent implements OnInit {
   }
 
   public remove(product) {
-      const index: number = this.appService.Data.cartList.indexOf(product);
+      const index: number = this.cartService.Data.products.indexOf(product);
       if (index !== -1) {
-          this.appService.Data.cartList.splice(index, 1);
-          this.appService.Data.totalPrice = this.appService.Data.totalPrice - product.newPrice*product.cartCount;
-          this.appService.Data.totalCartCount = this.appService.Data.totalCartCount - product.cartCount;
-          this.appService.resetProductCartCount(product);
+          this.cartService.Data.products.splice(index, 1);
+          this.cartService.Data.totalPrice = this.cartService.Data.totalPrice - product.newPrice*product.cartCount;
+          this.cartService.Data.totalCartCount = this.cartService.Data.totalCartCount - product.cartCount;
+          this.cartService.resetProductCartCount(product);
       }        
   }
 
   public clear(){
-    this.appService.Data.cartList.forEach(product=>{
-      this.appService.resetProductCartCount(product);
+    this.cartService.Data.products.forEach(product=>{
+      this.cartService.resetProductCartCount(product);
     });
-    this.appService.Data.cartList.length = 0;
-    this.appService.Data.totalPrice = 0;
-    this.appService.Data.totalCartCount = 0;
+    this.cartService.Data.products.length = 0;
+    this.cartService.Data.totalPrice = 0;
+    this.cartService.Data.totalCartCount = 0;
   }
  
 
