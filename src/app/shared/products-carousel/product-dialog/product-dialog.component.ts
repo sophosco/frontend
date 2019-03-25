@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { ProductService } from '../../../services/product.service';
 import { Product } from '../../../app.models';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-product-dialog',
@@ -13,6 +14,7 @@ import { Product } from '../../../app.models';
 export class ProductDialogComponent implements OnInit {
   public config: SwiperConfigInterface = {};
   constructor(public appService:ProductService, 
+              public appCategoryService: CategoryService,
               public dialogRef: MatDialogRef<ProductDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public product: Product) { }
 

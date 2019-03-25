@@ -14,7 +14,11 @@ export class CategoryService {
   private categoryResponse: CategoryResponse;
   public categories:Category[];
 
-  constructor(private _httpClient: HttpClient) { }
+  constructor(private _httpClient: HttpClient) {
+    this.getCategoriesMock().subscribe(data => {
+      this.categories = data;
+    })
+   }
 
   public getCategories(): Observable<Category[]> {
 

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material';
 import { SwiperConfigInterface, SwiperDirective } from 'ngx-swiper-wrapper';
 import { ProductService } from '../../../services/product.service';
-import { Product } from "../../../app.models";
+import { Product, Category } from "../../../app.models";
 import { emailValidator } from '../../../theme/utils/app-validators';
 import { ProductZoomComponent } from './product-zoom/product-zoom.component';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -26,6 +26,7 @@ export class ProductComponent implements OnInit {
   private sub: any;
   public form: FormGroup;
   public relatedProducts: Array<Product>;
+  
   
 
 
@@ -68,6 +69,7 @@ export class ProductComponent implements OnInit {
   public getProductById(id){
     this.appService.getProductById(id).subscribe(data=>{
       this.product = this.appService.convertImages64BitToImages(data)
+      this.product = this.appService.convertNumberToStringRating(data,true)
       this.image = this.product.images[0].medium;
       this.zoomImage = this.product.images[0].big;
       setTimeout(() => { 

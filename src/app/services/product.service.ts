@@ -19,10 +19,17 @@ export class ProductService {
   private product: Product;
   private productResponse: ProductResponse;
   private productArray: Product[]
-  private images: Images[]
-  private imag = Images
+  private images: Images[];
+  private rating : String[];
 
-  constructor(private _httpClient: HttpClient, private _http: Http, private _sanitizer: DomSanitizer) { }
+  constructor(private _httpClient: HttpClient, private _http: Http, private _sanitizer: DomSanitizer) { 
+    this.rating = [
+      "sentiment_very_dissatisfied",
+      "sentiment_dissatisfied",
+      "sentiment_neutral",
+      "sentiment_satisfied",
+      "sentiment_very_satisfied"]
+  }
 
   public getProductsByCategory(nameCategory: string): Observable<Product[]> {
 
@@ -134,7 +141,7 @@ export class ProductService {
   }
 
   public getProductsByCategoryMock(nameCategory: string): Observable<Product[]> {
-    
+
     return this._httpClient
       .get(this.url + nameCategory + '-products.json')
       .pipe(
@@ -143,7 +150,7 @@ export class ProductService {
           if (this.catalogResponse.products.length > 0) {
             this.productList = this.catalogResponse.products;
           }
- 
+
           return this.productList;
         }),
           catchError((e: Response) => throwError(e)))
@@ -152,7 +159,7 @@ export class ProductService {
   }
 
   public getProductsByRangePriceMock(initialRangePrice: number, finalRangePrice: number): Observable<Product[]> {
-    
+
     return this._httpClient
       .get(this.url + initialRangePrice + '-products.json')
       .pipe(
@@ -161,12 +168,12 @@ export class ProductService {
           if (this.catalogResponse.products.length > 0) {
             this.productList = this.catalogResponse.products;
           }
- 
+
           return this.productList;
         }),
           catchError((e: Response) => throwError(e)))
       );
-    
+
   }
 
   public getProductsByAvailabilityMock(availability: boolean): Observable<Product[]> {
@@ -179,7 +186,7 @@ export class ProductService {
           if (this.catalogResponse.products.length > 0) {
             this.productList = this.catalogResponse.products;
           }
- 
+
           return this.productList;
         }),
           catchError((e: Response) => throwError(e)))
@@ -197,7 +204,7 @@ export class ProductService {
           if (this.catalogResponse.products.length > 0) {
             this.productList = this.catalogResponse.products;
           }
- 
+
           return this.productList;
         }),
           catchError((e: Response) => throwError(e)))
@@ -205,44 +212,52 @@ export class ProductService {
 
   }
 
-  public convertImages64BitToImagesArray(productDataArray: Product[]): Product[]{
-    this.productArray=[]
+  public convertImages64BitToImagesArray(productDataArray: Product[]): Product[] {
+    this.productArray = []
     productDataArray.forEach(element => {
-        element.images = this.converteImage(element.images)
-        this.productArray.push(element);
+      element.images = this.converteImage(element.images)
+      this.productArray.push(element);
     });
 
     return this.productArray;
   }
 
-  public convertImages64BitToImages(product: Product):Product{
-    product.images= this.converteImage(product.images)
+  public convertImages64BitToImages(product: Product): Product {
+    product.images = this.converteImage(product.images)
     return product;
-}
+  }
 
-  public converteImage(images: Images64Bits[]): Images[]{
-    this.images=[]
+  public converteImage(images: Images64Bits[]): Images[] {
+    this.images = []
     images.forEach(element => {
-        this.images.push(new Images(
+      this.images.push(new Images(
         this._sanitizer.bypassSecurityTrustResourceUrl(element.big),
         this._sanitizer.bypassSecurityTrustResourceUrl(element.medium),
-        this._sanitizer.bypassSecurityTrustResourceUrl(element.small)))  
+        this._sanitizer.bypassSecurityTrustResourceUrl(element.small)))
     });
     return this.images;
   }
 
-  public getProductById(id): Observable<Product>{
+  public getProductById(id): Observable<Product> {
     return this._httpClient.get<Product>(this.url + 'product-' + id + '.json')
-    .pipe(
-      map(((response: any) => {
-        this.productResponse = response;
-        if (this.productResponse.product) {
-          this.product = this.productResponse.product;
-        }
-        return this.product;
-      }),
-        catchError((e: Response) => throwError(e)))
-    );
-}
+      .pipe(
+        map(((response: any) => {
+          this.productResponse = response;
+          if (this.productResponse.product) {
+            this.product = this.productResponse.product;
+          }
+          return this.product;
+        }),
+          catchError((e: Response) => throwError(e)))
+      );
+  }
+
+  public convertNumberToStringRating(product: Product, numerToString: boolean): Product{
+    product.comments.forEach(element => {
+      if(numerToString){element.rating = this.rating[element.rating];} 
+      else{element.rating = this.rating.indexOf(element.rating)}
+    });
+    return product;
+  }
 
 }

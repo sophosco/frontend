@@ -24,7 +24,15 @@ export class Product {
               public color: Array<string>,
               public size: Array<string>,
               public weight: number,
-              public categoryId: number){ }
+              public categoryId: number,
+              public comments: CommentUser[]){ }
+}
+
+export class CommentUser{
+  constructor(public comment:string,
+            public user: string,
+            public creationDate: string,
+            public rating:any){}
 }
 
 export class Images64Bits {

@@ -29,7 +29,8 @@ export class ProductsComponent implements OnInit {
   public priceTo: number = 1599;
   public page: any;
 
-  constructor(private activatedRoute: ActivatedRoute, public appService:ProductService, public appServiceCategory: CategoryService, public dialog: MatDialog, private router: Router, public utils : Utils) { }
+  constructor(private activatedRoute: ActivatedRoute, public appService:ProductService, public appServiceCategory: CategoryService, public dialog: MatDialog, private router: Router, public utils : Utils) {
+   }
 
   ngOnInit() {
     this.count = this.counts[0];
@@ -43,10 +44,10 @@ export class ProductsComponent implements OnInit {
     if (window.innerWidth < 1280) {
       this.viewCol = 33.3;
     };
-
+    this.categories=[]
     this.getCategories();
     this.getBrands();
-
+    
   }
 
   public getProductsByCategory(nameCategory: string) {
@@ -59,7 +60,7 @@ export class ProductsComponent implements OnInit {
 
   public getCategories(){  
     if(this.appServiceCategory.categories.length == 0) { 
-      this.appServiceCategory.getCategories().subscribe(data => {
+      this.appServiceCategory.getCategoriesMock().subscribe(data => {
         this.categories = data;
       });
     }
