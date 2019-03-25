@@ -63,6 +63,7 @@ export class CategoryService {
           if (this.categoryResponse.categories.length > 0) {
             this.categories = this.categoryResponse.categories;
           }
+
  
           return this.categories;
         }),
