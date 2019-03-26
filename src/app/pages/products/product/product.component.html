@@ -147,7 +147,7 @@
                                         class="review-author">
                                     <p matLine fxLayoutAlign="start center">
                                         <span class="fw-500">Bruno Vespa</span>
-                                        <mat-icon class="text-muted px-1" matTooltip="4"
+                                        <mat-icon class="text-muted px-1" matTooltip="{{comentario.rating}}"
                                             matTooltipPosition="after">{{comentario.rating}}</mat-icon>
                                     </p>
                                     <p matLine class="text-muted"><small>{{comentario.creationDate | date:'yyyy-MM-dd HH:mm:ss'}}</small></p>
@@ -206,7 +206,7 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex="100" class="mt-2 text-center w-100">
-                                <button mat-raised-button color="primary" type="submit">SUBMIT REVIEW</button>
+                                <button mat-raised-button color="primary" type="submit" disabled='true'>SUBMIT REVIEW</button>
                             </div>
                         </form>
 

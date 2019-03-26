@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { CheckoutComponent } from './checkout.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 export const routes = [
   { path: '', component: CheckoutComponent, pathMatch: 'full' }
@@ -14,7 +15,8 @@ export const routes = [
     CommonModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    MatRadioModule
   ],
   declarations: [
     CheckoutComponent

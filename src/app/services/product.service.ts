@@ -242,7 +242,8 @@ export class ProductService {
     return this._httpClient.get<Product>(this.url + 'product-' + id + '.json')
       .pipe(
         map(((response: any) => {
-          this.productResponse = response;
+          this.productResponse = response.responsePayload;
+          console.log(this.productResponse);
           if (this.productResponse.product) {
             this.product = this.productResponse.product;
           }

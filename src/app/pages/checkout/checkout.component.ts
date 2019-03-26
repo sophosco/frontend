@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material';
-import { Data, AppService } from '../../app.service';
+import { AppService } from '../../app.service';
+import { Utils } from '../../services/utils/utils';
 import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
 import { CartService } from 'src/app/services/cart.services';
 import { PaymentService } from 'src/app/services/payment.service';
+
 
 @Component({
   selector: 'app-checkout',
@@ -19,17 +21,19 @@ export class CheckoutComponent implements OnInit {
   deliveryForm: FormGroup;
   paymentForm: FormGroup;
   cartForm: FormGroup;
+  customerPortfolio: FormGroup;
+  formaPago: string = "paymentForm";
   countries = [];
   months = [];
+  bancos = [];
   years = [];
+  portafolio =[];
   deliveryMethods = [];
   grandTotal = 0;
+  modo:string ;
+  subModo: string;
 
-  
-
-
-
-  constructor(public appService:AppService, public cartService:CartService,public orderService:OrderService, public formBuilder: FormBuilder) { }
+  constructor(public appService:AppService, public utils: Utils, public cartService:CartService,public orderService:OrderService, public formBuilder: FormBuilder) { }
 
   ngOnInit() {    
     this.cartService.Data.products.forEach(product=>{
@@ -37,6 +41,7 @@ export class CheckoutComponent implements OnInit {
     });
     this.countries = this.appService.getCountries();
     this.months = this.appService.getMonths();
+    this.bancos = this.utils.getGrupoAval();
     this.years = this.appService.getYears();
     this.deliveryMethods = this.appService.getDeliveryMethods();
     this.billingForm = this.formBuilder.group({
@@ -52,9 +57,11 @@ export class CheckoutComponent implements OnInit {
       zip: ['', Validators.required],
       address: ['', Validators.required]
     });
+
     this.deliveryForm = this.formBuilder.group({
       deliveryMethod: [this.deliveryMethods[0], Validators.required]
     });
+    
     this.paymentForm = this.formBuilder.group({
       cardHolderName: ['', Validators.required],
       cardNumber: ['', Validators.required],
@@ -62,6 +69,12 @@ export class CheckoutComponent implements OnInit {
       expiredYear: ['', Validators.required],
       cvv: ['', Validators.required]
     });
+
+    this.customerPortfolio= this.formBuilder.group({
+        bancoAval: ['', Validators.required],
+        portafolio: ['', Validators.required]
+      });
+    
     this.cartForm = this.formBuilder.group({
       products: this.cartService.Data.products.forEach(product=>{
 
@@ -82,6 +95,24 @@ export class CheckoutComponent implements OnInit {
       totalPrice: this.cartService.Data.totalPrice,
       totalCartCount: this.cartService.Data.products.length
     });
+
+    
+  }
+
+  public modoChanged(value: string, fomPay: string){
+    this.modo = value;
+    this.subModo = "";
+    this.formaPago = fomPay;
+  } 
+
+  public subModoChanged(value: string, fomPay: string){
+    this.subModo = value;
+    this.formaPago = fomPay;
+  }
+
+  public getPortafolioByBanco(banco){
+    console.log(banco);
+    this.portafolio = this.utils.getPortafolioByBanco(banco);
   }
 
 
@@ -97,9 +128,6 @@ export class CheckoutComponent implements OnInit {
  /*   this.orderService.createOrder(order).subscribe(data => {
       console.log(data);
     });*/
-       
-
-
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
