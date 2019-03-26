@@ -4,7 +4,10 @@ import { MatStepper } from '@angular/material';
 import { Data, AppService } from '../../app.service';
 import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
-import { CartService } from '../../services/cart.services';
+import { CartService } from 'src/app/services/cart.services';
+import { PaymentService } from 'src/app/services/payment.service';
+import { Product } from 'src/app/app.models';
+import { Cart } from 'src/app/models/cart.model';
 
 @Component({
   selector: 'app-checkout',
@@ -22,6 +25,9 @@ export class CheckoutComponent implements OnInit {
   years = [];
   deliveryMethods = [];
   grandTotal = 0;
+  cart: Cart;
+  paymentService: PaymentService;
+  //reservedOrder: ReservedOrder;
 
   constructor(public appService:AppService, public orderService:OrderService, public cartService:CartService,
     public formBuilder: FormBuilder) { }
@@ -57,20 +63,38 @@ export class CheckoutComponent implements OnInit {
       expiredYear: ['', Validators.required],
       cvv: ['', Validators.required]
     });
-  }
 
+
+   
+    this.cart= new Cart(
+      null,
+      null,
+      this.cartService.Data.products,
+      this.cartService.Data.totalPrice,
+      this.cartService.Data.products.length
+    )
+
+  }
+  
   public placeOrder(){
-    
-    let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value);
+    let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
 //TODO: REVISION Y TERMINAR DE IMPLEMENTAR
     //reservar producto (Exitoso) (car.products)
-    //Order create (order)
-    //Pago creatre (order.payment)
-    console.log(order);
     console.log(JSON.stringify(order));
-   /* this.orderService.createOrder(order).subscribe(data => {
+       //Crea Orden
+      /* this.orderService.createOrder(order).subscribe(data => {
+        console.log(data);
+      });*/
+
+    //Reserva Orden
+
+    
+    //Realiza Pedido
+   /*  this.paymentService.createPayment(order).subscribe(data => {
       console.log(data);
     });*/
+
+    //Realiza Pago   
 
 
 

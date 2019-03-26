@@ -1,8 +1,11 @@
+import { Cart } from "./cart.model";
+
 export class Order {
     constructor(public idSession: number, 
                 public billing:Billing, 
                 public delivery: Delivery,
-                public payment: Payment
+                public payment: Payment,
+                public cart:Cart
                 ){}
   }
 
