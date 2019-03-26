@@ -6,6 +6,8 @@ import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
 import { CartService } from 'src/app/services/cart.services';
 import { PaymentService } from 'src/app/services/payment.service';
+import { Product } from 'src/app/app.models';
+import { Cart } from 'src/app/models/cart.model';
 
 @Component({
   selector: 'app-checkout',
@@ -18,18 +20,21 @@ export class CheckoutComponent implements OnInit {
   billingForm: FormGroup;
   deliveryForm: FormGroup;
   paymentForm: FormGroup;
-  cartForm: FormGroup;
   countries = [];
   months = [];
   years = [];
   deliveryMethods = [];
   grandTotal = 0;
+  cart: Cart;
+  paymentService: PaymentService;
+  //reservedOrder: ReservedOrder;
 
   
 
 
 
-  constructor(public appService:AppService, public cartService:CartService,public orderService:OrderService, public formBuilder: FormBuilder) { }
+  constructor(public appService:AppService, public cartService:CartService,public orderService:OrderService,
+     public formBuilder: FormBuilder) { }
 
   ngOnInit() {    
     this.cartService.Data.products.forEach(product=>{
@@ -62,42 +67,38 @@ export class CheckoutComponent implements OnInit {
       expiredYear: ['', Validators.required],
       cvv: ['', Validators.required]
     });
-    this.cartForm = this.formBuilder.group({
-      products: this.cartService.Data.products.forEach(product=>{
 
 
-        // idProd: product.id
-         nameProd: product.name
-         oldPrice: product.oldPrice
-         //descriptionProd: product.description
-         //categoryProdId: product.categoryId
+   
+    this.cart= new Cart(
+      null,
+      null,
+      this.cartService.Data.products,
+      this.cartService.Data.totalPrice,
+      this.cartService.Data.products.length
+    )
 
-         //console.log("id:" +idProd)
-         console.log("PRODUCT.NAME:" +product.name)
-        // console.log("NAME:" +nameProd)
-        // console.log("nameprod" +oldPrice)
-         //console.log("descr:" +this.descriptionProd)
-         //console.log("categ: " +this.categoryProdId)
-    }),
-      totalPrice: this.cartService.Data.totalPrice,
-      totalCartCount: this.cartService.Data.products.length
-    });
   }
-
-
-
+  
   public placeOrder(){
-    let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cartForm.value);
+    let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
 //TODO: REVISION Y TERMINAR DE IMPLEMENTAR
     //reservar producto (Exitoso) (car.products)
-    //Order create (order)
-    //Pago creatre (order.payment)
-    console.log(order);
     console.log(JSON.stringify(order));
- /*   this.orderService.createOrder(order).subscribe(data => {
+       //Crea Orden
+      /* this.orderService.createOrder(order).subscribe(data => {
+        console.log(data);
+      });*/
+
+    //Reserva Orden
+
+    
+    //Realiza Pedido
+   /*  this.paymentService.createPayment(order).subscribe(data => {
       console.log(data);
     });*/
-       
+
+    //Realiza Pago   
 
 
 
