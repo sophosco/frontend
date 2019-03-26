@@ -4,6 +4,7 @@ import { MatStepper } from '@angular/material';
 import { Data, AppService } from '../../app.service';
 import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
+import { CartService } from '../../services/cart.services';
 
 @Component({
   selector: 'app-checkout',
@@ -22,10 +23,11 @@ export class CheckoutComponent implements OnInit {
   deliveryMethods = [];
   grandTotal = 0;
 
-  constructor(public appService:AppService, public orderService:OrderService, public formBuilder: FormBuilder) { }
+  constructor(public appService:AppService, public orderService:OrderService, public cartService:CartService,
+    public formBuilder: FormBuilder) { }
 
   ngOnInit() {    
-    this.appService.Data.cartList.forEach(product=>{
+    this.cartService.Data.products.forEach(product=>{
       this.grandTotal += product.cartCount*product.newPrice;
     });
     this.countries = this.appService.getCountries();
