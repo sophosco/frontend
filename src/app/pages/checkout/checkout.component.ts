@@ -29,12 +29,8 @@ export class CheckoutComponent implements OnInit {
   paymentService: PaymentService;
   //reservedOrder: ReservedOrder;
 
-  
-
-
-
-  constructor(public appService:AppService, public cartService:CartService,public orderService:OrderService,
-     public formBuilder: FormBuilder) { }
+  constructor(public appService:AppService, public orderService:OrderService, public cartService:CartService,
+    public formBuilder: FormBuilder) { }
 
   ngOnInit() {    
     this.cartService.Data.products.forEach(product=>{

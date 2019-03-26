@@ -28,15 +28,26 @@ export class ProductsComponent implements OnInit {
   public priceFrom: number = 750;
   public priceTo: number = 1599;
   public page: any;
+  public isChecked = false;
 
-  constructor(private activatedRoute: ActivatedRoute, public appService:ProductService, public appServiceCategory: CategoryService, public dialog: MatDialog, private router: Router, public utils : Utils) {
-   }
+  constructor(private activatedRoute: ActivatedRoute, public appService: ProductService, public appServiceCategory: CategoryService, public dialog: MatDialog, private router: Router, public utils: Utils) {
+  }
 
   ngOnInit() {
     this.count = this.counts[0];
     this.sort = this.sortings[0];
     this.sub = this.activatedRoute.params.subscribe(params => {
-      this.getProductsByCategory(params['name']);
+
+      console.log(params['name']);
+      if (params['name'] !== undefined) {
+        if (params['name'] == "todas las categorias"){
+          this.getProducts();
+        } else {
+          this.getProductsByCategory(params['name']);
+        }
+      } else {
+        this.getProducts();
+      }
     });
     if (window.innerWidth < 960) {
       this.sidenavOpen = false;
@@ -44,13 +55,14 @@ export class ProductsComponent implements OnInit {
     if (window.innerWidth < 1280) {
       this.viewCol = 33.3;
     };
-    this.categories=[]
+    this.categories = []
     this.getCategories();
     this.getBrands();
-    
+
   }
 
   public getProductsByCategory(nameCategory: string) {
+
     this.appService.getProductsByCategoryMock(nameCategory).subscribe(data => {
       data = this.appService.convertImages64BitToImagesArray(data);
       this.products = data;
@@ -58,15 +70,21 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  public getCategories(){  
-    if(this.appServiceCategory.categories.length == 0) { 
-      this.appServiceCategory.getCategoriesMock().subscribe(data => {
-        this.categories = data;
-      });
-    }
-    else {
-      this.categories = this.appServiceCategory.categories;
-    }
+  public getProducts() {
+
+    this.appService.getProductsMock().subscribe(data => {
+      data = this.appService.convertImages64BitToImagesArray(data);
+      this.products = data;
+
+    });
+  }
+
+  public getCategories() {
+
+    this.appServiceCategory.getCategoriesMock().subscribe(data => {
+      this.categories = data;
+    });
+    
   }
 
   public getBrands() {
@@ -125,9 +143,30 @@ export class ProductsComponent implements OnInit {
   }
 
   public onChangeAvailability(event) {
-    if (event.target) {
-      console.log(event.target.innerText.toLowerCase());
+    if (event.checked) {
+      this.appService.getProductsByAvailabilityMock(true).subscribe(data => {
+        data = this.appService.convertImages64BitToImagesArray(data);
+        this.products = data;
+      });
     }
+  }
+
+  public onChangeNotAvailability(event) {
+    if (event.checked) {
+      this.appService.getProductsByAvailabilityMock(false).subscribe(data => {
+        data = this.appService.convertImages64BitToImagesArray(data);
+        this.products = data;
+      });
+    }
+  }
+
+  public onChangePrices() {
+
+    this.appService.getProductsByRangePriceMock(this.priceFrom, this.priceTo).subscribe(data => {
+      data = this.appService.convertImages64BitToImagesArray(data);
+      this.products = data;
+    });
+
   }
 
 }
