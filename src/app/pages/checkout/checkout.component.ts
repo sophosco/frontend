@@ -8,6 +8,7 @@ import { CartService } from 'src/app/services/cart.services';
 import { PaymentService } from 'src/app/services/payment.service';
 import { Product } from 'src/app/app.models';
 import { Cart } from 'src/app/models/cart.model';
+import { Utils } from 'src/app/services/utils/utils';
 
 @Component({
   selector: 'app-checkout',
@@ -27,23 +28,19 @@ export class CheckoutComponent implements OnInit {
   grandTotal = 0;
   cart: Cart;
   paymentService: PaymentService;
-  //reservedOrder: ReservedOrder;
+ 
 
-  
+  constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
+    public formBuilder: FormBuilder, public util: Utils) { }
 
-
-
-  constructor(public appService:AppService, public cartService:CartService,public orderService:OrderService,
-     public formBuilder: FormBuilder) { }
-
-  ngOnInit() {    
-    this.cartService.Data.products.forEach(product=>{
-      this.grandTotal += product.cartCount*product.newPrice;
+  ngOnInit() {
+    this.cartService.Data.products.forEach(product => {
+      this.grandTotal += product.cartCount * product.newPrice;
     });
-    this.countries = this.appService.getCountries();
-    this.months = this.appService.getMonths();
-    this.years = this.appService.getYears();
-    this.deliveryMethods = this.appService.getDeliveryMethods();
+    this.countries = this.util.getCountries();
+    this.months = this.util.getMonths();
+    this.years = this.util.getYears();
+    this.deliveryMethods = this.util.getDeliveryMethods();
     this.billingForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -68,46 +65,49 @@ export class CheckoutComponent implements OnInit {
       cvv: ['', Validators.required]
     });
 
-
-   
-    this.cart= new Cart(
-      null,
-      null,
-      this.cartService.Data.products,
-      this.cartService.Data.totalPrice,
-      this.cartService.Data.products.length
-    )
-
   }
-  
-  public placeOrder(){
+
+  public placeOrder() {
+
+    this.cart = new Cart(null, null, this.convertProductToProduct(this.cartService.Data.products) , this.cartService.Data.totalPrice,
+      this.cartService.Data.products.length
+    );
+
     let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
-//TODO: REVISION Y TERMINAR DE IMPLEMENTAR
-    //reservar producto (Exitoso) (car.products)
     console.log(JSON.stringify(order));
-       //Crea Orden
-      /* this.orderService.createOrder(order).subscribe(data => {
-        console.log(data);
-      });*/
 
-    //Reserva Orden
-
-    
-    //Realiza Pedido
-   /*  this.paymentService.createPayment(order).subscribe(data => {
+    //TODO: REVISION Y TERMINAR DE IMPLEMENTAR
+    //Realiza Pago
+    this.paymentService.createPayment(order).subscribe(data => {
       console.log(data);
-    });*/
+    });
 
-    //Realiza Pago   
+    //Realiza Pedido
+    
+     //Crea Orden
+      this.orderService.createOrder(order).subscribe(approvalCode => {
+      console.log(approvalCode);
+      ;
+        });
 
 
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
-    this.appService.Data.cartList.length = 0;    
+    this.appService.Data.cartList.length = 0;
     this.appService.Data.totalPrice = 0;
     this.appService.Data.totalCartCount = 0;
 
+  }
+
+  public convertProductToProduct(productDataArray: Product[]): Product[] {
+    let productArray = []
+    productDataArray.forEach(element => {
+      element.images = null;
+      productArray.push(element);
+    });
+
+    return productArray;
   }
 
 }

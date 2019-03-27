@@ -7,11 +7,11 @@ import { Order } from '../models/order';
 import { OrderRequest } from './models/requests/order-request';
 
 @Injectable()
-export class OrderService {
+export class Requested {
   
   constructor(private _http: Http) { }
 
-  public createOrder(order: Order): Observable<String> {
+  public createRequested(order: Order): Observable<String> {
 
     let headers = new Headers({
       'Content-Type': 'application/json',
@@ -24,10 +24,10 @@ export class OrderService {
     let orderRequest = new OrderRequest("Session_id_112", order);
 
     return this._http
-      .post(environment.URLService + '/api/orden/add', orderRequest, options)
+      .post(environment.URLService + '/api/pedido/add', orderRequest, options)
       .pipe(
         map(((response: any) => {
-          return response.reponse.approvalCode;
+          return response.json();
         }),
           catchError((e: Response) => throwError(e)))
       );
