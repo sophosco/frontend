@@ -26,6 +26,7 @@ import { AppService } from './app.service';
 import { CategoryService } from './services/category.service';
 import { ProductService } from './services/product.service';
 import { OrderService } from './services/order.service';
+import { SecurityService } from './services/security.service';
 import { PaymentService } from './services/payment.service';
 import { AppInterceptor } from './theme/utils/app-interceptor';
 import { OptionsComponent } from './theme/components/options/options.component';
@@ -66,6 +67,7 @@ import { Utils } from './services/utils/utils';
     OrderService,
     PaymentService,
     CartService,
+    SecurityService,
     AppService,   
     Utils,   
     { provide: OverlayContainer, useClass: CustomOverlayContainer },

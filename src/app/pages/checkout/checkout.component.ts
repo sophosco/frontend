@@ -1,14 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material';
-import { Data, AppService } from '../../app.service';
+import { AppService } from '../../app.service';
+import { Utils } from '../../services/utils/utils';
 import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
 import { CartService } from 'src/app/services/cart.services';
 import { PaymentService } from 'src/app/services/payment.service';
 import { Product } from 'src/app/app.models';
 import { Cart } from 'src/app/models/cart.model';
-import { Utils } from 'src/app/services/utils/utils';
+
 
 @Component({
   selector: 'app-checkout',
@@ -21,11 +22,17 @@ export class CheckoutComponent implements OnInit {
   billingForm: FormGroup;
   deliveryForm: FormGroup;
   paymentForm: FormGroup;
+  customerPortfolio: FormGroup;
+  formaPago: string = "paymentForm";
   countries = [];
   months = [];
+  bancos = [];
   years = [];
+  portafolio =[];
   deliveryMethods = [];
   grandTotal = 0;
+  modo:string ;
+  subModo: string;
   cart: Cart;
   paymentService: PaymentService;
  
@@ -54,9 +61,11 @@ export class CheckoutComponent implements OnInit {
       zip: ['', Validators.required],
       address: ['', Validators.required]
     });
+
     this.deliveryForm = this.formBuilder.group({
       deliveryMethod: [this.deliveryMethods[0], Validators.required]
     });
+    
     this.paymentForm = this.formBuilder.group({
       cardHolderName: ['', Validators.required],
       cardNumber: ['', Validators.required],
@@ -65,7 +74,12 @@ export class CheckoutComponent implements OnInit {
       cvv: ['', Validators.required]
     });
 
-  }
+
+    this.customerPortfolio= this.formBuilder.group({
+        bancoAval: ['', Validators.required],
+        portafolio: ['', Validators.required]
+      });
+    }
 
   public placeOrder() {
 
@@ -74,6 +88,7 @@ export class CheckoutComponent implements OnInit {
     //TODO CONVERSION NO FUNCIONA REVISAR YA Q NO ES NECESARIO ENVIAR IMAGENES
    /* this.cart = new Cart(null, null, this.convertProductToProduct(this.cartService.Data.products) , this.cartService.Data.totalPrice,
       this.cartService.Data.products.length);*/
+
 
     let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
     console.log(JSON.stringify(order));

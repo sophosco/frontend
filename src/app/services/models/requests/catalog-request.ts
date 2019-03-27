@@ -1,6 +1,7 @@
 export class CatalogRequest {
 
-  constructor(public CountProduct: number,
+  constructor(public All: boolean,
+    public CountProduct: number,
     public Availability: boolean,
     public NameCategory: String,
     public InitialRangePrice: number,
