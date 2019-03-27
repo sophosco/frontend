@@ -69,26 +69,31 @@ export class CheckoutComponent implements OnInit {
 
   public placeOrder() {
 
-    this.cart = new Cart(null, null, this.convertProductToProduct(this.cartService.Data.products) , this.cartService.Data.totalPrice,
-      this.cartService.Data.products.length
-    );
+    this.cart = new Cart(null, null, this.cartService.Data.products , this.cartService.Data.totalPrice,
+    this.cartService.Data.products.length);
+    //TODO CONVERSION NO FUNCIONA REVISAR YA Q NO ES NECESARIO ENVIAR IMAGENES
+   /* this.cart = new Cart(null, null, this.convertProductToProduct(this.cartService.Data.products) , this.cartService.Data.totalPrice,
+      this.cartService.Data.products.length);*/
 
     let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
     console.log(JSON.stringify(order));
 
     //TODO: REVISION Y TERMINAR DE IMPLEMENTAR
+
+    //Realiza Pedido
+
+
     //Realiza Pago
-    this.paymentService.createPayment(order).subscribe(data => {
+   /* this.paymentService.createPayment(order).subscribe(data => {
       console.log(data);
     });
 
-    //Realiza Pedido
     
      //Crea Orden
       this.orderService.createOrder(order).subscribe(approvalCode => {
       console.log(approvalCode);
       ;
-        });
+        });*/
 
 
 
@@ -106,7 +111,6 @@ export class CheckoutComponent implements OnInit {
       element.images = null;
       productArray.push(element);
     });
-
     return productArray;
   }
 
