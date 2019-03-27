@@ -28,9 +28,14 @@ export class ProductsComponent implements OnInit {
   public priceFrom: number = 750;
   public priceTo: number = 1599;
   public page: any;
-  public isChecked = false;
+  public isChecked: boolean = false;
 
-  constructor(private activatedRoute: ActivatedRoute, public appService: ProductService, public appServiceCategory: CategoryService, public dialog: MatDialog, private router: Router, public utils: Utils) {
+  constructor(private activatedRoute: ActivatedRoute,
+    public appService: ProductService,
+    public appServiceCategory: CategoryService,
+    public dialog: MatDialog,
+    private router: Router,
+    public utils: Utils) {
   }
 
   ngOnInit() {
@@ -38,9 +43,8 @@ export class ProductsComponent implements OnInit {
     this.sort = this.sortings[0];
     this.sub = this.activatedRoute.params.subscribe(params => {
 
-      console.log(params['name']);
       if (params['name'] !== undefined) {
-        if (params['name'] == "todas las categorias"){
+        if (params['name'] == "todas las categorias") {
           this.getProducts();
         } else {
           this.getProductsByCategory(params['name']);
@@ -49,6 +53,7 @@ export class ProductsComponent implements OnInit {
         this.getProducts();
       }
     });
+
     if (window.innerWidth < 960) {
       this.sidenavOpen = false;
     };
@@ -80,11 +85,11 @@ export class ProductsComponent implements OnInit {
   }
 
   public getCategories() {
-
+    
     this.appServiceCategory.getCategoriesMock().subscribe(data => {
       this.categories = data;
     });
-    
+
   }
 
   public getBrands() {
