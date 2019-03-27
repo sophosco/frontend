@@ -347,5 +347,16 @@ export class Utils {
         return this.portafolio;
 
     }
-  }
+ 
   
+
+  public getDocumentType(){
+    return [
+        { value: "CC", name: 'C.C' },
+        { value: "CE", name: 'C.E. (Cédula de Extranjería)' },
+        { value: "NIT", name: 'NIT (Número de Identificación Tributaria)' },
+        { value: "PP", name: 'Pasaporte' }
+    ]
+}
+
+}
