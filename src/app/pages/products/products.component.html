@@ -36,7 +36,8 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div fxLayout="column">
-                    <mat-checkbox color="primary" (change)="onChangeAvailability($event)" [checked] >Disponible"</mat-checkbox>
+                    <mat-checkbox color="primary" (change)="onChangeAvailability($event)">Disponible</mat-checkbox>
+                    <mat-checkbox color="primary" (change)="onChangeNotAvailability($event)">No Disponible</mat-checkbox>
                 </div>
             </mat-expansion-panel>
 

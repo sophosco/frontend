@@ -20,31 +20,6 @@ export class CategoryService {
     })
    }
 
-  public getCategories(): Observable<Category[]> {
-
-    let headers = new Headers({
-      'Content-Type': 'application/json',
-      'X-RqUID': 'application/json', 'X-IPAddr': 'application/json'
-      , 'X-Session': 'application/json'
-    });
-
-    let options = new RequestOptions({ headers: headers });
-
-    return this._httpClient
-      .get(environment.URLService + 'category/read_all.php')
-      .pipe(
-        map(((response: any) => {
-          this.categoryResponse = response;
-          if (this.categoryResponse.categories.length > 0) {
-            this.categories = this.categoryResponse.categories;
-          }
-          return this.categories;
-        }),
-          catchError((e: Response) => throwError(e)))
-      );
-
-  }
-
   public getCategoriesMock(): Observable<Category[]> {
 
     let headers = new Headers({

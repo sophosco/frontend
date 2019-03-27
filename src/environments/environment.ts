@@ -4,7 +4,15 @@
 
 export const environment = {
   production: false,
-  URLService:""
+  URLService:"http://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:3010",
+  URLCatalog:"http://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:3010",
+  URLSecurity:"http://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:3000",
+  endPointCatalog:"/api/products/catalog/",
+  endPointReserveProduct:"/api/products/catalog/",
+  endPointGenerateToken:"/services/security/getJwtToken/",
+  endPointVerifyToken:"/services/security/verifyJwtToken/",
+  endPointUpdateCart:"/gestioncarrito/updatecart",
+  endPointGetCart:"/gestioncarrito/getcart"
 };
 
 /*

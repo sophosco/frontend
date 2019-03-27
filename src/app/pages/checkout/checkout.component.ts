@@ -7,6 +7,8 @@ import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
 import { CartService } from 'src/app/services/cart.services';
 import { PaymentService } from 'src/app/services/payment.service';
+import { Product } from 'src/app/app.models';
+import { Cart } from 'src/app/models/cart.model';
 
 
 @Component({
@@ -32,6 +34,7 @@ export class CheckoutComponent implements OnInit {
   grandTotal = 0;
   modo:string ;
   subModo: string;
+  cart: Cart;
 
   constructor(public appService:AppService, public utils: Utils, public cartService:CartService,public orderService:OrderService, public formBuilder: FormBuilder) { }
 
@@ -79,11 +82,14 @@ export class CheckoutComponent implements OnInit {
       products: this.cartService.Data.products.forEach(product=>{
 
 
-        // idProd: product.id
-         nameProd: product.name
-         oldPrice: product.oldPrice
-         //descriptionProd: product.description
-         //categoryProdId: product.categoryId
+   
+    this.cart= new Cart(
+      null,
+      null,
+      this.cartService.Data.products,
+      this.cartService.Data.totalPrice,
+      this.cartService.Data.products.length
+    )
 
          //console.log("id:" +idProd)
          console.log("PRODUCT.NAME:" +product.name)
@@ -114,20 +120,28 @@ export class CheckoutComponent implements OnInit {
     console.log(banco);
     this.portafolio = this.utils.getPortafolioByBanco(banco);
   }
-
-
-
+  
   public placeOrder(){
-    let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cartForm.value);
+    let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
 //TODO: REVISION Y TERMINAR DE IMPLEMENTAR
     //reservar producto (Exitoso) (car.products)
-    //Order create (order)
-    //Pago creatre (order.payment)
-    console.log(order);
     console.log(JSON.stringify(order));
- /*   this.orderService.createOrder(order).subscribe(data => {
+       //Crea Orden
+      /* this.orderService.createOrder(order).subscribe(data => {
+        console.log(data);
+      });*/
+
+    //Reserva Orden
+
+    
+    //Realiza Pedido
+   /*  this.paymentService.createPayment(order).subscribe(data => {
       console.log(data);
     });*/
+
+    //Realiza Pago   
+
+
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
