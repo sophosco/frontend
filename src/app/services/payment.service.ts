@@ -21,10 +21,10 @@ export class PaymentService {
 
     let options = new RequestOptions({ headers: headers });
 
-    let orderRequest = new OrderRequest("Session_id_112", order);
+    let payment = new OrderRequest("Session_id_112", order);
 
     return this._http
-      .post(environment.URLService + '/api/pedido/add', orderRequest, options)
+      .post(environment.URLService + '/api/payment/add', payment, options)
       .pipe(
         map(((response: any) => {
           return response.json();

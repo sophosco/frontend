@@ -43,6 +43,7 @@ export class ProductsComponent implements OnInit {
     this.sort = this.sortings[0];
     this.sub = this.activatedRoute.params.subscribe(params => {
 
+      //console.log(params['name']);
       if (params['name'] !== undefined) {
         if (params['name'] == "todas las categorias") {
           this.getProducts();

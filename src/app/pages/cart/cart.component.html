@@ -1,6 +1,6 @@
 <div *ngIf="cartService.Data.products.length == 0">
   <mat-chip-list>
-      <mat-chip color="warn" selected="true">NO POSEE ELEMENTOS EN SU CARRITO DE COMPRAS.</mat-chip>
+      <mat-chip color="warn" selected="true">NO POSEE ELEMENTOS EN SU CARRITO DE COMPRAS</mat-chip>
   </mat-chip-list>
   <a [routerLink]="['/']" mat-raised-button color="primary" class="mt-2">Continuar comprando</a>
 </div>
@@ -43,9 +43,9 @@
       <div class="mat-cell"></div>
       <div class="mat-cell text-right">
         <div fxLayout="column" fxLayoutAlign="center end" class="grand-total px-2">
-          <span>SubTotal:</span>
+          <span>Subtotal:</span>
           <span class="text-muted">Descuento:</span>
-          <span class="new-price">Gran total:</span>
+          <span class="new-price">Total:</span>
         </div>        
       </div>
       <div class="mat-cell">

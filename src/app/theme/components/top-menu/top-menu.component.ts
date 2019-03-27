@@ -9,8 +9,8 @@ export class TopMenuComponent implements OnInit {
   public currencies = ['USD', 'EUR'];
   public currency:any;
   public flags = [
-    { name:'Colombia', image: 'assets/images/flags/gb.svg' },
-    { name:'English', image: 'assets/images/flags/de.svg' }
+    { name:'Español', image: 'assets/images/flags/tr.svg' },
+    { name:'English', image: 'assets/images/flags/gb.svg' }
   ]
   public flag:any;
 
