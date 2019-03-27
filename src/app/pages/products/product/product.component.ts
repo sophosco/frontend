@@ -8,7 +8,7 @@ import { Product, Category } from "../../../app.models";
 import { emailValidator } from '../../../theme/utils/app-validators';
 import { ProductZoomComponent } from './product-zoom/product-zoom.component';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CategoryService } from 'src/app/services/category.service';
+
 
 
 @Component({
@@ -30,7 +30,7 @@ export class ProductComponent implements OnInit {
   
 
 
-  constructor(public appService:ProductService, public appServiceCategory:CategoryService, private activatedRoute: ActivatedRoute, public dialog: MatDialog, public formBuilder: FormBuilder, private _sanitizer: DomSanitizer) {  }
+  constructor(public appService:ProductService, private activatedRoute: ActivatedRoute, public dialog: MatDialog, public formBuilder: FormBuilder, private _sanitizer: DomSanitizer) {  }
 
   ngOnInit() {      
     this.sub = this.activatedRoute.params.subscribe(params => { 
