@@ -27,8 +27,8 @@ export class Utils {
     ]
 
     constructor(
-    ) {
-    }
+    ) {}
+
     public getBrands(){
         return [  
             { name: 'aloha', image: 'assets/images/brands/aloha.png' },
@@ -46,7 +46,6 @@ export class Utils {
             { name: 'bravo', image: 'assets/images/brands/bravo.png' }
         ];
     }
-
 
     public getCountries(){
         return [ 
