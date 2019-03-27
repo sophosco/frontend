@@ -172,21 +172,6 @@ export class ProductService {
 
   }
 
-  public getProductById(id): Observable<Product> {
-
-    return this._httpClient.get<Product>(this.url + 'product-' + id + '.json')
-      .pipe(
-        map(((response: any) => {
-          this.productResponse = response.responsePayload;
-          if (this.productResponse.product) {
-            this.product = this.productResponse.product;
-          }
-          return this.product;
-        }),
-          catchError((e: Response) => throwError(e)))
-      );
-  }
-
   public getProductsByCategoryMock(nameCategory: string): Observable<Product[]> {
 
     let httpHeaders = new HttpHeaders()
@@ -314,7 +299,22 @@ export class ProductService {
     return this.images;
   }
 
-  public convertNumberToStringRating(product: Product, numerToString: boolean): Product {
+  public getProductById(id): Observable<Product> {
+    return this._httpClient.get<Product>(this.url + 'product-' + id + '.json')
+      .pipe(
+        map(((response: any) => {
+          this.productResponse = response.responsePayload;
+          console.log(this.productResponse);
+          if (this.productResponse.product) {
+            this.product = this.productResponse.product;
+          }
+          return this.product;
+        }),
+          catchError((e: Response) => throwError(e)))
+      );
+  }
+
+  public convertNumberToStringRating(product: Product, numerToString: boolean): Product{
     product.comments.forEach(element => {
       if (numerToString) { element.rating = this.rating[element.rating]; }
       else { element.rating = this.rating.indexOf(element.rating) }
