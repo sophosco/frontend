@@ -44,8 +44,10 @@ export class CheckoutComponent implements OnInit {
     this.cartService.Data.products.forEach(product => {
       this.grandTotal += product.cartCount * product.newPrice;
     });
+
     this.countries = this.util.getCountries();
     this.months = this.util.getMonths();
+    this.bancos = this.util.getGrupoAval();
     this.years = this.util.getYears();
     this.deliveryMethods = this.util.getDeliveryMethods();
     this.billingForm = this.formBuilder.group({
@@ -127,6 +129,22 @@ export class CheckoutComponent implements OnInit {
       productArray.push(element);
     });
     return productArray;
+  }
+
+  public modoChanged(value: string, fomPay: string){
+    this.modo = value;
+    this.subModo = "";
+    this.formaPago = fomPay;
+  } 
+
+  public subModoChanged(value: string, fomPay: string){
+    this.subModo = value;
+    this.formaPago = fomPay;
+  }
+
+  public getPortafolioByBanco(banco){
+    console.log(banco);
+    this.portafolio = this.util.getPortafolioByBanco(banco);
   }
 
 }
