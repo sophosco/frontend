@@ -11,11 +11,11 @@ import { ProductService } from '../../services/product.service';
 export class HomeComponent implements OnInit {
 
   public slides = [
-    { title: 'The biggest sale', subtitle: 'Special for today', image: 'assets/images/carousel/banner1.jpg' },
-    { title: 'Summer collection', subtitle: 'New Arrivals On Sale', image: 'assets/images/carousel/banner2.jpg' },
-    { title: 'The biggest sale', subtitle: 'Special for today', image: 'assets/images/carousel/banner3.jpg' },
-    { title: 'Summer collection', subtitle: 'New Arrivals On Sale', image: 'assets/images/carousel/banner4.jpg' },
-    { title: 'The biggest sale', subtitle: 'Special for today', image: 'assets/images/carousel/banner5.jpg' }
+    { title: 'Nueva Colección', subtitle: 'No te la pierdas', image: 'assets/images/carousel/banner1.jpg' },
+    { title: 'Colección de Verano', subtitle: 'Nueva temporada en oferta', image: 'assets/images/carousel/banner2.jpg' },
+    { title: 'Nueva Colección', subtitle: 'No te la pierdas', image: 'assets/images/carousel/banner3.jpg' },
+    { title: 'Colección de Verano', subtitle: 'Nueva temporada en oferta', image: 'assets/images/carousel/banner4.jpg' },
+    { title: 'Nueva Colección', subtitle: 'No te la pierdas', image: 'assets/images/carousel/banner5.jpg' }
   ];
 
   public brands = [];
