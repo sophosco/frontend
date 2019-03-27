@@ -323,7 +323,7 @@ export class Utils {
             { value: 'standard', name: 'Standard Delivery', desc: '$7.99 / Delivery in 5 to 7 business Days' },
             { value: 'express', name: 'Express Delivery', desc: '$29.99 / Delivery in 1 business Days' }
         ]
-
+    }
 
     public getGrupoAval(){
         return [
