@@ -22,7 +22,6 @@ export class CheckoutComponent implements OnInit {
   billingForm: FormGroup;
   deliveryForm: FormGroup;
   paymentForm: FormGroup;
-  cartForm: FormGroup;
   customerPortfolio: FormGroup;
   formaPago: string = "paymentForm";
   countries = [];
@@ -35,18 +34,22 @@ export class CheckoutComponent implements OnInit {
   modo:string ;
   subModo: string;
   cart: Cart;
+  paymentService: PaymentService;
+ 
 
-  constructor(public appService:AppService, public utils: Utils, public cartService:CartService,public orderService:OrderService, public formBuilder: FormBuilder) { }
+  constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
+    public formBuilder: FormBuilder, public util: Utils) { }
 
-  ngOnInit() {    
-    this.cartService.Data.products.forEach(product=>{
-      this.grandTotal += product.cartCount*product.newPrice;
+  ngOnInit() {
+    this.cartService.Data.products.forEach(product => {
+      this.grandTotal += product.cartCount * product.newPrice;
     });
-    this.countries = this.appService.getCountries();
-    this.months = this.appService.getMonths();
-    this.bancos = this.utils.getGrupoAval();
-    this.years = this.appService.getYears();
-    this.deliveryMethods = this.appService.getDeliveryMethods();
+
+    this.countries = this.util.getCountries();
+    this.months = this.util.getMonths();
+    this.bancos = this.util.getGrupoAval();
+    this.years = this.util.getYears();
+    this.deliveryMethods = this.util.getDeliveryMethods();
     this.billingForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -73,36 +76,59 @@ export class CheckoutComponent implements OnInit {
       cvv: ['', Validators.required]
     });
 
+
     this.customerPortfolio= this.formBuilder.group({
         bancoAval: ['', Validators.required],
         portafolio: ['', Validators.required]
       });
-    
-    this.cartForm = this.formBuilder.group({
-      products: this.cartService.Data.products.forEach(product=>{
+    }
+
+  public placeOrder() {
+
+    this.cart = new Cart(null, null, this.cartService.Data.products , this.cartService.Data.totalPrice,
+    this.cartService.Data.products.length);
+    //TODO CONVERSION NO FUNCIONA REVISAR YA Q NO ES NECESARIO ENVIAR IMAGENES
+   /* this.cart = new Cart(null, null, this.convertProductToProduct(this.cartService.Data.products) , this.cartService.Data.totalPrice,
+      this.cartService.Data.products.length);*/
 
 
-   
-    this.cart= new Cart(
-      null,
-      null,
-      this.cartService.Data.products,
-      this.cartService.Data.totalPrice,
-      this.cartService.Data.products.length
-    )
+    let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
+    console.log(JSON.stringify(order));
 
-         //console.log("id:" +idProd)
-         console.log("PRODUCT.NAME:" +product.name)
-        // console.log("NAME:" +nameProd)
-        // console.log("nameprod" +oldPrice)
-         //console.log("descr:" +this.descriptionProd)
-         //console.log("categ: " +this.categoryProdId)
-    }),
-      totalPrice: this.cartService.Data.totalPrice,
-      totalCartCount: this.cartService.Data.products.length
+    //TODO: REVISION Y TERMINAR DE IMPLEMENTAR
+
+    //Realiza Pedido
+
+
+    //Realiza Pago
+   /* this.paymentService.createPayment(order).subscribe(data => {
+      console.log(data);
     });
 
     
+     //Crea Orden
+      this.orderService.createOrder(order).subscribe(approvalCode => {
+      console.log(approvalCode);
+      ;
+        });*/
+
+
+
+    this.horizontalStepper._steps.forEach(step => step.editable = false);
+    this.verticalStepper._steps.forEach(step => step.editable = false);
+    this.appService.Data.cartList.length = 0;
+    this.appService.Data.totalPrice = 0;
+    this.appService.Data.totalCartCount = 0;
+
+  }
+
+  public convertProductToProduct(productDataArray: Product[]): Product[] {
+    let productArray = []
+    productDataArray.forEach(element => {
+      element.images = null;
+      productArray.push(element);
+    });
+    return productArray;
   }
 
   public modoChanged(value: string, fomPay: string){
@@ -118,37 +144,7 @@ export class CheckoutComponent implements OnInit {
 
   public getPortafolioByBanco(banco){
     console.log(banco);
-    this.portafolio = this.utils.getPortafolioByBanco(banco);
-  }
-  
-  public placeOrder(){
-    let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
-//TODO: REVISION Y TERMINAR DE IMPLEMENTAR
-    //reservar producto (Exitoso) (car.products)
-    console.log(JSON.stringify(order));
-       //Crea Orden
-      /* this.orderService.createOrder(order).subscribe(data => {
-        console.log(data);
-      });*/
-
-    //Reserva Orden
-
-    
-    //Realiza Pedido
-   /*  this.paymentService.createPayment(order).subscribe(data => {
-      console.log(data);
-    });*/
-
-    //Realiza Pago   
-
-
-
-    this.horizontalStepper._steps.forEach(step => step.editable = false);
-    this.verticalStepper._steps.forEach(step => step.editable = false);
-    this.appService.Data.cartList.length = 0;    
-    this.appService.Data.totalPrice = 0;
-    this.appService.Data.totalCartCount = 0;
-
+    this.portafolio = this.util.getPortafolioByBanco(banco);
   }
 
 }

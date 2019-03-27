@@ -1,17 +1,17 @@
 <mat-card>
     <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-sm="50" class="p-2">
-            <h2 class="text-muted text-center">Sign In</h2>
+            <h2 class="text-muted text-center">Ingresar</h2>
             <form [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit(loginForm.value)">
                 <mat-form-field class="w-100 mt-2">
                     <input matInput placeholder="Email" formControlName="email" required>
-                    <mat-error *ngIf="loginForm.controls.email.errors?.required">Email is required</mat-error>
-                    <mat-error *ngIf="loginForm.controls.email.hasError('invalidEmail')">Invalid email address</mat-error>
+                    <mat-error *ngIf="loginForm.controls.email.errors?.required">El Email es requerido</mat-error>
+                    <mat-error *ngIf="loginForm.controls.email.hasError('invalidEmail')">El Email es Invalido</mat-error>
                 </mat-form-field>
                 <mat-form-field class="w-100 mt-1">
                     <input matInput placeholder="Password" formControlName="password" required>
-                    <mat-error *ngIf="loginForm.controls.password.errors?.required">Password is required</mat-error>
-                    <mat-error *ngIf="loginForm.controls.password.hasError('minlength')">Password isn't long enough, minimum of 6 characters</mat-error>
+                    <mat-error *ngIf="loginForm.controls.password.errors?.required">Contraseña es requerida</mat-error>
+                    <mat-error *ngIf="loginForm.controls.password.hasError('minlength')">La contrase&tilde;a no es lo suficientemente larga, el m&iacute;nimo es de 8 caracteres</mat-error>
                 </mat-form-field> 
                 <div class="text-center mt-2">
                     <button mat-fab color="primary" class="mat-elevation-z6" (click)="onLoginFormSubmit(loginForm.value)">
@@ -21,7 +21,7 @@
 
                 <div fxLayout="row" fxLayoutAlign="space-between center" class="mt-2">
                     <div class="divider w-100"></div>
-                    <h3 class="text-muted auth">or Sign in with one click</h3>
+                    <h3 class="text-muted auth">o ingresa con un click</h3>
                     <div class="divider w-100"></div>
                 </div>               
                 
@@ -40,27 +40,27 @@
             </form>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="50" class="p-2" ngClass.sm="mt-2" ngClass.xs="mt-2">
-            <h2 class="text-muted text-center">Don't have an account? Sign up now!</h2>
+            <h2 class="text-muted text-center">¿No tienes una cuenta? Reg&iacute;strate ahora!</h2>
             <form [formGroup]="registerForm" (ngSubmit)="onRegisterFormSubmit(registerForm.value)">
                 <mat-form-field class="w-100 mt-2">
                   <input matInput placeholder="Full Name" formControlName="name" required>
-                  <mat-error *ngIf="registerForm.controls.name.errors?.required">Full Name is required</mat-error>
-                  <mat-error *ngIf="registerForm.controls.name.hasError('minlength')">Full Name isn't long enough, minimum of 3 characters</mat-error>
+                  <mat-error *ngIf="registerForm.controls.name.errors?.required">El Nombre completo es requerido</mat-error>
+                  <mat-error *ngIf="registerForm.controls.name.hasError('minlength')">El nombre completo no es lo suficientemente largo, el m&iacute;nimo es de 5 caracteres</mat-error>
                 </mat-form-field>
                 <mat-form-field class="w-100 mt-1">
                     <input matInput placeholder="Email" formControlName="email" required>
-                    <mat-error *ngIf="registerForm.controls.email.errors?.required">Email is required</mat-error>
-                    <mat-error *ngIf="registerForm.controls.email.hasError('invalidEmail')">Invalid email address</mat-error>
+                    <mat-error *ngIf="registerForm.controls.email.errors?.required">El Email es requerido</mat-error>
+                    <mat-error *ngIf="registerForm.controls.email.hasError('invalidEmail')">El Email es invalido</mat-error>
                 </mat-form-field>
                 <mat-form-field class="w-100 mt-1">
                     <input matInput placeholder="Password" formControlName="password" type="password" minlength="6" required>
-                    <mat-error *ngIf="registerForm.controls.password.errors?.required">Password is required</mat-error>
-                    <mat-error *ngIf="registerForm.controls.password.hasError('minlength')">Password isn't long enough, minimum of 6 characters</mat-error>
+                    <mat-error *ngIf="registerForm.controls.password.errors?.required">La contraseña es requerida</mat-error>
+                    <mat-error *ngIf="registerForm.controls.password.hasError('minlength')">La contraseña Password no es lo suficientemente larga, el m&iacute;nimo es de 8 caracteres</mat-error>
                 </mat-form-field> 
                 <mat-form-field class="w-100 mt-1">
                   <input matInput placeholder="Confirm Password" formControlName="confirmPassword" type="password" required>
-                  <mat-error *ngIf="registerForm.controls.confirmPassword.errors?.required">Confirm Password is required</mat-error>
-                  <mat-error *ngIf="registerForm.controls.confirmPassword.hasError('mismatchedPasswords')">Passwords do not match</mat-error>
+                  <mat-error *ngIf="registerForm.controls.confirmPassword.errors?.required">Contraseña de confirmaci&oacute;n es requerida</mat-error>
+                  <mat-error *ngIf="registerForm.controls.confirmPassword.hasError('mismatchedPasswords')">Las contrase&ntilde;as no coinciden</mat-error>
                 </mat-form-field>
                 <div class="text-center mt-2">
                     <button mat-fab color="primary" class="mat-elevation-z6" (click)="onRegisterFormSubmit(registerForm.value)">
