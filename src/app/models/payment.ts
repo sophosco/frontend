@@ -1,10 +1,12 @@
+import { CardCredit } from "./cardCredit";
+import { PaymentGateway } from "./paymentGateway";
+import { CustomerPortfolio } from "./customerPortfolio";
+
   
      export class Payment{
       constructor(
-       public cardHolderName: String,
-       public cardNumber: String,
-       public expiredMonth: String,
-       public expiredYear: String,
-       public cvv:  String
+       public cardCredit: CardCredit,
+       public paymentGateway: PaymentGateway,
+       public customerPortafolio: CustomerPortfolio
       ){} 
       } 

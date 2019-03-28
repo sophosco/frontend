@@ -347,9 +347,8 @@ export class Utils {
 
     }
  
-  
 
-  public getDocumentType(){
+  public getDocuments(){
     return [
         { value: "CC", name: 'C.C' },
         { value: "CE", name: 'C.E. (Cédula de Extranjería)' },
@@ -357,5 +356,13 @@ export class Utils {
         { value: "PP", name: 'Pasaporte' }
     ]
 }
+
+public getTypesPeople(){
+    return [
+        { id: 1, value: 'Natural' },
+        { id: 2, value: 'Juridica' }
+    ]
+}
+
 
 }

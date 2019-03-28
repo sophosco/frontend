@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AppService } from '../../../app.service';
+import { Utils } from '../../../services/utils/utils';
 
 @Component({
   selector: 'app-addresses',
@@ -12,10 +12,10 @@ export class AddressesComponent implements OnInit {
   billingForm: FormGroup;
   shippingForm: FormGroup;
   countries = [];
-  constructor(public appService:AppService, public formBuilder: FormBuilder, public snackBar: MatSnackBar) { }
+  constructor(public utils:Utils, public formBuilder: FormBuilder, public snackBar: MatSnackBar, ) { }
 
   ngOnInit() {
-    this.countries = this.appService.getCountries();
+    this.countries = this.utils.getCountries();
     this.billingForm = this.formBuilder.group({
       'firstName': ['', Validators.required],
       'lastName': ['', Validators.required],
