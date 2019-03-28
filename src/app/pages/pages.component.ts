@@ -6,6 +6,7 @@ import { AppService } from '../app.service';
 import { Category, Product } from '../app.models';
 import { SidenavMenuService } from '../theme/components/sidenav-menu/sidenav-menu.service';
 import { CartService } from '../services/cart.services';
+import { CategoryService} from '../services/category.service'
 
 @Component({
   selector: 'app-pages',
@@ -22,7 +23,7 @@ export class PagesComponent implements OnInit {
 
   public settings: Settings;
   constructor(public appSettings:AppSettings, 
-              public appService:AppService, 
+              public appService:CategoryService, 
               public sidenavMenuService:SidenavMenuService,
               public router:Router,
               public cartService:CartService) { 
@@ -35,10 +36,9 @@ export class PagesComponent implements OnInit {
   } 
 
   public getCategories(){    
-    this.appService.getCategories().subscribe(data => {
+    this.appService.getCategoriesMock().subscribe(data => {
       this.categories = data;
       this.category = data[0];
-      this.appService.Data.categories = data;
     })
   }
 
