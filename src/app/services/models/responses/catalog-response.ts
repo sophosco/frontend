@@ -2,8 +2,7 @@ import { Product } from "../../../app.models";
 
 export class CatalogResponse {
 
-  constructor(public statusCode: string,
-    public statusMessage: string,
+  constructor(public result: boolean,
     public products: Product[],
   ) {
   }

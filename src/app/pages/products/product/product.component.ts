@@ -8,7 +8,8 @@ import { Product, Category } from "../../../app.models";
 import { emailValidator } from '../../../theme/utils/app-validators';
 import { ProductZoomComponent } from './product-zoom/product-zoom.component';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { CategoryService } from 'src/app/services/category.service';
+import { SecurityService } from '../../../services/security.service';
 
 
 @Component({
@@ -26,11 +27,14 @@ export class ProductComponent implements OnInit {
   private sub: any;
   public form: FormGroup;
   public relatedProducts: Array<Product>;
-  
-  
 
-
-  constructor(public appService:ProductService, private activatedRoute: ActivatedRoute, public dialog: MatDialog, public formBuilder: FormBuilder, private _sanitizer: DomSanitizer) {  }
+  constructor(public appService:ProductService, 
+    public appServiceCategory:CategoryService, 
+    public securityService: SecurityService,
+    private activatedRoute: ActivatedRoute, 
+    public dialog: MatDialog, 
+    public formBuilder: FormBuilder, 
+    private _sanitizer: DomSanitizer) {  }
 
   ngOnInit() {      
     this.sub = this.activatedRoute.params.subscribe(params => { 
@@ -80,9 +84,26 @@ export class ProductComponent implements OnInit {
   }
 
   public getRelatedProducts(){
-    this.appService.getProductsByTopProductMock(5).subscribe(data => {
-      this.relatedProducts = this.appService.convertImages64BitToImagesArray(data);
-    })
+
+    let validateToken = this.securityService.validateTokenBySessionUser();
+      if (validateToken) {
+
+        this.appService.getProductsByTopProduct(5).subscribe(data => {
+          data = this.appService.convertImages64BitToImagesArray(data);
+          this.relatedProducts = data;
+        });
+
+      } else {
+
+        this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
+          this.appService.getProductsByTopProduct(5).subscribe(data => {
+            data = this.appService.convertImages64BitToImagesArray(data);
+            this.relatedProducts = data;
+          });
+        });
+
+      }
+
   }
 
   public selectImage(image){
