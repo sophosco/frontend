@@ -246,17 +246,19 @@
       </div>
     </div>
     </form>
-
     <br />
 
     <form [formGroup]="debitForm">
       <div fxLayout="row wrap" *ngIf="modo === 'Debito'">
-        <div fxFlex="100" fxLayout="column" fxLayoutAlign="start start" class="p-1">
-          <span class="text-muted">Debito Pse</span>
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" class="p-1">
           <img src="assets/images/others/pse-icon.png" alt="">
+          
         </div>
+        <span class="text-muted">Debito Pse</span>
+<div class="" style="color:#465f6d">
+        Recuerda verificar el monto máximo que tienes habilitado para pagos por internet.</div>
 
-        <p>
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
             <mat-select placeholder="Banco grupo aval" formControlName="bancoAval"
               (selectionChange)="getPortafolioByBanco($event.value)" required>
@@ -266,17 +268,17 @@
             </mat-select>
             <mat-error *ngIf="debitForm.controls.bancoAval.errors?.required">El banco es obligatorio</mat-error>
           </mat-form-field>
-        </p>
+        </div>
 
 
-        <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
             <input matInput placeholder="Nombre titular" formControlName="debitHolderName" required>
             <mat-error *ngIf="debitForm.controls.debitHolderName.errors?.required && (modo === 'Debito')">Nombre del Titular es requerido
             </mat-error>
           </mat-form-field>
         </div>
-        <div fxFlex="100" fxFlex.gt-sm="60" class="px-1">
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
             <mat-select placeholder="Tipo de documento" formControlName="documentType" required>
               <mat-option *ngFor="let documentType of documents" [value]="documentType">
@@ -284,6 +286,14 @@
               </mat-option>
             </mat-select>
             <mat-error *ngIf="debitForm.controls.documentType.errors?.required && (modo === 'Debito')">Tipo de documento es requerido</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+          <mat-form-field class="w-100">
+            <input matInput placeholder="Documento" formControlName="document" required>
+            <mat-error *ngIf="debitForm.controls.document.errors?.required && (modo === 'Debito')">Documento es requerido
+            </mat-error>
           </mat-form-field>
         </div>
 

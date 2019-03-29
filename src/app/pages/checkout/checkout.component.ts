@@ -91,6 +91,7 @@ export class CheckoutComponent implements OnInit {
         bancoAval: ['', Validators.required],
         debitHolderName:['', Validators.required],
         documentType: ['', Validators.required],
+        document: ['', Validators.required],
         typePerson: ['', Validators.required],
         phone: ['', Validators.required]
       });
@@ -107,25 +108,20 @@ export class CheckoutComponent implements OnInit {
 
 
     let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
-    console.log(JSON.stringify(order));
+    //console.log(JSON.stringify(order));
 
     //TODO: REVISION Y TERMINAR DE IMPLEMENTAR
 
-    //Realiza Pedido
-
+     //Crea Orden
+   /*  this.orderService.createOrder(order).subscribe(approvalCode => {
+      console.log(approvalCode);
+      ;
+        });
 
     //Realiza Pago
    /* this.paymentService.createPayment(order).subscribe(data => {
       console.log(data);
-    });
-
-    
-     //Crea Orden
-      this.orderService.createOrder(order).subscribe(approvalCode => {
-      console.log(approvalCode);
-      ;
-        });*/
-
+    });*/
 
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);
