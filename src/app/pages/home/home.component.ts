@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.securityService.isAuthenticated());
-    console.log(JSON.stringify(localStorage.getItem('access_user').toString));
+    console.log(this.securityService.userSession);
     this.getBanners();
     this.getProductsByCategory("celulares");
     this.getBrands();
