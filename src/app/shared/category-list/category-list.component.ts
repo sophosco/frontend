@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-category-list',
@@ -12,9 +13,10 @@ export class CategoryListComponent {
   @Output() change: EventEmitter<any> = new EventEmitter();
   mainCategories;
 
-  constructor() { }
+  constructor(public categoryServices:CategoryService) { }
 
   public ngDoCheck() {
+    this.categories = this.categoryServices.categories;
     if(this.categories && !this.mainCategories) {
       this.mainCategories = this.categories.filter(category => category.parentId == this.categoryParentId); 
       console.log("aca?")

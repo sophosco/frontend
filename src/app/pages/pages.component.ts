@@ -2,11 +2,11 @@ import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { Settings, AppSettings } from '../app.settings';
-import { AppService } from '../app.service';
 import { Category, Product } from '../app.models';
 import { SidenavMenuService } from '../theme/components/sidenav-menu/sidenav-menu.service';
 import { CartService } from '../services/cart.services';
-import { CategoryService} from '../services/category.service'
+import { CategoryService } from '../services/category.service';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-pages',
@@ -23,7 +23,8 @@ export class PagesComponent implements OnInit {
 
   public settings: Settings;
   constructor(public appSettings:AppSettings, 
-              public appService:CategoryService, 
+              public categoryServices:CategoryService, 
+              public productServices:ProductService,
               public sidenavMenuService:SidenavMenuService,
               public router:Router,
               public cartService:CartService) { 
@@ -36,7 +37,7 @@ export class PagesComponent implements OnInit {
   } 
 
   public getCategories(){    
-    this.appService.getCategoriesMock().subscribe(data => {
+    this.categoryServices.getCategoriesMock().subscribe(data => {
       this.categories = data;
       this.category = data[0];
     })

@@ -11,22 +11,48 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CatalogRequest } from './models/requests/catalog-request';
 import { RequestPayload, KeyRequest } from './models/requests/key-request';
 import { KeyResponse } from './models/responses/key-response';
+import { User } from '../models/user';
+import { UserRequest } from './models/requests/user-request';
+import { UserResponse } from './models/responses/user-response';
 
 @Injectable()
 export class SecurityService {
 
-  private catalogResponse: CatalogResponse;
-  private productList: Product[];
-  private productResponse: ProductResponse;
+  public userSession: User;
 
   constructor(private _httpClient: HttpClient, private _http: Http) {
+
+  }
+
+  public getvalidateUserAccount(email: string, password: string): Observable<UserResponse> {
+
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'application/json',
+    });
+
+    let options = new RequestOptions({ headers: headers });
+
+    let userRequest = new UserRequest(localStorage.key + 'id_Session', email, password);
+
+    return this._http
+      .post(environment.URLLogin + environment.endPointLogin, userRequest, options)
+      .pipe(
+        map(((response: any) => {
+          return JSON.parse(response);
+        }),
+          catchError((e: Response) => throwError(e)))
+      );
 
   }
 
   public getTokenAuthentication(idKey: string): Observable<KeyResponse> {
 
     let headers = new Headers({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'application/json',
     });
 
     let options = new RequestOptions({ headers: headers });
@@ -38,22 +64,27 @@ export class SecurityService {
       .post(environment.URLSecurity + environment.endPointGenerateToken, keyRequest, options)
       .pipe(
         map(((response: any) => {
-          return response.responsePayload;
+          this.setSession(JSON.parse(response._body).responsePayload);
+          return JSON.parse(response._body).responsePayload;
         }),
           catchError((e: Response) => throwError(e)))
       );
 
   }
 
-  public validateTokenBySession():Headers {
+  public validateTokenBySessionUser(): boolean {
+    let accessKid = localStorage.getItem('access_token');
+    if (accessKid == null) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+  public getHeaderTokenBySession(): Headers {
 
     let accessKid = localStorage.getItem('access_token');
-    if (accessKid === undefined) {
-      this.getTokenAuthentication("1").subscribe(data => {
-        this.setSession(data);
-        accessKid = localStorage.getItem('access_token');
-      });
-    }
 
     let headers = new Headers({
       'Content-Type': 'application/json',
@@ -65,9 +96,32 @@ export class SecurityService {
 
   }
 
+  public isAuthenticated(): boolean {
+    let accessUser = this.userSession;
+    if (accessUser == null) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   private setSession(authResult): void {
 
     localStorage.setItem('access_token', authResult.token);
+
+  }
+
+  public logInSession(userSession) {
+    
+    this.userSession = userSession;
+    localStorage.setItem('access_user', userSession);
+  }
+
+  public logOutSession() {
+
+    localStorage.clear;
+    this.userSession = null;
 
   }
 

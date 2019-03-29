@@ -24,8 +24,8 @@
                     <span>Hasta: <b>${{priceTo}}</b></span>
                 </div>
                 <div fxLayout="row" fxLayoutAlign="space-between center" class="filter-price">
-                    <mat-slider color="primary" max="2000" min="1" thumb-label="true" [(ngModel)]="priceFrom"></mat-slider>
-                    <mat-slider color="warn" max="2000" min="1" thumb-label="true" [(ngModel)]="priceTo"></mat-slider>
+                    <mat-slider (change)="onChangePrices()" color="primary" max="2000" min="1" thumb-label="true" [(ngModel)]="priceFrom"></mat-slider>
+                    <mat-slider (change)="onChangePrices()" color="warn" max="2000" min="1" thumb-label="true" [(ngModel)]="priceTo"></mat-slider>
                 </div>
             </mat-expansion-panel>
 

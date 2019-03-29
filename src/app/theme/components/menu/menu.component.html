@@ -6,14 +6,5 @@
     <a mat-button [routerLink]="['/products', 'accesorios']" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Accesorios</a>
     <a mat-button routerLink="/contact" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Cont&aacute;ctanos</a>
 
-    <a mat-button [matMenuTriggerFor]="animals">Pages<mat-icon class="caret">arrow_drop_down</mat-icon></a>
-    <mat-menu #animals="matMenu" [overlapTrigger]="false" class="app-dropdown"> 
-        <a mat-menu-item routerLink="/products" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Todos los productos</a> 
-        <a mat-menu-item [routerLink]="['/products', '2', 'PC All-in-One']" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Detalle del producto</a> 
-        <a mat-menu-item routerLink="/contact" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Cont&aacute;ctanos</a>  
-        <a mat-menu-item routerLink="/sign-in">Ingresar</a>       
-        <a mat-menu-item routerLink="/404">Error 404</a>
-    </mat-menu>
-
 </mat-toolbar>
 
