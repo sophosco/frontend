@@ -97,13 +97,10 @@ export class SecurityService {
   }
 
   public isAuthenticated(): boolean {
-    let accessUser = this.userSession;
-    if (accessUser == null) {
-      return true;
-    }
-    else {
+    if (localStorage.getItem("access_user") == null) {
       return false;
-    }
+    } 
+    return true;
   }
 
   private setSession(authResult): void {
@@ -113,14 +110,15 @@ export class SecurityService {
   }
 
   public logInSession(userSession) {
-    
+
     this.userSession = userSession;
-    localStorage.setItem('access_user', userSession);
+    localStorage.setItem('access_user', JSON.stringify(userSession));
   }
 
   public logOutSession() {
 
-    localStorage.clear;
+    localStorage.removeItem('access_user');
+    localStorage.removeItem('access_token');
     this.userSession = null;
 
   }

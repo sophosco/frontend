@@ -31,11 +31,11 @@
                 <mat-icon class="mat-icon-sm">lock</mat-icon>
                 <span>Bloquear la pantalla</span> 
             </a>
-            <a mat-menu-item routerLink="/"> 
-                <mat-icon class="mat-icon-sm">help</mat-icon>
-                <span>Ayuda</span> 
-            </a>
             <div class="divider"></div>
+            <a mat-menu-item (click)="logOutSession()" *ngIf="!securityService.isAuthenticated()"> 
+                <mat-icon class="mat-icon-sm">power_settings_new</mat-icon>
+                <span>Ingresar</span> 
+            </a>
             <a mat-menu-item (click)="logOutSession()" *ngIf="securityService.isAuthenticated()"> 
                 <mat-icon class="mat-icon-sm">power_settings_new</mat-icon>
                 <span>Salir</span> 
