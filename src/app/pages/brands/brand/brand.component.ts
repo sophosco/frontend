@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material';
 import { ProductDialogComponent } from '../../../shared/products-carousel/product-dialog/product-dialog.component';
 import { AppService } from '../../../app.service';
 import { Product, Category } from "../../../app.models";
+import { CategoryService } from 'src/app/services/category.service';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-brand',
@@ -29,7 +31,7 @@ export class BrandComponent implements OnInit {
   public sizes = ["S","M","L","XL","2XL","32","36","38","46","52","13.3\"","15.4\"","17\"","21\"","23.4\""];
   public page:any;
 
-  constructor(private activatedRoute: ActivatedRoute, public appService:AppService, public dialog: MatDialog, private router: Router) { }
+  constructor(private activatedRoute: ActivatedRoute, public appProductService:ProductService, public appService:CategoryService, public dialog: MatDialog, private router: Router) { }
 
   ngOnInit() {
     this.count = this.counts[0];
@@ -49,7 +51,7 @@ export class BrandComponent implements OnInit {
   }
 
   public getAllProducts(){
-    this.appService.getProducts("brand").subscribe(data=>{
+    this.appProductService.getProducts().subscribe(data=>{
       this.products = data; 
       //for show more product  
       for (var index = 0; index < 3; index++) {
@@ -59,14 +61,14 @@ export class BrandComponent implements OnInit {
   }
 
   public getCategories(){  
-    if(this.appService.Data.categories.length == 0) { 
-      this.appService.getCategories().subscribe(data => {
+    if(this.appService.categories.length == 0) { 
+      this.appService.getCategoriesMock().subscribe(data => {
         this.categories = data;
-        this.appService.Data.categories = data;
+        this.appService.categories = data;
       });
     }
     else{
-      this.categories = this.appService.Data.categories;
+      this.categories = this.appService.categories;
     }
   }
 

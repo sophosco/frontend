@@ -346,5 +346,23 @@ export class Utils {
         return this.portafolio;
 
     }
-  }
-  
+ 
+
+  public getDocuments(){
+    return [
+        { value: "CC", name: 'C.C' },
+        { value: "CE", name: 'C.E. (Cédula de Extranjería)' },
+        { value: "NIT", name: 'NIT (Número de Identificación Tributaria)' },
+        { value: "PP", name: 'Pasaporte' }
+    ]
+}
+
+public getTypesPeople(){
+    return [
+        { id: 1, value: 'Natural' },
+        { id: 2, value: 'Juridica' }
+    ]
+}
+
+
+}

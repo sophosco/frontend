@@ -23,8 +23,11 @@ export class CheckoutComponent implements OnInit {
   deliveryForm: FormGroup;
   paymentForm: FormGroup;
   customerPortfolio: FormGroup;
+  debitForm: FormGroup;
   formaPago: string = "paymentForm";
   countries = [];
+  documents = [];
+  typesPeople= [];
   months = [];
   bancos = [];
   years = [];
@@ -46,6 +49,8 @@ export class CheckoutComponent implements OnInit {
     });
 
     this.countries = this.util.getCountries();
+    this.documents = this.util.getDocuments();
+    this.typesPeople = this.util.getTypesPeople();
     this.months = this.util.getMonths();
     this.bancos = this.util.getGrupoAval();
     this.years = this.util.getYears();
@@ -81,7 +86,16 @@ export class CheckoutComponent implements OnInit {
         bancoAval: ['', Validators.required],
         portafolio: ['', Validators.required]
       });
+
+      this.debitForm=this.formBuilder.group({
+        bancoAval: ['', Validators.required],
+        debitHolderName:['', Validators.required],
+        documentType: ['', Validators.required],
+        typePerson: ['', Validators.required],
+        phone: ['', Validators.required]
+      });
     }
+    
 
   public placeOrder() {
 

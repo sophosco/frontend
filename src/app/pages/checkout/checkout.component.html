@@ -188,9 +188,9 @@
           <mat-icon>credit_card</mat-icon>
           Tarjeta de Credito
         </mat-button-toggle>
-        <mat-button-toggle value="Ahorros" (change)="modoChanged('Ahorros', 'paymentForm')">
+        <mat-button-toggle value="Debito" (change)="modoChanged('Debito', 'paymentForm')">
           <mat-icon> account_balance</mat-icon>
-          Cuenta de Ahorros y corriente
+          Debito Pse
         </mat-button-toggle>
         <mat-button-toggle value="Efectivo" (change)="modoChanged('Efectivo', 'paymentForm')">
           <mat-icon> euro_symbol</mat-icon>
@@ -249,12 +249,59 @@
 
     <br />
 
+    <form [formGroup]="debitForm">
+      <div fxLayout="row wrap" *ngIf="modo === 'Debito'">
+        <div fxFlex="100" fxLayout="column" fxLayoutAlign="start start" class="p-1">
+          <span class="text-muted">Debito Pse</span>
+          <img src="assets/images/others/pse-icon.png" alt="">
+        </div>
+
+        <p>
+          <mat-form-field class="w-100">
+            <mat-select placeholder="Banco grupo aval" formControlName="bancoAval"
+              (selectionChange)="getPortafolioByBanco($event.value)" required>
+              <mat-option *ngFor="let banco of bancos" [value]="banco.value">
+                {{banco.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="debitForm.controls.bancoAval.errors?.required">El banco es obligatorio</mat-error>
+          </mat-form-field>
+        </p>
+
+
+        <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
+          <mat-form-field class="w-100">
+            <input matInput placeholder="Nombre titular" formControlName="debitHolderName" required>
+            <mat-error *ngIf="debitForm.controls.debitHolderName.errors?.required && (modo === 'Debito')">Nombre del Titular es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="60" class="px-1">
+          <mat-form-field class="w-100">
+            <mat-select placeholder="Tipo de documento" formControlName="documentType" required>
+              <mat-option *ngFor="let documentType of documents" [value]="documentType">
+                {{documentType.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="debitForm.controls.documentType.errors?.required && (modo === 'Debito')">Tipo de documento es requerido</mat-error>
+          </mat-form-field>
+        </div>
+
+       
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+          <mat-form-field class="w-100">
+            <input matInput placeholder="Teléfono" formControlName="phone" required>
+            <mat-error *ngIf="debitForm.controls.phone.errors?.required && (modo === 'Debito')">telefono es requerido</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      </form>
+
+
     
     <div fxLayout="row wrap" *ngIf="modo === 'Efectivo'">
-
       <p>
         <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-
           <mat-button-toggle value="Portafolio" (change)="subModoChanged('Portafolio', 'customerPortfolio')">
             <mat-icon>credit_card</mat-icon>
             Portafolio

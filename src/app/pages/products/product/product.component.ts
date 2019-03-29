@@ -27,9 +27,6 @@ export class ProductComponent implements OnInit {
   private sub: any;
   public form: FormGroup;
   public relatedProducts: Array<Product>;
-  
-  
-
 
   constructor(public appService:ProductService, 
     public appServiceCategory:CategoryService, 
