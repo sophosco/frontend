@@ -8,9 +8,10 @@ import { map, catchError } from "rxjs/operators";
 import { environment } from '../../environments/environment';
 import { Product, Images, Images64Bits } from '.././app.models';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CatalogRequest } from './models/requests/catalog-request';
+import { CatalogRequest, RequestPayloadCatalog, RequestHeaderCatalog } from './models/requests/catalog-request';
 import { SecurityService } from './security.service';
 import { ReserveRequest, ReserveRequestPayload, ProductSearch } from './models/requests/reserve-request';
+import { RequestHeaderProduct, RequestPayloadProduct, ProductRequest } from './models/requests/product-request';
 
 @Injectable()
 export class ProductService {
@@ -35,17 +36,19 @@ export class ProductService {
 
   public getProductsByCategory(nameCategory: string): Observable<Product[]> {
 
-    let headers = this.securityService.validateTokenBySession();
+    let headers = this.securityService.getHeaderTokenBySession();
 
     let options = new RequestOptions({ headers: headers });
 
-    let catalogRequest = new CatalogRequest(false, null, false, nameCategory, null, null);
+    let requestHeaderCatalog = new RequestHeaderCatalog(headers.get("X-Session"), '1');
+    let requesPayloadCatalog = new RequestPayloadCatalog(false, null, false, nameCategory.toUpperCase(), null, null);
+    let catalogRequest = new CatalogRequest(requestHeaderCatalog, requesPayloadCatalog);
 
     return this._http
       .post(environment.URLCatalog + environment.endPointCatalog, catalogRequest, options)
       .pipe(
         map(((response: any) => {
-          this.catalogResponse = response.responsePayload;
+          this.catalogResponse = JSON.parse(response._body).responsePayload;
           if (this.catalogResponse.products.length > 0) {
             this.productList = this.catalogResponse.products;
           }
@@ -59,17 +62,19 @@ export class ProductService {
 
   public getProductsByRangePrice(initialRangePrice: number, finalRangePrice: number): Observable<Product[]> {
 
-    let headers = this.securityService.validateTokenBySession();
+    let headers = this.securityService.getHeaderTokenBySession();
 
     let options = new RequestOptions({ headers: headers });
 
-    let catalogRequest = new CatalogRequest(false ,null, false, null, initialRangePrice, finalRangePrice);
+    let requestHeaderCatalog = new RequestHeaderCatalog(headers.get("X-Session"), '1');
+    let requesPayloadCatalog = new RequestPayloadCatalog(false, null, false, null, initialRangePrice, finalRangePrice);
+    let catalogRequest = new CatalogRequest(requestHeaderCatalog, requesPayloadCatalog);
 
     return this._http
       .post(environment.URLCatalog + environment.endPointCatalog, catalogRequest, options)
       .pipe(
         map(((response: any) => {
-          this.catalogResponse = response.responsePayload;
+          this.catalogResponse = JSON.parse(response._body).responsePayload;
           if (this.catalogResponse.products.length > 0) {
             this.productList = this.catalogResponse.products;
           }
@@ -82,17 +87,20 @@ export class ProductService {
 
   public getProductsByAvailability(availability: boolean): Observable<Product[]> {
 
-    let headers = this.securityService.validateTokenBySession();
+    let headers = this.securityService.getHeaderTokenBySession();
 
     let options = new RequestOptions({ headers: headers });
 
-    let catalogRequest = new CatalogRequest(false, null, availability, null, null, null);
+    let requestHeaderCatalog = new RequestHeaderCatalog(headers.get("X-Session"), '1');
+    let requesPayloadCatalog = new RequestPayloadCatalog(false, null, availability, null, null, null);
+    let catalogRequest = new CatalogRequest(requestHeaderCatalog, requesPayloadCatalog);
+
 
     return this._http
       .post(environment.URLCatalog + environment.endPointCatalog, catalogRequest, options)
       .pipe(
         map(((response: any) => {
-          this.catalogResponse = response.responsePayload;
+          this.catalogResponse = JSON.parse(response._body).responsePayload;
           if (this.catalogResponse.products.length > 0) {
             this.productList = this.catalogResponse.products;
           }
@@ -105,16 +113,18 @@ export class ProductService {
 
   public getProductsByTopProduct(countProduct: number): Observable<Product[]> {
 
-    let headers = this.securityService.validateTokenBySession();
+    let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
 
-    let catalogRequest = new CatalogRequest(false, countProduct, false, null, null, null);
+    let requestHeaderCatalog = new RequestHeaderCatalog(headers.get("X-Session"), '1');
+    let requesPayloadCatalog = new RequestPayloadCatalog(false, countProduct, false, null, null, null);
+    let catalogRequest = new CatalogRequest(requestHeaderCatalog, requesPayloadCatalog);
 
     return this._http
       .post(environment.URLCatalog + environment.endPointCatalog, catalogRequest, options)
       .pipe(
         map(((response: any) => {
-          this.catalogResponse = response.responsePayload;
+          this.catalogResponse = JSON.parse(response._body).responsePayload;
           if (this.catalogResponse.products.length > 0) {
             this.productList = this.catalogResponse.products;
           }
@@ -127,16 +137,20 @@ export class ProductService {
 
   public getProducts(): Observable<Product[]> {
 
-    let headers = this.securityService.validateTokenBySession();
+    let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
 
-    let catalogRequest = new CatalogRequest(true, null, false, null, null, null);
+
+    let requestHeaderCatalog = new RequestHeaderCatalog(headers.get("X-Session"), '1');
+    let requesPayloadCatalog = new RequestPayloadCatalog(true, null, false, null, null, null);
+    let catalogRequest = new CatalogRequest(requestHeaderCatalog, requesPayloadCatalog);
+
 
     return this._http
       .post(environment.URLCatalog + environment.endPointCatalog, catalogRequest, options)
       .pipe(
         map(((response: any) => {
-          this.catalogResponse = response.responsePayload;
+          this.catalogResponse = JSON.parse(response._body).responsePayload;
           if (this.catalogResponse.products.length > 0) {
             this.productList = this.catalogResponse.products;
           }
@@ -147,9 +161,33 @@ export class ProductService {
 
   }
 
+  public getProductById(id): Observable<Product> {
+
+    let headers = this.securityService.getHeaderTokenBySession();
+    let options = new RequestOptions({ headers: headers });
+
+    let requestHeaderProduct = new RequestHeaderProduct(headers.get("X-Session"), '1');
+    let requesPayloadProduct = new RequestPayloadProduct(id);
+    let productRequest = new ProductRequest(requestHeaderProduct, requesPayloadProduct);
+
+    return this._http
+      .post(environment.URLCatalog + environment.endPointDetailProduc, productRequest, options)
+      .pipe(
+        map(((response: any) => {
+          this.productResponse = JSON.parse(response._body).responsePayload;
+          if (this.productResponse.product !== undefined || this.productResponse.product != null) {
+            this.product = this.productResponse.product;
+          }
+          return this.product;
+        }),
+          catchError((e: Response) => throwError(e)))
+      );
+
+  }
+
   public reserveProducts(products: Product[]): Observable<Product[]> {
 
-    let headers = this.securityService.validateTokenBySession();
+    let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
 
     let productsSearch = this.convertProductToProductSearch(products);
@@ -172,113 +210,15 @@ export class ProductService {
 
   }
 
-  public getProductsByCategoryMock(nameCategory: string): Observable<Product[]> {
-
-    let httpHeaders = new HttpHeaders()
-      .set('Content-Type', 'application/json');
-
-    return this._httpClient
-      .get(this.url + nameCategory + '-products.json', {
-        headers: httpHeaders,
-      })
-      .pipe(
-        map(((response: any) => {
-          console.log(response);
-          this.catalogResponse = response.responsePayload;
-          if (this.catalogResponse.products.length > 0) {
-            this.productList = this.catalogResponse.products;
-          }
-
-          return this.productList;
-        }),
-          catchError((e: Response) => throwError(e)))
-      );
-
-  }
-
-  public getProductsByRangePriceMock(initialRangePrice: number, finalRangePrice: number): Observable<Product[]> {
-
-    return this._httpClient
-      .get(this.url + initialRangePrice + '-products.json')
-      .pipe(
-        map(((response: any) => {
-          this.catalogResponse = response.responsePayload;
-          if (this.catalogResponse.products.length > 0) {
-            this.productList = this.catalogResponse.products;
-          }
-
-          return this.productList;
-        }),
-          catchError((e: Response) => throwError(e)))
-      );
-
-  }
-
-  public getProductsByAvailabilityMock(availability: boolean): Observable<Product[]> {
-
-    return this._httpClient
-      .get(this.url + availability + '-products.json')
-      .pipe(
-        map(((response: any) => {
-          this.catalogResponse = response.responsePayload;
-          if (this.catalogResponse.products.length > 0) {
-            this.productList = this.catalogResponse.products;
-          }
-
-          return this.productList;
-        }),
-          catchError((e: Response) => throwError(e)))
-      );
-
-  }
-
-  public getProductsByTopProductMock(countProduct: number): Observable<Product[]> {
-
-    return this._httpClient
-      .get(this.url + countProduct + '-products.json')
-      .pipe(
-        map(((response: any) => {
-          this.catalogResponse = response.responsePayload;
-          if (this.catalogResponse.products.length > 0) {
-            this.productList = this.catalogResponse.products;
-          }
-
-          return this.productList;
-        }),
-          catchError((e: Response) => throwError(e)))
-      );
-
-  }
-
-  public getProductsMock(): Observable<Product[]> {
-
-    let httpHeaders = new HttpHeaders()
-      .set('Content-Type', 'application/json');
-
-    return this._httpClient
-      .get(this.url + 'all-products.json', {
-        headers: httpHeaders,
-      })
-      .pipe(
-        map(((response: any) => {
-          this.catalogResponse = response.responsePayload;
-          if (this.catalogResponse.products.length > 0) {
-            this.productList = this.catalogResponse.products;
-          }
-
-          return this.productList;
-        }),
-          catchError((e: Response) => throwError(e)))
-      );
-
-  }
-
   public convertImages64BitToImagesArray(productDataArray: Product[]): Product[] {
     this.productArray = []
-    productDataArray.forEach(element => {
-      element.images = this.converteImage(element.images)
-      this.productArray.push(element);
-    });
+    
+    if (productDataArray !== undefined || productDataArray != null) {
+      productDataArray.forEach(element => {
+        element.images = this.converteImage(element.images)
+        this.productArray.push(element);
+      });
+    }
 
     return this.productArray;
   }
@@ -299,22 +239,9 @@ export class ProductService {
     return this.images;
   }
 
-  public getProductById(id): Observable<Product> {
-    return this._httpClient.get<Product>(this.url + 'product-' + id + '.json')
-      .pipe(
-        map(((response: any) => {
-          this.productResponse = response.responsePayload;
-          console.log(this.productResponse);
-          if (this.productResponse.product) {
-            this.product = this.productResponse.product;
-          }
-          return this.product;
-        }),
-          catchError((e: Response) => throwError(e)))
-      );
-  }
+  
 
-  public convertNumberToStringRating(product: Product, numerToString: boolean): Product{
+  public convertNumberToStringRating(product: Product, numerToString: boolean): Product {
     product.comments.forEach(element => {
       if (numerToString) { element.rating = this.rating[element.rating]; }
       else { element.rating = this.rating.indexOf(element.rating) }

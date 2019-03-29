@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from '../../app.service';
 import { Product } from "../../app.models";
 import { ProductService } from '../../services/product.service';
+import { SecurityService } from '../../services/security.service';
 
 @Component({
   selector: 'app-home',
@@ -27,32 +28,52 @@ export class HomeComponent implements OnInit {
   public newArrivalsProducts: Array<Product>;
 
 
-  constructor(public appService:AppService,
+  constructor(public appService: AppService,
+    public securityService: SecurityService,
     public productService: ProductService) { }
 
   ngOnInit() {
+    console.log(this.securityService.isAuthenticated());
+    console.log(JSON.stringify(localStorage.getItem('access_user').toString));
     this.getBanners();
     this.getProductsByCategory("celulares");
     this.getBrands();
   }
 
-  public onLinkClick(e){
+  public onLinkClick(e) {
     this.getProductsByCategory(e.tab.textLabel.toLowerCase());
   }
 
   public getProductsByCategory(nameCategory: string) {
-    this.productService.getProductsByCategoryMock(nameCategory).subscribe(data => {
-      this.products = data;
-    });
+
+    let validateToken = this.securityService.validateTokenBySessionUser();
+    if (validateToken) {
+
+      this.productService.getProductsByCategory(nameCategory).subscribe(data => {
+        data = this.productService.convertImages64BitToImagesArray(data);
+        this.products = data;
+      });
+
+    } else {
+
+      this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
+        this.productService.getProductsByCategory(nameCategory).subscribe(data => {
+          data = this.productService.convertImages64BitToImagesArray(data);
+          this.products = data;
+        });
+      });
+
+    }
+
   }
 
-  public getBanners(){
-    this.appService.getBanners().subscribe(data=>{
+  public getBanners() {
+    this.appService.getBanners().subscribe(data => {
       this.banners = data;
     })
   }
 
-  public getBrands(){
+  public getBrands() {
     this.brands = this.appService.getBrands();
   }
 

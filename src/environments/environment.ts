@@ -5,21 +5,15 @@
 export const environment = {
   production: false,
   URLService:"http://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:3010",
-  URLCatalog:"http://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:3010",
-  URLSecurity:"http://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:3000",
+  URLCatalog:"https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:8443",
+  URLLogin:"https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443",
+  URLSecurity:"https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443",
+  endPointLogin:"/api/users/login/",
   endPointCatalog:"/api/products/catalog/",
+  endPointDetailProduc:"/api/products/product/",
   endPointReserveProduct:"/api/products/catalog/",
   endPointGenerateToken:"/services/security/getJwtToken/",
   endPointVerifyToken:"/services/security/verifyJwtToken/",
   endPointUpdateCart:"/gestioncarrito/updatecart",
   endPointGetCart:"/gestioncarrito/getcart"
 };
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

@@ -1,18 +1,5 @@
 <div class="top-menu">    
 
-    <a mat-button [matMenuTriggerFor]="langMenu" #langMenuTrigger="matMenuTrigger">
-        <img [src]="flag.image" width="18">
-        <span fxShow="false" fxShow.gt-sm class="flag-menu-title">{{flag.name}}</span>
-        <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
-    </a>
-    <mat-menu #langMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="app-dropdown">
-        <span (mouseleave)="langMenuTrigger.closeMenu()">
-            <button mat-menu-item *ngFor="let flag of flags" (click)="changeLang(flag)">
-                <img [src]="flag.image" width="18"> {{flag.name}}
-            </button>
-        </span>
-    </mat-menu>
-
     <span fxShow="false" fxShow.gt-sm>
         <a mat-button routerLink="/compare">Comparar  ({{appService.Data.compareList.length}})</a>
         <a mat-button routerLink="/wishlist">Lista de deseo ({{appService.Data.wishList.length}})</a>
@@ -23,12 +10,12 @@
     </a>
     <mat-menu #accountMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="app-dropdown account">
         <span (mouseleave)="accountMenuTrigger.closeMenu()">
-            <div fxLayout="row" fxLayoutAlign="space-around center" class="user-info">                   
+            <div fxLayout="row" fxLayoutAlign="space-around center" class="user-info" *ngIf="securityService.isAuthenticated()">                   
                 <img src="assets/images/others/user.jpg" alt="user-image" width="50">
-                <p>Emilio Verdines <br> <small>emilio_v (152<mat-icon class="mat-icon-xs">star</mat-icon>)</small></p>
+                <p>{{userSession}} <br> <small>emilio_v (152<mat-icon class="mat-icon-xs">star</mat-icon>)</small></p>
             </div>
             <div class="divider"></div>
-            <a mat-menu-item routerLink="/account"> 
+            <a mat-menu-item routerLink="/account"  *ngIf="securityService.isAuthenticated()">  
                 <mat-icon class="mat-icon-sm">settings</mat-icon>
                 <span>Configuració&oacute;n de Cuenta</span> 
             </a>
@@ -40,7 +27,7 @@
                 <mat-icon class="mat-icon-sm">favorite</mat-icon>
                 <span>Lista de deseo ({{appService.Data.wishList.length}})</span>
             </a>
-            <a mat-menu-item routerLink="/"> 
+            <a mat-menu-item routerLink="/" *ngIf="securityService.isAuthenticated()"> 
                 <mat-icon class="mat-icon-sm">lock</mat-icon>
                 <span>Bloquear la pantalla</span> 
             </a>
@@ -49,7 +36,7 @@
                 <span>Ayuda</span> 
             </a>
             <div class="divider"></div>
-            <a mat-menu-item routerLink="/sign-in"> 
+            <a mat-menu-item (click)="logOutSession()" *ngIf="securityService.isAuthenticated()"> 
                 <mat-icon class="mat-icon-sm">power_settings_new</mat-icon>
                 <span>Salir</span> 
             </a>

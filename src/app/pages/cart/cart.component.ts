@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from '../../app.service';
 import { CartService } from '../../services/cart.services';
 
 @Component({
@@ -12,7 +11,7 @@ export class CartComponent implements OnInit {
   grandTotal = 0;
   cartItemCount = [];
   cartItemCountTotal = 0;
-  constructor(public appService:AppService, public cartService:CartService) { }
+  constructor(public cartService:CartService) { }
 
   ngOnInit() {
     this.cartService.Data.products.forEach(product=>{

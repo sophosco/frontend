@@ -6,6 +6,7 @@ import { Product, Category } from "../../app.models";
 import { ProductService } from '../../services/product.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { Utils } from 'src/app/services/utils/utils';
+import { SecurityService } from '../../services/security.service';
 
 @Component({
   selector: 'app-products',
@@ -33,6 +34,7 @@ export class ProductsComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
     public appService: ProductService,
     public appServiceCategory: CategoryService,
+    public securityService: SecurityService,
     public dialog: MatDialog,
     private router: Router,
     public utils: Utils) {
@@ -69,24 +71,51 @@ export class ProductsComponent implements OnInit {
 
   public getProductsByCategory(nameCategory: string) {
 
-    this.appService.getProductsByCategoryMock(nameCategory).subscribe(data => {
-      data = this.appService.convertImages64BitToImagesArray(data);
-      this.products = data;
+    let validateToken = this.securityService.validateTokenBySessionUser();
+    if (validateToken) {
 
-    });
+      this.appService.getProductsByCategory(nameCategory).subscribe(data => {
+        data = this.appService.convertImages64BitToImagesArray(data);
+        this.products = data;
+      });
+
+    } else {
+
+      this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
+        this.appService.getProductsByCategory(nameCategory).subscribe(data => {
+          data = this.appService.convertImages64BitToImagesArray(data);
+          this.products = data;
+        });
+      });
+    }
+
   }
 
   public getProducts() {
 
-    this.appService.getProductsMock().subscribe(data => {
-      data = this.appService.convertImages64BitToImagesArray(data);
-      this.products = data;
+    let validateToken = this.securityService.validateTokenBySessionUser();
+    if (validateToken) {
 
-    });
+      this.appService.getProducts().subscribe(data => {
+        data = this.appService.convertImages64BitToImagesArray(data);
+        this.products = data;
+      });
+
+    } else {
+
+      this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
+        this.appService.getProducts().subscribe(data => {
+          data = this.appService.convertImages64BitToImagesArray(data);
+          this.products = data;
+        });
+      });
+
+    }
+
   }
 
   public getCategories() {
-    
+
     this.appServiceCategory.getCategoriesMock().subscribe(data => {
       this.categories = data;
     });
@@ -150,28 +179,73 @@ export class ProductsComponent implements OnInit {
 
   public onChangeAvailability(event) {
     if (event.checked) {
-      this.appService.getProductsByAvailabilityMock(true).subscribe(data => {
-        data = this.appService.convertImages64BitToImagesArray(data);
-        this.products = data;
-      });
+
+      let validateToken = this.securityService.validateTokenBySessionUser();
+      if (validateToken) {
+
+        this.appService.getProductsByAvailability(true).subscribe(data => {
+          data = this.appService.convertImages64BitToImagesArray(data);
+          this.products = data;
+        });
+
+      } else {
+
+        this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
+          this.appService.getProductsByAvailability(true).subscribe(data => {
+            data = this.appService.convertImages64BitToImagesArray(data);
+            this.products = data;
+          });
+        });
+
+      }
     }
   }
 
   public onChangeNotAvailability(event) {
     if (event.checked) {
-      this.appService.getProductsByAvailabilityMock(false).subscribe(data => {
-        data = this.appService.convertImages64BitToImagesArray(data);
-        this.products = data;
-      });
+
+      let validateToken = this.securityService.validateTokenBySessionUser();
+      if (validateToken) {
+
+        this.appService.getProductsByAvailability(false).subscribe(data => {
+          data = this.appService.convertImages64BitToImagesArray(data);
+          this.products = data;
+        });
+
+      } else {
+
+        this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
+          this.appService.getProductsByAvailability(false).subscribe(data => {
+            data = this.appService.convertImages64BitToImagesArray(data);
+            this.products = data;
+          });
+        });
+
+      }
+
     }
   }
 
   public onChangePrices() {
 
-    this.appService.getProductsByRangePriceMock(this.priceFrom, this.priceTo).subscribe(data => {
-      data = this.appService.convertImages64BitToImagesArray(data);
-      this.products = data;
-    });
+    let validateToken = this.securityService.validateTokenBySessionUser();
+      if (validateToken) {
+
+        this.appService.getProductsByRangePrice(this.priceFrom, this.priceTo).subscribe(data => {
+          data = this.appService.convertImages64BitToImagesArray(data);
+          this.products = data;
+        });
+
+      } else {
+
+        this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
+          this.appService.getProductsByRangePrice(this.priceFrom, this.priceTo).subscribe(data => {
+            data = this.appService.convertImages64BitToImagesArray(data);
+            this.products = data;
+          });
+        });
+
+      }
 
   }
 
