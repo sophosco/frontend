@@ -40,6 +40,7 @@ export class CheckoutComponent implements OnInit {
   cart: Cart;
   productsV: Product[];
   paymentService: PaymentService;
+  authorizationId: Number;
  
 
   constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
@@ -85,18 +86,24 @@ export class CheckoutComponent implements OnInit {
 
 
     this.customerPortfolio= this.formBuilder.group({
-        bancoAval: ['', Validators.required],
+        authorizationId: '' ,
+        entityCode: ['', Validators.required],
+        tokenAuthorization: '',
+        applicationDate: '',
         portafolio: ['', Validators.required]
       });
 
       this.debitForm=this.formBuilder.group({
-        bancoAval: ['', Validators.required],
+        authorizationId: '' ,
+        entityCode: ['', Validators.required],
+        applicationDate: '',
         debitHolderName:['', Validators.required],
         documentType: ['', Validators.required],
         document: ['', Validators.required],
         personType: ['', Validators.required],
         phone: ['', Validators.required],
-        email: '' 
+        email: '' ,
+   
       });
     }
     
