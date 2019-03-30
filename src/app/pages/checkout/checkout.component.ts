@@ -9,6 +9,7 @@ import { CartService } from 'src/app/services/cart.services';
 import { PaymentService } from 'src/app/services/payment.service';
 import { Product } from 'src/app/app.models';
 import { Cart } from 'src/app/models/cart.model';
+import { Payment } from 'src/app/models/payment';
 
 
 @Component({
@@ -37,7 +38,9 @@ export class CheckoutComponent implements OnInit {
   modo:string ;
   subModo: string;
   cart: Cart;
+  productsV: Product[];
   paymentService: PaymentService;
+  authorizationId: Number;
  
 
   constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
@@ -83,16 +86,24 @@ export class CheckoutComponent implements OnInit {
 
 
     this.customerPortfolio= this.formBuilder.group({
-        bancoAval: ['', Validators.required],
+        authorizationId: '' ,
+        entityCode: ['', Validators.required],
+        tokenAuthorization: '',
+        applicationDate: '',
         portafolio: ['', Validators.required]
       });
 
       this.debitForm=this.formBuilder.group({
-        bancoAval: ['', Validators.required],
+        authorizationId: '' ,
+        entityCode: ['', Validators.required],
+        applicationDate: '',
         debitHolderName:['', Validators.required],
         documentType: ['', Validators.required],
-        typePerson: ['', Validators.required],
-        phone: ['', Validators.required]
+        document: ['', Validators.required],
+        personType: ['', Validators.required],
+        phone: ['', Validators.required],
+        email: '' ,
+   
       });
     }
     
@@ -101,32 +112,21 @@ export class CheckoutComponent implements OnInit {
 
     this.cart = new Cart(null, null, this.cartService.Data.products , this.cartService.Data.totalPrice,
     this.cartService.Data.products.length);
+    
+    /*this.productsV =  this.convertProductToProduct(this.cartService.Data.products);
+    console.log(JSON.stringify(this.productsV));*/
+
     //TODO CONVERSION NO FUNCIONA REVISAR YA Q NO ES NECESARIO ENVIAR IMAGENES
    /* this.cart = new Cart(null, null, this.convertProductToProduct(this.cartService.Data.products) , this.cartService.Data.totalPrice,
       this.cartService.Data.products.length);*/
 
+    let order = new Order(1, 1 ,this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
 
-    let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
-    console.log(JSON.stringify(order));
-
-    //TODO: REVISION Y TERMINAR DE IMPLEMENTAR
-
-    //Realiza Pedido
-
-
-    //Realiza Pago
-   /* this.paymentService.createPayment(order).subscribe(data => {
-      console.log(data);
-    });
-
-    
      //Crea Orden
-      this.orderService.createOrder(order).subscribe(approvalCode => {
+   /*  this.orderService.createOrder(order).subscribe(approvalCode => {
       console.log(approvalCode);
       ;
         });*/
-
-
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
@@ -135,6 +135,27 @@ export class CheckoutComponent implements OnInit {
     this.appService.Data.totalCartCount = 0;
 
   }
+
+  public placePayment() {
+
+    let payment = new Payment(1, 1 ,this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
+    console.log(JSON.stringify(payment));
+    //Realiza Pago
+   /* this.paymentService.createPayment(payment).subscribe(data => {
+      console.log(data);
+    });*/
+
+    this.horizontalStepper._steps.forEach(step => step.editable = false);
+    this.verticalStepper._steps.forEach(step => step.editable = false);
+    this.appService.Data.cartList.length = 0;
+    this.appService.Data.totalPrice = 0;
+    this.appService.Data.totalCartCount = 0;
+
+  }
+
+
+
+
 
   public convertProductToProduct(productDataArray: Product[]): Product[] {
     let productArray = []

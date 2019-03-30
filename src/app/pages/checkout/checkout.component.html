@@ -246,59 +246,99 @@
       </div>
     </div>
     </form>
-
     <br />
 
     <form [formGroup]="debitForm">
-      <div fxLayout="row wrap" *ngIf="modo === 'Debito'">
-        <div fxFlex="100" fxLayout="column" fxLayoutAlign="start start" class="p-1">
-          <span class="text-muted">Debito Pse</span>
-          <img src="assets/images/others/pse-icon.png" alt="">
-        </div>
-
-        <p>
-          <mat-form-field class="w-100">
-            <mat-select placeholder="Banco grupo aval" formControlName="bancoAval"
-              (selectionChange)="getPortafolioByBanco($event.value)" required>
-              <mat-option *ngFor="let banco of bancos" [value]="banco.value">
-                {{banco.name}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="debitForm.controls.bancoAval.errors?.required">El banco es obligatorio</mat-error>
-          </mat-form-field>
-        </p>
-
-
-        <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
-          <mat-form-field class="w-100">
-            <input matInput placeholder="Nombre titular" formControlName="debitHolderName" required>
-            <mat-error *ngIf="debitForm.controls.debitHolderName.errors?.required && (modo === 'Debito')">Nombre del Titular es requerido
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div fxFlex="100" fxFlex.gt-sm="60" class="px-1">
-          <mat-form-field class="w-100">
-            <mat-select placeholder="Tipo de documento" formControlName="documentType" required>
-              <mat-option *ngFor="let documentType of documents" [value]="documentType">
-                {{documentType.value}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="debitForm.controls.documentType.errors?.required && (modo === 'Debito')">Tipo de documento es requerido</mat-error>
-          </mat-form-field>
-        </div>
-
-       
-        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
-          <mat-form-field class="w-100">
-            <input matInput placeholder="Teléfono" formControlName="phone" required>
-            <mat-error *ngIf="debitForm.controls.phone.errors?.required && (modo === 'Debito')">telefono es requerido</mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-      </form>
-
-
+        <div fxLayout="row wrap" *ngIf="modo === 'Debito'" fxLayoutAlign="center center" >
+            <div fxFlex="100" fxLayout="column" fxLayoutAlign="center center" class="p-1">
+                <img src="assets/images/others/pse-icon.png" alt="">
+                <div class="" style="color:#465f6d" fxLayoutAlign="center">
+                    Recuerda verificar el monto máximo que tienes habilitado para pagos por internet
+                </div>
+            </div>
     
+            <div fxFlex="100" fxFlex.gt-sm="40" class="px-1">
+                <mat-form-field class="w-100">
+                    <mat-select placeholder="Banco grupo aval" formControlName="bancoAval"
+                        (selectionChange)="getPortafolioByBanco($event.value)" required>
+                        <mat-option *ngFor="let banco of bancos" [value]="banco.value">
+                            {{banco.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="debitForm.controls.bancoAval.errors?.required">El banco es obligatorio</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="100" fxFlex.gt-sm="40" class="px-1">
+                <mat-form-field class="w-100">
+                    <mat-select placeholder="Tipo de Persona" formControlName="personType" required>
+                        <mat-option *ngFor="let personType of typesPeople" [value]="personType">
+                            {{personType.value}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="debitForm.controls.personType.errors?.required && (modo === 'Debito')">Tipo de persona
+                        es requerido</mat-error>
+                </mat-form-field>
+            </div>
+
+            
+            <div fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              <mat-form-field class="w-100">
+                <input matInput placeholder="Nombre titular" formControlName="debitHolderName" required>
+                <mat-error *ngIf="debitForm.controls.debitHolderName.errors?.required && (modo === 'Debito')">Nombre del
+                  Titular es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+
+
+            <div fxFlex="100" fxFlex.gt-sm="40" class="px-1">
+              <mat-form-field class="w-100">
+                <mat-select placeholder="Tipo de documento" formControlName="documentType" required>
+                  <mat-option *ngFor="let documentType of documents" [value]="documentType">
+                    {{documentType.value}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="debitForm.controls.documentType.errors?.required && (modo === 'Debito')">Tipo de
+                  documento
+                  es requerido</mat-error>
+              </mat-form-field>
+            </div>
+           
+            <div fxFlex="100" fxFlex.gt-sm="40" class="px-1">
+              <mat-form-field class="w-100">
+                <input matInput placeholder="Documento" formControlName="document" required>
+                <mat-error *ngIf="debitForm.controls.document.errors?.required && (modo === 'Debito')">Documento es
+                  requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-sm="40" class="px-1">
+                <mat-form-field class="w-100">
+                    <input matInput placeholder="Email" formControlName="email">
+                </mat-form-field>
+              </div>
+
+            <div fxFlex="100" fxFlex.gt-sm="40" class="px-1">
+                <mat-form-field class="w-100">
+                  <input matInput placeholder="Teléfono" formControlName="phone" required>
+                  <mat-error *ngIf="debitForm.controls.phone.errors?.required && (modo === 'Debito')">telefono es requerido
+                  </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+            <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+              class="mr-1">
+              <mat-icon>navigate_before</mat-icon>
+            </button>
+            <button mat-raised-button matStepperNext color="primary" (click)="placePayment()">Realizar pago</button>
+        </div>
+    </form>
+    
+
     <div fxLayout="row wrap" *ngIf="modo === 'Efectivo'">
       <p>
         <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
@@ -347,7 +387,7 @@
   </form>
 
 
-    <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+    <!--div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
       <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
         class="mr-1">
         <mat-icon>navigate_before</mat-icon>
@@ -355,7 +395,7 @@
       <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
         <mat-icon>navigate_next</mat-icon>
       </button>
-    </div>
+    </div-->
 
 
 </mat-step>

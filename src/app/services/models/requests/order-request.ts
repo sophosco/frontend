@@ -2,7 +2,7 @@ import { Order } from "../../../models/order";
 
 export class OrderRequest {
 
-  constructor(idSession: String,
+  constructor(
     order: Order
   ) {
   }
