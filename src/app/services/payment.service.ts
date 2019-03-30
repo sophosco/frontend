@@ -15,9 +15,21 @@ export class PaymentService {
 
     let headers = new Headers({
       'Content-Type': 'application/json',
+      'X-RqUID': '123', 'X-IPAddr': '231',
+      'X-Sesion': 'asdasd',
+      'X-haveToken': 'false',
+      'X-isError': 'false',
+       'X-Channel': '13123'
+    });
+
+
+   /* let headers = new Headers({
+      'Content-Type': 'application/json',
       'X-RqUID': 'application/json', 'X-IPAddr': 'application/json'
       , 'X-Session': 'application/json'
-    });
+    });*/
+
+   
 
     let options = new RequestOptions({ headers: headers });
 
@@ -25,13 +37,25 @@ export class PaymentService {
 
 
     return this._http
-      .post(environment.URLService + '/api/payment/add', paymentRequest, options)
+      .post('http://SBBOGLAPPROJB14.sophos.col.com:18080/api/payment/add', paymentRequest, options)
       .pipe(
         map(((response: any) => {
           return response.json();
         }),
           catchError((e: Response) => throwError(e)))
       );
+
+
+    /*  return this._http
+      .post('http:// SBBOGLAPPROJB14.sophos.col.com:18080/api/payment/add', paymentRequest, options)
+      .pipe(
+        map(((response: any) => {
+          return response.json();
+        }),
+          catchError((e: Response) => throwError(e)))
+      );*/
+
+
   }
 
 }
