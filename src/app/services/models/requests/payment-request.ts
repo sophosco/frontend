@@ -1,9 +1,9 @@
-import { Order } from "../../../models/order";
+import { Payment } from "src/app/models/payment";
 
 export class PaymentRequest {
 
-  constructor(idSession: String,
-    order: Order
+  constructor(
+    payment: Payment
   ) {
   }
 

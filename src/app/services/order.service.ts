@@ -21,7 +21,7 @@ export class OrderService {
 
     let options = new RequestOptions({ headers: headers });
 
-    let orderRequest = new OrderRequest("Session_id_112", order);
+    let orderRequest = new OrderRequest(order);
 
     return this._http
       .post(environment.URLService + '/api/orden/add', orderRequest, options)

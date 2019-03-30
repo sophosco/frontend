@@ -94,8 +94,9 @@ export class CheckoutComponent implements OnInit {
         debitHolderName:['', Validators.required],
         documentType: ['', Validators.required],
         document: ['', Validators.required],
-        typePerson: ['', Validators.required],
-        phone: ['', Validators.required]
+        personType: ['', Validators.required],
+        phone: ['', Validators.required],
+        email: '' 
       });
     }
     
@@ -112,27 +113,13 @@ export class CheckoutComponent implements OnInit {
    /* this.cart = new Cart(null, null, this.convertProductToProduct(this.cartService.Data.products) , this.cartService.Data.totalPrice,
       this.cartService.Data.products.length);*/
 
-
     let order = new Order(1, 1 ,this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
-
-    let payment = new Payment(1, 1 ,this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
-    console.log("PAYMENTFORM: " +this.paymentForm.value);
-    console.log(JSON.stringify(payment));
-    
-
-    //TODO: REVISION Y TERMINAR DE IMPLEMENTAR
 
      //Crea Orden
    /*  this.orderService.createOrder(order).subscribe(approvalCode => {
       console.log(approvalCode);
       ;
-        });
-
-    //Realiza Pago
-   /* this.paymentService.createPayment(payment).subscribe(data => {
-      console.log(data);
-    });*/
-
+        });*/
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
@@ -141,6 +128,27 @@ export class CheckoutComponent implements OnInit {
     this.appService.Data.totalCartCount = 0;
 
   }
+
+  public placePayment() {
+
+    let payment = new Payment(1, 1 ,this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
+    console.log(JSON.stringify(payment));
+    //Realiza Pago
+   /* this.paymentService.createPayment(payment).subscribe(data => {
+      console.log(data);
+    });*/
+
+    this.horizontalStepper._steps.forEach(step => step.editable = false);
+    this.verticalStepper._steps.forEach(step => step.editable = false);
+    this.appService.Data.cartList.length = 0;
+    this.appService.Data.totalPrice = 0;
+    this.appService.Data.totalCartCount = 0;
+
+  }
+
+
+
+
 
   public convertProductToProduct(productDataArray: Product[]): Product[] {
     let productArray = []
