@@ -12,6 +12,7 @@ import { Cart } from 'src/app/models/cart.model';
 import { Payment } from 'src/app/models/payment';
 import { OrderRequest } from 'src/app/services/models/requests/order-request';
 import { PaymentRequest } from 'src/app/services/models/requests/payment-request';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -47,7 +48,7 @@ export class CheckoutComponent implements OnInit {
  
 
   constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
-    public formBuilder: FormBuilder, public util: Utils) { }
+    public formBuilder: FormBuilder, public util: Utils, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.cartService.Data.products.forEach(product => {
@@ -151,6 +152,8 @@ export class CheckoutComponent implements OnInit {
    /* this.paymentService.createPayment(payment).subscribe(data => {
       console.log(data);
     });*/
+  
+    this.successMessage();
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
@@ -188,5 +191,9 @@ export class CheckoutComponent implements OnInit {
     console.log(banco);
     this.portafolio = this.util.getPortafolioByBanco(banco);
   }
+
+public successMessage(){
+  this.toastr.success("EL pago se realizo de forma correcta");
+}
 
 }

@@ -33,6 +33,8 @@ import { OptionsComponent } from './theme/components/options/options.component';
 import { FooterComponent } from './theme/components/footer/footer.component';
 import { CartService } from './services/cart.services';
 import { Utils } from './services/utils/utils';
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 
@@ -47,7 +49,8 @@ import { Utils } from './services/utils/utils';
       apiKey: 'AIzaSyAAYi6itRZ0rPgI76O3I83BhhzZHIgMwPg'
     }),
     SharedModule,
-    routing
+    routing,
+    ToastrModule.forRoot()
   ],
   declarations: [
     AppComponent,
