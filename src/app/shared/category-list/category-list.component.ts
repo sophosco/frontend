@@ -19,8 +19,6 @@ export class CategoryListComponent {
     this.categories = this.categoryServices.categories;
     if(this.categories && !this.mainCategories) {
       this.mainCategories = this.categories.filter(category => category.parentId == this.categoryParentId); 
-      console.log("aca?")
-      console.log(this.mainCategories)
     }
   }
 
