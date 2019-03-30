@@ -304,6 +304,12 @@
             <mat-error *ngIf="debitForm.controls.phone.errors?.required && (modo === 'Debito')">telefono es requerido</mat-error>
           </mat-form-field>
         </div>
+
+        <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
+          <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before" class="mr-1"><mat-icon>navigate_before</mat-icon></button>
+          <button mat-raised-button matStepperNext color="primary" (click)="placePayment()">Realizar pago</button>       
+        </div>     
+
       </div>
       </form>
 

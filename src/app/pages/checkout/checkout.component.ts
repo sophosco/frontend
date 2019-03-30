@@ -38,6 +38,7 @@ export class CheckoutComponent implements OnInit {
   modo:string ;
   subModo: string;
   cart: Cart;
+  productsV: Product[];
   paymentService: PaymentService;
  
 
@@ -103,7 +104,9 @@ export class CheckoutComponent implements OnInit {
 
     this.cart = new Cart(null, null, this.cartService.Data.products , this.cartService.Data.totalPrice,
     this.cartService.Data.products.length);
-
+    
+    /*this.productsV =  this.convertProductToProduct(this.cartService.Data.products);
+    console.log(JSON.stringify(this.productsV));*/
 
     //TODO CONVERSION NO FUNCIONA REVISAR YA Q NO ES NECESARIO ENVIAR IMAGENES
    /* this.cart = new Cart(null, null, this.convertProductToProduct(this.cartService.Data.products) , this.cartService.Data.totalPrice,
@@ -113,6 +116,7 @@ export class CheckoutComponent implements OnInit {
     let order = new Order(1, 1 ,this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
 
     let payment = new Payment(1, 1 ,this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
+    console.log("PAYMENTFORM: " +this.paymentForm.value);
     console.log(JSON.stringify(payment));
     
 
