@@ -9,6 +9,7 @@ import { CartService } from 'src/app/services/cart.services';
 import { PaymentService } from 'src/app/services/payment.service';
 import { Product } from 'src/app/app.models';
 import { Cart } from 'src/app/models/cart.model';
+import { Payment } from 'src/app/models/payment';
 
 
 @Component({
@@ -102,13 +103,18 @@ export class CheckoutComponent implements OnInit {
 
     this.cart = new Cart(null, null, this.cartService.Data.products , this.cartService.Data.totalPrice,
     this.cartService.Data.products.length);
+
+
     //TODO CONVERSION NO FUNCIONA REVISAR YA Q NO ES NECESARIO ENVIAR IMAGENES
    /* this.cart = new Cart(null, null, this.convertProductToProduct(this.cartService.Data.products) , this.cartService.Data.totalPrice,
       this.cartService.Data.products.length);*/
 
 
-    let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
-    //console.log(JSON.stringify(order));
+    let order = new Order(1, 1 ,this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
+
+    let payment = new Payment(1, 1 ,this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
+    console.log(JSON.stringify(payment));
+    
 
     //TODO: REVISION Y TERMINAR DE IMPLEMENTAR
 
@@ -119,7 +125,7 @@ export class CheckoutComponent implements OnInit {
         });
 
     //Realiza Pago
-   /* this.paymentService.createPayment(order).subscribe(data => {
+   /* this.paymentService.createPayment(payment).subscribe(data => {
       console.log(data);
     });*/
 
