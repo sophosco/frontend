@@ -102,8 +102,7 @@ export class CheckoutComponent implements OnInit {
         document: ['', Validators.required],
         personType: ['', Validators.required],
         phone: ['', Validators.required],
-        email: '' ,
-   
+        email: ''   
       });
     }
     
@@ -141,9 +140,9 @@ export class CheckoutComponent implements OnInit {
     let payment = new Payment(1, 1 ,this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
     console.log(JSON.stringify(payment));
     //Realiza Pago
-   /* this.paymentService.createPayment(payment).subscribe(data => {
+    this.paymentService.createPayment(payment).subscribe(data => {
       console.log(data);
-    });*/
+    });
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
