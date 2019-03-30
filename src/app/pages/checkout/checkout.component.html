@@ -259,13 +259,13 @@
     
             <div fxFlex="100" fxFlex.gt-sm="40" class="px-1">
                 <mat-form-field class="w-100">
-                    <mat-select placeholder="Banco grupo aval" formControlName="bancoAval"
+                    <mat-select placeholder="Banco grupo aval" formControlName="entityCode"
                         (selectionChange)="getPortafolioByBanco($event.value)" required>
                         <mat-option *ngFor="let banco of bancos" [value]="banco.value">
                             {{banco.name}}
                         </mat-option>
                     </mat-select>
-                    <mat-error *ngIf="debitForm.controls.bancoAval.errors?.required">El banco es obligatorio</mat-error>
+                    <mat-error *ngIf="debitForm.controls.entityCode.errors?.required">El banco es obligatorio</mat-error>
                 </mat-form-field>
             </div>
             <div fxFlex="100" fxFlex.gt-sm="40" class="px-1">
@@ -360,13 +360,13 @@
       <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
         <p>
           <mat-form-field class="w-100">
-            <mat-select placeholder="Banco grupo aval" formControlName="bancoAval"
+            <mat-select placeholder="Banco grupo aval" formControlName="entityCode"
               (selectionChange)="getPortafolioByBanco($event.value)" required>
               <mat-option *ngFor="let banco of bancos" [value]="banco.value">
                 {{banco.name}}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="customerPortfolio.controls.bancoAval.errors?.required">El banco es obligatorio</mat-error>
+            <mat-error *ngIf="customerPortfolio.controls.entityCode.errors?.required">El banco es obligatorio</mat-error>
           </mat-form-field>
         </p>
       </div>

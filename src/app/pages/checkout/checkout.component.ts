@@ -10,6 +10,9 @@ import { PaymentService } from 'src/app/services/payment.service';
 import { Product } from 'src/app/app.models';
 import { Cart } from 'src/app/models/cart.model';
 import { Payment } from 'src/app/models/payment';
+import { OrderRequest } from 'src/app/services/models/requests/order-request';
+import { PaymentRequest } from 'src/app/services/models/requests/payment-request';
+
 
 
 @Component({
@@ -121,8 +124,10 @@ export class CheckoutComponent implements OnInit {
 
     let order = new Order(1, 1 ,this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
 
+    let orderR = new OrderRequest(order);
+
      //Crea Orden
-   /*  this.orderService.createOrder(order).subscribe(approvalCode => {
+    /* this.orderService.createOrder(order).subscribe(approvalCode => {
       console.log(approvalCode);
       ;
         });*/
@@ -139,10 +144,13 @@ export class CheckoutComponent implements OnInit {
 
     let payment = new Payment(1, 1 ,this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
     console.log(JSON.stringify(payment));
+    let paymentR = new PaymentRequest(payment);
+    console.log(paymentR);
+    console.log(JSON.stringify(paymentR));
     //Realiza Pago
-    this.paymentService.createPayment(payment).subscribe(data => {
+   /* this.paymentService.createPayment(payment).subscribe(data => {
       console.log(data);
-    });
+    });*/
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
