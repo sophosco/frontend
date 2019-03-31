@@ -1,14 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material';
-import { AppService } from '../../app.service';
+import { AppService, Data } from '../../app.service';
 import { Utils } from '../../services/utils/utils';
 import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
 import { CartService } from 'src/app/services/cart.services';
-import { PaymentService } from 'src/app/services/payment.service';
 import { Product } from 'src/app/app.models';
 import { Cart } from 'src/app/models/cart.model';
+import { Payment } from 'src/app/models/payment';
+import { OrderRequest } from 'src/app/services/models/requests/order-request';
+import { PaymentRequest } from 'src/app/services/models/requests/payment-request';
+import { PaymentService } from 'src/app/services/payment.service';
+import { ModalService } from 'src/app/services/modal.service';
+
+
 
 
 @Component({
@@ -17,6 +23,7 @@ import { Cart } from 'src/app/models/cart.model';
   styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit {
+  bodyText: string;
   @ViewChild('horizontalStepper') horizontalStepper: MatStepper;
   @ViewChild('verticalStepper') verticalStepper: MatStepper;
   billingForm: FormGroup;
@@ -37,17 +44,19 @@ export class CheckoutComponent implements OnInit {
   modo:string ;
   subModo: string;
   cart: Cart;
-  paymentService: PaymentService;
+  productsV: Product[];
+  authorizationId: Number;
  
 
   constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
-    public formBuilder: FormBuilder, public util: Utils) { }
+    public formBuilder: FormBuilder, public util: Utils, private paymentServices: PaymentService, 
+    private orderServices: OrderService, private modalService: ModalService) { }
 
   ngOnInit() {
     this.cartService.Data.products.forEach(product => {
       this.grandTotal += product.cartCount * product.newPrice;
     });
-
+    this.bodyText = 'This text can be updated in modal 1';
     this.countries = this.util.getCountries();
     this.documents = this.util.getDocuments();
     this.typesPeople = this.util.getTypesPeople();
@@ -83,16 +92,23 @@ export class CheckoutComponent implements OnInit {
 
 
     this.customerPortfolio= this.formBuilder.group({
-        bancoAval: ['', Validators.required],
+        authorizationId: '' ,
+        entityCode: ['', Validators.required],
+        tokenAuthorization: '',
+        applicationDate: '',
         portafolio: ['', Validators.required]
       });
 
       this.debitForm=this.formBuilder.group({
-        bancoAval: ['', Validators.required],
+        authorizationId: '' ,
+        entityCode: ['', Validators.required],
+        applicationDate: '',
         debitHolderName:['', Validators.required],
         documentType: ['', Validators.required],
-        typePerson: ['', Validators.required],
-        phone: ['', Validators.required]
+        document: ['', Validators.required],
+        personType: ['', Validators.required],
+        phone: ['', Validators.required],
+        email: ''   
       });
     }
     
@@ -101,40 +117,66 @@ export class CheckoutComponent implements OnInit {
 
     this.cart = new Cart(null, null, this.cartService.Data.products , this.cartService.Data.totalPrice,
     this.cartService.Data.products.length);
+    
+    /*this.productsV =  this.convertProductToProduct(this.cartService.Data.products);
+    console.log(JSON.stringify(this.productsV));*/
+
     //TODO CONVERSION NO FUNCIONA REVISAR YA Q NO ES NECESARIO ENVIAR IMAGENES
    /* this.cart = new Cart(null, null, this.convertProductToProduct(this.cartService.Data.products) , this.cartService.Data.totalPrice,
       this.cartService.Data.products.length);*/
 
+    let order = new Order(1, 1 ,this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
 
-    let order = new Order(1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
-    console.log(JSON.stringify(order));
+    let orderR = new OrderRequest(order);
 
-    //TODO: REVISION Y TERMINAR DE IMPLEMENTAR
-
-    //Realiza Pedido
-
-
-    //Realiza Pago
-   /* this.paymentService.createPayment(order).subscribe(data => {
-      console.log(data);
-    });
-
-    
      //Crea Orden
-      this.orderService.createOrder(order).subscribe(approvalCode => {
+     this.orderService.createOrder(order).subscribe(approvalCode => {
       console.log(approvalCode);
       ;
-        });*/
+        });
 
-
-
-    this.horizontalStepper._steps.forEach(step => step.editable = false);
-    this.verticalStepper._steps.forEach(step => step.editable = false);
+    // this.horizontalStepper._steps.forEach(step => step.editable = false);
+    // this.verticalStepper._steps.forEach(step => step.editable = false);
     this.appService.Data.cartList.length = 0;
     this.appService.Data.totalPrice = 0;
     this.appService.Data.totalCartCount = 0;
 
   }
+
+  public placePayment(context) {
+
+    let payment = new Payment(1, 1 ,this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
+    console.log(JSON.stringify(payment));
+    let paymentR = new PaymentRequest(payment);
+    console.log(paymentR);
+    //console.log(JSON.stringify(paymentR));
+    //Realiza Pago
+   this.paymentServices.createPayment(payment).subscribe(data => 
+     console.log(data)
+    )
+   
+    
+
+    this.horizontalStepper._steps.forEach(step => step.editable = false);
+    this.verticalStepper._steps.forEach(step => step.editable = false);
+
+    this.openModal(context)
+
+    this.appService.Data.cartList.length = 0;
+    this.appService.Data.totalPrice = 0;
+    this.appService.Data.totalCartCount = 0;
+
+  }
+
+openModal(id: string) {
+    this.modalService.open(id);
+}
+
+  closeModal(id: string) {
+    this.modalService.close(id);
+}
+
+
 
   public convertProductToProduct(productDataArray: Product[]): Product[] {
     let productArray = []
