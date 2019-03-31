@@ -9,6 +9,7 @@ import { KeyResponse } from './models/responses/key-response';
 import { User } from '../models/user';
 import { UserRequest } from './models/requests/user-request';
 import { UserResponse } from './models/responses/user-response';
+import { request } from 'http';
 
 @Injectable()
 export class SecurityService {
@@ -81,8 +82,9 @@ export class SecurityService {
 
     let headers = new Headers({
       'Content-Type': 'application/json',
-      'X-RqUID': localStorage.key + 'id_Session', 'X-IPAddr': location.host
-      , 'X-Session': localStorage.getItem('access_token'), 'X-Channel': 1
+      'X-RqUID': localStorage.getItem('access_id_session'), 'X-IPAddr': location.host,
+      'X-Session': localStorage.getItem('access_token'),
+      'X-Sesion': localStorage.getItem('access_token'), 'X-Channel': 1
     });
 
     return headers;
@@ -104,13 +106,14 @@ export class SecurityService {
 
   private setSession(authResult): void {
 
+    let idSession = Math.random();
+    
+    localStorage.setItem('access_id_session', idSession + 'id_session');
     localStorage.setItem('access_token', authResult.token);
 
   }
 
   public logInSession(userSession) {
-
-    this.userSession = userSession;
     localStorage.setItem('access_user', JSON.stringify(userSession));
   }
 
@@ -118,6 +121,7 @@ export class SecurityService {
 
     localStorage.removeItem('access_user');
     localStorage.removeItem('access_token');
+    localStorage.removeItem('access_id_session');
     this.userSession = null;
 
   }
