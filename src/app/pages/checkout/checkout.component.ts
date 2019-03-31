@@ -13,6 +13,7 @@ import { OrderRequest } from 'src/app/services/models/requests/order-request';
 import { PaymentRequest } from 'src/app/services/models/requests/payment-request';
 import { PaymentService } from 'src/app/services/payment.service';
 import { ModalService } from 'src/app/services/modal.service';
+import { okPay } from 'src/app/models/okpay';
 
 
 
@@ -31,6 +32,7 @@ export class CheckoutComponent implements OnInit {
   paymentForm: FormGroup;
   customerPortfolio: FormGroup;
   debitForm: FormGroup;
+  EfectyGruop:FormGroup;
   formaPago: string = "paymentForm";
   countries = [];
   documents = [];
@@ -46,6 +48,7 @@ export class CheckoutComponent implements OnInit {
   cart: Cart;
   productsV: Product[];
   authorizationId: Number;
+  okPay: okPay;
  
 
   constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
@@ -56,6 +59,7 @@ export class CheckoutComponent implements OnInit {
     this.cartService.Data.products.forEach(product => {
       this.grandTotal += product.cartCount * product.newPrice;
     });
+    this.okPay=new okPay("","",0,new Date(),"","",0,0,"",0,"","",0,"");
     this.bodyText = 'This text can be updated in modal 1';
     this.countries = this.util.getCountries();
     this.documents = this.util.getDocuments();
@@ -90,11 +94,15 @@ export class CheckoutComponent implements OnInit {
       cvv: ['', Validators.required]
     });
 
-
+    this.EfectyGruop= this.formBuilder.group({
+      debitHolderName:['', Validators.required],
+      idCedula:['', Validators.required]
+    })
     this.customerPortfolio= this.formBuilder.group({
         authorizationId: '' ,
         entityCode: ['', Validators.required],
         tokenAuthorization: '',
+        debitHolderName:['', Validators.required],
         applicationDate: '',
         portafolio: ['', Validators.required]
       });
@@ -154,11 +162,11 @@ export class CheckoutComponent implements OnInit {
    this.paymentServices.createPayment(payment).subscribe(data => 
      console.log(data)
     )
-   
-    
-
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
+
+    this.createModal();
+
 
     this.openModal(context)
 
@@ -167,6 +175,51 @@ export class CheckoutComponent implements OnInit {
     this.appService.Data.totalCartCount = 0;
 
   }
+
+
+createModal(){
+  let estado='Aprobado';
+  let idTrans = Math.floor(Math.random() * (10000000000 - 1000000000 + 1)) + 1000000000;
+  let cus = Math.floor(Math.random() * (1000000000 - 100000000 + 1)) + 100000000;
+  let empresa = 'SophoStore';
+  let fecha = new Date();
+  let valor = this.grandTotal;
+  let moneda = 'COP';
+  let nit =9999999999;
+  let telefono = 17433001;
+  let ip = location.host
+
+  if(this.modo=='Tarjetas'){
+    let banco =['PayPal','Visa','American Express', 'MasterCard','Discover']
+    let bancoIndex = Math.floor(Math.random() * (4 - 0 + 1)) + 0;
+    console.log(bancoIndex)
+    console.log(banco[bancoIndex])
+    let descripcion = 'Plataforma de pago SophoStore con Tarjeta de Credito'
+    this.okPay = new okPay(this.paymentForm.controls.cardHolderName.value,
+      empresa,nit,fecha,estado,this.paymentForm.controls.cardNumber.value,idTrans,cus,banco[bancoIndex],
+      valor,moneda,descripcion,telefono,ip)
+  }
+  if(this.modo=='Debito'){
+    let referencia = Math.floor(Math.random() * (1000000000000 - 100000000000 + 1)) + 100000000000;
+    let banco = this.util.getNameByEntityCode(this.debitForm.controls.entityCode.value);
+    let descripcion = 'Plataforma de pago SophoStore con PSE'
+    this.okPay = new okPay(this.debitForm.controls.debitHolderName.value,empresa,nit,fecha,estado,
+      referencia+"",idTrans,cus,banco,valor,moneda,descripcion,telefono,ip)
+  }
+  if(this.subModo=='Efecty'){
+    let banco = 'Efety'
+    let descripcion = 'Plataforma de pago SophoStore con Efecty'
+    this.okPay = new okPay(this.EfectyGruop.controls.debitHolderName.value,empresa,nit,fecha,estado,
+      this.EfectyGruop.controls.idCedula.value,idTrans,cus,banco,valor,moneda,descripcion,telefono,ip)
+  }
+  if(this.subModo=='Portafolio'){
+    let descripcion = 'Plataforma de pago SophoStore con Portafolio'
+    let referencia = this.util.getNamePortafolioByEntityCode(this.customerPortfolio.controls.portafolio.value)
+    let banco = this.util.getNameByEntityCode(this.customerPortfolio.controls.entityCode.value);
+    this.okPay = new okPay(this.customerPortfolio.controls.debitHolderName.value,empresa,nit,fecha,estado,
+      referencia,idTrans,cus,banco,valor,moneda,descripcion,telefono,ip)
+  }
+}  
 
 openModal(id: string) {
     this.modalService.open(id);
