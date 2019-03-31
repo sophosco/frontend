@@ -108,7 +108,7 @@ export class SecurityService {
 
     let idSession = Math.random();
     
-    localStorage.setItem('access_id_session', idSession + 'id_session');
+    localStorage.setItem('access_id_session', idSession + '0');
     localStorage.setItem('access_token', authResult.token);
 
   }

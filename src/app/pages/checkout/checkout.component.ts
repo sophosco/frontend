@@ -32,34 +32,34 @@ export class CheckoutComponent implements OnInit {
   paymentForm: FormGroup;
   customerPortfolio: FormGroup;
   debitForm: FormGroup;
-  EfectyGruop:FormGroup;
+  EfectyGruop: FormGroup;
   formaPago: string = "paymentForm";
   countries = [];
   documents = [];
-  typesPeople= [];
+  typesPeople = [];
   months = [];
   bancos = [];
   years = [];
-  portafolio =[];
+  portafolio = [];
   deliveryMethods = [];
   grandTotal = 0;
-  modo:string ;
+  modo: string;
   subModo: string;
   cart: Cart;
   productsV: Product[];
   authorizationId: Number;
   okPay: okPay;
- 
+
 
   constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
-    public formBuilder: FormBuilder, public util: Utils, private paymentServices: PaymentService, 
+    public formBuilder: FormBuilder, public util: Utils, private paymentServices: PaymentService,
     private orderServices: OrderService, private modalService: ModalService) { }
 
   ngOnInit() {
     this.cartService.Data.products.forEach(product => {
       this.grandTotal += product.cartCount * product.newPrice;
     });
-    this.okPay=new okPay("","",0,new Date(),"","",0,0,"",0,"","",0,"");
+    this.okPay = new okPay("", "", 0, new Date(), "", "", 0, 0, "", 0, "", "", 0, "");
     this.bodyText = 'This text can be updated in modal 1';
     this.countries = this.util.getCountries();
     this.documents = this.util.getDocuments();
@@ -85,7 +85,7 @@ export class CheckoutComponent implements OnInit {
     this.deliveryForm = this.formBuilder.group({
       deliveryMethod: [this.deliveryMethods[0], Validators.required]
     });
-    
+
     this.paymentForm = this.formBuilder.group({
       cardHolderName: ['', Validators.required],
       cardNumber: ['', Validators.required],
@@ -94,54 +94,44 @@ export class CheckoutComponent implements OnInit {
       cvv: ['', Validators.required]
     });
 
-    this.EfectyGruop= this.formBuilder.group({
-      debitHolderName:['', Validators.required],
-      idCedula:['', Validators.required]
+    this.EfectyGruop = this.formBuilder.group({
+      debitHolderName: ['', Validators.required],
+      idCedula: ['', Validators.required]
     })
-    this.customerPortfolio= this.formBuilder.group({
-        authorizationId: '' ,
-        entityCode: ['', Validators.required],
-        tokenAuthorization: '',
-        debitHolderName:['', Validators.required],
-        applicationDate: '',
-        portafolio: ['', Validators.required]
-      });
+    this.customerPortfolio = this.formBuilder.group({
+      authorizationId: '',
+      entityCode: ['', Validators.required],
+      tokenAuthorization: '',
+      debitHolderName: ['', Validators.required],
+      applicationDate: '',
+      portafolio: ['', Validators.required]
+    });
 
-      this.debitForm=this.formBuilder.group({
-        authorizationId: '' ,
-        entityCode: ['', Validators.required],
-        applicationDate: '',
-        debitHolderName:['', Validators.required],
-        documentType: ['', Validators.required],
-        document: ['', Validators.required],
-        personType: ['', Validators.required],
-        phone: ['', Validators.required],
-        email: ''   
-      });
-    }
-    
+    this.debitForm = this.formBuilder.group({
+      authorizationId: '',
+      entityCode: ['', Validators.required],
+      applicationDate: '',
+      debitHolderName: ['', Validators.required],
+      documentType: ['', Validators.required],
+      document: ['', Validators.required],
+      personType: ['', Validators.required],
+      phone: ['', Validators.required],
+      email: ''
+    });
+  }
+
 
   public placeOrder() {
 
-    this.cart = new Cart(null, null, this.cartService.Data.products , this.cartService.Data.totalPrice,
-    this.cartService.Data.products.length);
-    
-    /*this.productsV =  this.convertProductToProduct(this.cartService.Data.products);
-    console.log(JSON.stringify(this.productsV));*/
+    this.cart = new Cart(null, null, this.cartService.Data.products, this.cartService.Data.totalPrice,
+      this.cartService.Data.products.length);
 
-    //TODO CONVERSION NO FUNCIONA REVISAR YA Q NO ES NECESARIO ENVIAR IMAGENES
-   /* this.cart = new Cart(null, null, this.convertProductToProduct(this.cartService.Data.products) , this.cartService.Data.totalPrice,
-      this.cartService.Data.products.length);*/
+    let order = new Order(1, 1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
 
-    let order = new Order(1, 1 ,this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
-
-    let orderR = new OrderRequest(order);
-
-     //Crea Orden
-     this.orderService.createOrder(order).subscribe(approvalCode => {
-      console.log(approvalCode);
-      ;
-        });
+    //Crea Orden
+    this.orderService.createOrder(order).subscribe(data => {
+      console.log(data);
+    });
 
     // this.horizontalStepper._steps.forEach(step => step.editable = false);
     // this.verticalStepper._steps.forEach(step => step.editable = false);
@@ -153,14 +143,11 @@ export class CheckoutComponent implements OnInit {
 
   public placePayment(context) {
 
-    let payment = new Payment(1, 1 ,this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
-    console.log(JSON.stringify(payment));
-    let paymentR = new PaymentRequest(payment);
-    console.log(paymentR);
-    //console.log(JSON.stringify(paymentR));
+    let payment = new Payment(1, 1, this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
+            
     //Realiza Pago
-   this.paymentServices.createPayment(payment).subscribe(data => 
-     console.log(data)
+    this.paymentServices.createPayment(payment).subscribe(data =>
+      console.log(data)
     )
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
@@ -177,57 +164,57 @@ export class CheckoutComponent implements OnInit {
   }
 
 
-createModal(){
-  let estado='Aprobado';
-  let idTrans = Math.floor(Math.random() * (10000000000 - 1000000000 + 1)) + 1000000000;
-  let cus = Math.floor(Math.random() * (1000000000 - 100000000 + 1)) + 100000000;
-  let empresa = 'SophoStore';
-  let fecha = new Date();
-  let valor = this.grandTotal;
-  let moneda = 'COP';
-  let nit =9999999999;
-  let telefono = 17433001;
-  let ip = location.host
+  createModal() {
+    let estado = 'Aprobado';
+    let idTrans = Math.floor(Math.random() * (10000000000 - 1000000000 + 1)) + 1000000000;
+    let cus = Math.floor(Math.random() * (1000000000 - 100000000 + 1)) + 100000000;
+    let empresa = 'SophoStore';
+    let fecha = new Date();
+    let valor = this.grandTotal;
+    let moneda = 'COP';
+    let nit = 9999999999;
+    let telefono = 17433001;
+    let ip = location.host
 
-  if(this.modo=='Tarjetas'){
-    let banco =['PayPal','Visa','American Express', 'MasterCard','Discover']
-    let bancoIndex = Math.floor(Math.random() * (4 - 0 + 1)) + 0;
-    console.log(bancoIndex)
-    console.log(banco[bancoIndex])
-    let descripcion = 'Plataforma de pago SophoStore con Tarjeta de Credito'
-    this.okPay = new okPay(this.paymentForm.controls.cardHolderName.value,
-      empresa,nit,fecha,estado,this.paymentForm.controls.cardNumber.value,idTrans,cus,banco[bancoIndex],
-      valor,moneda,descripcion,telefono,ip)
+    if (this.modo == 'Tarjetas') {
+      let banco = ['PayPal', 'Visa', 'American Express', 'MasterCard', 'Discover']
+      let bancoIndex = Math.floor(Math.random() * (4 - 0 + 1)) + 0;
+      console.log(bancoIndex)
+      console.log(banco[bancoIndex])
+      let descripcion = 'Plataforma de pago SophoStore con Tarjeta de Credito'
+      this.okPay = new okPay(this.paymentForm.controls.cardHolderName.value,
+        empresa, nit, fecha, estado, this.paymentForm.controls.cardNumber.value, idTrans, cus, banco[bancoIndex],
+        valor, moneda, descripcion, telefono, ip)
+    }
+    if (this.modo == 'Debito') {
+      let referencia = Math.floor(Math.random() * (1000000000000 - 100000000000 + 1)) + 100000000000;
+      let banco = this.util.getNameByEntityCode(this.debitForm.controls.entityCode.value);
+      let descripcion = 'Plataforma de pago SophoStore con PSE'
+      this.okPay = new okPay(this.debitForm.controls.debitHolderName.value, empresa, nit, fecha, estado,
+        referencia + "", idTrans, cus, banco, valor, moneda, descripcion, telefono, ip)
+    }
+    if (this.subModo == 'Efecty') {
+      let banco = 'Efety'
+      let descripcion = 'Plataforma de pago SophoStore con Efecty'
+      this.okPay = new okPay(this.EfectyGruop.controls.debitHolderName.value, empresa, nit, fecha, estado,
+        this.EfectyGruop.controls.idCedula.value, idTrans, cus, banco, valor, moneda, descripcion, telefono, ip)
+    }
+    if (this.subModo == 'Portafolio') {
+      let descripcion = 'Plataforma de pago SophoStore con Portafolio'
+      let referencia = this.util.getNamePortafolioByEntityCode(this.customerPortfolio.controls.portafolio.value)
+      let banco = this.util.getNameByEntityCode(this.customerPortfolio.controls.entityCode.value);
+      this.okPay = new okPay(this.customerPortfolio.controls.debitHolderName.value, empresa, nit, fecha, estado,
+        referencia, idTrans, cus, banco, valor, moneda, descripcion, telefono, ip)
+    }
   }
-  if(this.modo=='Debito'){
-    let referencia = Math.floor(Math.random() * (1000000000000 - 100000000000 + 1)) + 100000000000;
-    let banco = this.util.getNameByEntityCode(this.debitForm.controls.entityCode.value);
-    let descripcion = 'Plataforma de pago SophoStore con PSE'
-    this.okPay = new okPay(this.debitForm.controls.debitHolderName.value,empresa,nit,fecha,estado,
-      referencia+"",idTrans,cus,banco,valor,moneda,descripcion,telefono,ip)
-  }
-  if(this.subModo=='Efecty'){
-    let banco = 'Efety'
-    let descripcion = 'Plataforma de pago SophoStore con Efecty'
-    this.okPay = new okPay(this.EfectyGruop.controls.debitHolderName.value,empresa,nit,fecha,estado,
-      this.EfectyGruop.controls.idCedula.value,idTrans,cus,banco,valor,moneda,descripcion,telefono,ip)
-  }
-  if(this.subModo=='Portafolio'){
-    let descripcion = 'Plataforma de pago SophoStore con Portafolio'
-    let referencia = this.util.getNamePortafolioByEntityCode(this.customerPortfolio.controls.portafolio.value)
-    let banco = this.util.getNameByEntityCode(this.customerPortfolio.controls.entityCode.value);
-    this.okPay = new okPay(this.customerPortfolio.controls.debitHolderName.value,empresa,nit,fecha,estado,
-      referencia,idTrans,cus,banco,valor,moneda,descripcion,telefono,ip)
-  }
-}  
 
-openModal(id: string) {
+  openModal(id: string) {
     this.modalService.open(id);
-}
+  }
 
   closeModal(id: string) {
     this.modalService.close(id);
-}
+  }
 
 
 
@@ -240,18 +227,18 @@ openModal(id: string) {
     return productArray;
   }
 
-  public modoChanged(value: string, fomPay: string){
+  public modoChanged(value: string, fomPay: string) {
     this.modo = value;
     this.subModo = "";
     this.formaPago = fomPay;
-  } 
+  }
 
-  public subModoChanged(value: string, fomPay: string){
+  public subModoChanged(value: string, fomPay: string) {
     this.subModo = value;
     this.formaPago = fomPay;
   }
 
-  public getPortafolioByBanco(banco){
+  public getPortafolioByBanco(banco) {
     console.log(banco);
     this.portafolio = this.util.getPortafolioByBanco(banco);
   }
