@@ -1,5 +1,5 @@
 {
-  "name": "sophostore",
+  "name": "emporium",
   "version": "1.7.0",
   "scripts": {
     "ng": "ng",
@@ -34,13 +34,14 @@
     "zone.js": "0.8.29"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "^7.4.3",
     "@angular-devkit/build-angular": "0.13.4",
     "@angular/cli": "7.3.6",
     "@angular/compiler-cli": "7.2.10",
     "@angular/language-service": "7.2.10",
-    "@types/node": "11.11.3",
     "@types/jasmine": "3.3.9",
     "@types/jasminewd2": "2.0.6",
+    "@types/node": "11.11.3",
     "codelyzer": "4.5.0",
     "jasmine-core": "3.3.0",
     "jasmine-spec-reporter": "4.2.1",

@@ -5,33 +5,29 @@ import { map, catchError } from "rxjs/operators";
 import { environment } from '../../environments/environment';
 import { Order } from '../models/order';
 import { OrderRequest } from './models/requests/order-request';
+import { SecurityService } from './security.service';
 
 @Injectable()
 export class PaymentService {
-  
-  constructor(private _http: Http) { }
+
+  constructor(private _http: Http, private securityService: SecurityService) { }
 
   public createPayment(order: Order): Observable<String> {
 
-    let headers = new Headers({
-      'Content-Type': 'application/json',
-      'X-RqUID': 'application/json', 'X-IPAddr': 'application/json'
-      , 'X-Session': 'application/json'
-    });
-
+    let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
 
-    let payment = new OrderRequest("Session_id_112", order);
+    let payment = new OrderRequest(headers.get("X-RqUID"), order);
 
     return this._http
-      .post(environment.URLService + '/api/payment/add', payment, options)
+      .post(environment.URLPayment + environment.endPointGetPayment, payment, options)
       .pipe(
         map(((response: any) => {
           return response.json();
         }),
           catchError((e: Response) => throwError(e)))
       );
-      
+
 
 
 

@@ -27,6 +27,10 @@
                     <mat-slider (change)="onChangePrices()" color="primary" max="2000" min="1" thumb-label="true" [(ngModel)]="priceFrom"></mat-slider>
                     <mat-slider (change)="onChangePrices()" color="warn" max="2000" min="1" thumb-label="true" [(ngModel)]="priceTo"></mat-slider>
                 </div>
+                <div fxLayout="row" fxLayoutAlign="space-between rigth" class="filter-price">
+                    <button mat-icon-button matTooltip="Consultar" ><mat-icon>search</mat-icon></button>
+                </div>
+                
             </mat-expansion-panel>
 
             <mat-expansion-panel expanded>

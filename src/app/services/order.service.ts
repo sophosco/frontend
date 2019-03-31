@@ -5,26 +5,22 @@ import { map, catchError } from "rxjs/operators";
 import { environment } from '../../environments/environment';
 import { Order } from '../models/order';
 import { OrderRequest } from './models/requests/order-request';
+import { SecurityService } from './security.service';
 
 @Injectable()
 export class OrderService {
   
-  constructor(private _http: Http) { }
+  constructor(private _http: Http, private securityService:SecurityService) { }
 
   public createOrder(order: Order): Observable<String> {
 
-    let headers = new Headers({
-      'Content-Type': 'application/json',
-      'X-RqUID': 'application/json', 'X-IPAddr': 'application/json'
-      , 'X-Session': 'application/json'
-    });
-
+    let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
 
-    let orderRequest = new OrderRequest("Session_id_112", order);
+    let orderRequest = new OrderRequest(headers.get("X-RqUID"), order);
 
     return this._http
-      .post(environment.URLService + '/api/orden/add', orderRequest, options)
+      .post(environment.URLOrder + environment.endPointGetOrder, orderRequest, options)
       .pipe(
         map(((response: any) => {
           return response.reponse.approvalCode;
