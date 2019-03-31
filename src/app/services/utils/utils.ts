@@ -2,6 +2,13 @@ import { element } from "@angular/core/src/render3";
 
 export class Utils {
 
+    grupoAval =[
+        { value: 1, name: 'Banco de Bogota' },
+        { value: 2, name: 'Banco de Occidente' },
+        { value: 3, name: 'Banco Popular' },
+        { value: 4, name: 'Banco AV Villas' },
+        { value: 5, name: 'BAC' }
+    ]
     portafolio = [];
     portafolios = [
         {id:1, value:'Libre inversion A'},
@@ -325,13 +332,7 @@ export class Utils {
     }
 
     public getGrupoAval(){
-        return [
-            { value: 1, name: 'Banco de Bogota' },
-            { value: 2, name: 'Banco de Occidente' },
-            { value: 3, name: 'Banco Popular' },
-            { value: 4, name: 'Banco AV Villas' },
-            { value: 5, name: 'BAC' }
-        ]
+        return this.grupoAval;
     }
 
     public getPortafolioByBanco(banco: number)
@@ -345,6 +346,26 @@ export class Utils {
         );
         return this.portafolio;
 
+    }
+
+    public getNameByEntityCode(banco: number): string{
+        let banca;
+        this.grupoAval.forEach(element => {
+            if(element.value === banco){
+                banca = element.name;
+            }
+        })
+        return banca;
+    }
+
+    public getNamePortafolioByEntityCode(portafolio: number): string{
+        let banca;
+        this.portafolios.forEach(element => {
+            if(element.id === portafolio){
+                banca = element.value;
+            }
+        })
+        return banca;
     }
  
 
