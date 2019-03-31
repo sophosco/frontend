@@ -12,18 +12,18 @@ export class OrderService {
   
   constructor(private _http: Http, private securityService:SecurityService) { }
 
-  public createOrder(order: Order): Observable<String> {
+  public createOrder(order: Order): Observable<Order> {
 
     let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
 
-    let orderRequest = new OrderRequest(headers.get("X-RqUID"), order);
+    order.idSession =  parseInt(headers.get("X-RqUID")) ;
 
     return this._http
-      .post(environment.URLOrder + environment.endPointGetOrder, orderRequest, options)
+      .post(environment.URLOrder + environment.endPointGetOrder, order, options)
       .pipe(
         map(((response: any) => {
-          return response.reponse.approvalCode;
+          return response.json();
         }),
           catchError((e: Response) => throwError(e)))
       );

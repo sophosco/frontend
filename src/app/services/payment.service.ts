@@ -11,10 +11,12 @@ export class PaymentService {
 
   constructor(private _http: Http, private securityService: SecurityService) { }
 
-  public createPayment(payment: Payment): Observable<String> {
+  public createPayment(payment: Payment): Observable<Payment> {
 
     let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
+
+    payment.idSession = parseInt(headers.get("X-RqUID")) ;
 
     return this._http
       .post(environment.URLPayment + environment.endPointGetPayment, payment, options)
