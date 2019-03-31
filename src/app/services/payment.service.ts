@@ -28,9 +28,6 @@ export class PaymentService {
           catchError((e: Response) => throwError(e)))
       );
 
-
-
-
   }
 
 }
