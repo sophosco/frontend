@@ -47,7 +47,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/ngx-toastr/toastr.css"
+              "src/app/pages/checkout/modal.less"
             ],
             "scripts": []
           },

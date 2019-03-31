@@ -11,8 +11,9 @@ import { Cart } from 'src/app/models/cart.model';
 import { Payment } from 'src/app/models/payment';
 import { OrderRequest } from 'src/app/services/models/requests/order-request';
 import { PaymentRequest } from 'src/app/services/models/requests/payment-request';
-import { ToastrService } from 'ngx-toastr';
 import { PaymentService } from 'src/app/services/payment.service';
+import { ModalService } from 'src/app/services/modal.service';
+
 
 
 
@@ -22,6 +23,7 @@ import { PaymentService } from 'src/app/services/payment.service';
   styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent implements OnInit {
+  bodyText: string;
   @ViewChild('horizontalStepper') horizontalStepper: MatStepper;
   @ViewChild('verticalStepper') verticalStepper: MatStepper;
   billingForm: FormGroup;
@@ -47,14 +49,14 @@ export class CheckoutComponent implements OnInit {
  
 
   constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
-    public formBuilder: FormBuilder, public util: Utils, private toastr: ToastrService, private paymentServices: PaymentService, 
-    private orderServices: OrderService) { }
+    public formBuilder: FormBuilder, public util: Utils, private paymentServices: PaymentService, 
+    private orderServices: OrderService, private modalService: ModalService) { }
 
   ngOnInit() {
     this.cartService.Data.products.forEach(product => {
       this.grandTotal += product.cartCount * product.newPrice;
     });
-
+    this.bodyText = 'This text can be updated in modal 1';
     this.countries = this.util.getCountries();
     this.documents = this.util.getDocuments();
     this.typesPeople = this.util.getTypesPeople();
@@ -133,15 +135,15 @@ export class CheckoutComponent implements OnInit {
       ;
         });
 
-    this.horizontalStepper._steps.forEach(step => step.editable = false);
-    this.verticalStepper._steps.forEach(step => step.editable = false);
+    // this.horizontalStepper._steps.forEach(step => step.editable = false);
+    // this.verticalStepper._steps.forEach(step => step.editable = false);
     this.appService.Data.cartList.length = 0;
     this.appService.Data.totalPrice = 0;
     this.appService.Data.totalCartCount = 0;
 
   }
 
-  public placePayment() {
+  public placePayment(context) {
 
     let payment = new Payment(1, 1 ,this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
     console.log(JSON.stringify(payment));
@@ -152,18 +154,27 @@ export class CheckoutComponent implements OnInit {
    this.paymentServices.createPayment(payment).subscribe(data => 
      console.log(data)
     )
-  
-    this.successMessage();
+   
+    
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
+
+    this.openModal(context)
+
     this.appService.Data.cartList.length = 0;
     this.appService.Data.totalPrice = 0;
     this.appService.Data.totalCartCount = 0;
 
   }
 
+openModal(id: string) {
+    this.modalService.open(id);
+}
 
+  closeModal(id: string) {
+    this.modalService.close(id);
+}
 
 
 
@@ -191,9 +202,5 @@ export class CheckoutComponent implements OnInit {
     console.log(banco);
     this.portafolio = this.util.getPortafolioByBanco(banco);
   }
-
-public successMessage(){
-  this.toastr.success("EL pago se realizo de forma correcta");
-}
 
 }
