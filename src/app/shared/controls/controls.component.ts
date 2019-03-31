@@ -52,7 +52,7 @@ export class ControlsComponent implements OnInit {
       this.changeQuantity(obj);
     }
     else{
-      this.snackBar.open('You can not choose more items than available. In stock ' + this.count + ' items.', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
+      this.snackBar.open('No puedes elegir más artículos que los disponibles. En stock ' + this.count + ' artículos.', '×', { panelClass: 'error', verticalPosition: 'top', duration: 3000 });
     }    
   }
 
@@ -84,7 +84,7 @@ export class ControlsComponent implements OnInit {
         product.cartCount = currentProduct.cartCount + this.count;
       }
       else{
-        this.snackBar.open('You can not add more items than available. In stock ' + this.product.availibilityCount + ' items and you already added ' + currentProduct.cartCount + ' item to your cart', '×', { panelClass: 'error', verticalPosition: 'top', duration: 5000 });
+        this.snackBar.open('No puedes agregar más artículos que los disponibles. En stock ' + this.product.availibilityCount + ' elementos y ya has agregado ' + currentProduct.cartCount + ' artículo a su carrito', '×', { panelClass: 'error', verticalPosition: 'top', duration: 5000 });
         return false;
       }
     }

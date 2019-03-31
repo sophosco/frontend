@@ -8,6 +8,7 @@ export const environment = {
   URLCatalog:"https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:8443",
   URLLogin:"https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443",
   URLSecurity:"https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443",
+  URLCard:"https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443",
   endPointLogin:"/api/users/login/",
   endPointCatalog:"/api/products/catalog/",
   endPointDetailProduc:"/api/products/product/",
