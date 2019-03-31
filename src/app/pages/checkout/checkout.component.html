@@ -166,13 +166,6 @@
             class="text-muted">{{deliveryForm.controls.deliveryMethod.value['desc']}}</span></p>
       </div>
     </div>
-    <div fxLayout="row">
-      <div fxFlex="100" class="p-1">
-        <h3 class="text-muted mt-2">Informaci&oacute;n de Pago</h3>
-        <div class="divider"></div>
-        <p class="py-1"><span class="text-muted mr-1">Número de tarjeta:</span><span>XXX-XXX-XXX-7224</span></p>
-      </div>
-    </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="p-1">
       <h2><span class="text-muted mr-1">Precio Total:</span><span>${{grandTotal | number : '1.2-2'}}</span></h2>
     </div>
@@ -349,7 +342,7 @@
             <mat-icon>credit_card</mat-icon>
             Portafolio
           </mat-button-toggle>
-          <mat-button-toggle value="Efecty" (change)="subModoChanged('Efecty', 'customerPortfolio')">
+          <mat-button-toggle value="Efecty" (change)="subModoChanged('Efecty', 'EfectyGruop')">
             <mat-icon> account_balance</mat-icon>
             Efecty
           </mat-button-toggle>
@@ -361,7 +354,10 @@
     <br />
     <form [formGroup]="customerPortfolio">
       <div fxLayout="row wrap" *ngIf="subModo === 'Portafolio'">
-        <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+          <div fxFlex="100" fxLayout="column" fxLayoutAlign="start start" class="p-1">
+              <img src="assets/images/others/grupo_aval_logo.png" alt="">
+          </div>
+        <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">           
           <p>
             <mat-form-field class="w-100">
               <mat-select placeholder="Banco grupo aval" formControlName="entityCode"
@@ -387,45 +383,161 @@
             </mat-error>
           </mat-form-field>
         </div>
+        <div fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Nombre titular" formControlName="debitHolderName" required>
+              <mat-error *ngIf="customerPortfolio.controls.debitHolderName.errors?.required && (modo === 'Debito')">Nombre del
+                Titular es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
       </div>
 
+    </form>
+
+    <form [formGroup]="EfectyGruop">
+        <div fxLayout="row wrap" *ngIf="subModo === 'Efecty'">
+          <div fxFlex="100" fxLayout="column" fxLayoutAlign="start start" class="p-1">
+              <img src="assets/images/others/efecty.png" alt="">
+          </div>
+          <div fxFlex="100" fxFlex.gt-sm="60" class="px-1">
+              <mat-form-field class="w-100">
+                <input matInput placeholder="Nombre titular" formControlName="debitHolderName" required>
+                <mat-error *ngIf="EfectyGruop.controls.debitHolderName.errors?.required && (modo === 'Debito')">Nombre del
+                  Titular es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div fxFlex="100" fxFlex.gt-sm="40" class="px-1">
+                <mat-form-field class="w-100">
+                  <input matInput placeholder="Numero de identificacion" formControlName="idCedula" required>
+                  <mat-error *ngIf="EfectyGruop.controls.idCedula.errors?.required && (modo === 'Debito')">Nombre del
+                    Titular es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlex="100" fxFlex.gt-sm="40" class="px-1">
+                  <span class="w-100">
+                    <h5>Para terminar su orden,  Se debe consignar el dinero en la cuenta: 
+                      <h3>#99999999</h3> Nombre referenciado <h3> SophoStore </h3> en cualquier entidad de Efecty en todo el pais</h5> 
+                    </span>
+                </div>
+        </div>
     </form>
 
     <modal id="custom-modal-1">
       <div class="modal">
         <div class="modal-body">
-          <div fxLayoutAlign="center center" class="mt-2 p-1">
-            <h1>Felicitaciones </h1>
+          <div fxLayoutAlign="center" class="p-1" style="color:#b32400">
+            <h2>Resultado del pago </h2>
           </div>
-            <div fxLayoutAlign="center center" class="mt-2 p-1">
-            <h1>Su pago se realizo correctamente con la siguiente información</h1>
+          <div fxLayoutAlign="left" class="mt-1 p-1">
+            <h3>Su pago se realizo correctamente con la siguiente información</h3>
           </div>
+          <div fxLayout="row wrap" fxLayoutAlign="center center" class="mt-1 p-1">
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4>Nombre pagador:</h4>
+            </div>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{okPay.nombrePagador}}
+            </div>
 
-          <div fxLayout="row wrap" *ngIf="modo === 'Tarjetas'">
-            <div fxFlex="100" fxLayout="column" fxLayoutAlign="center center" class="p-1">
-              <span class="text-muted">Tarjeta Credito</span>
-              <img src="assets/images/others/card-icon.png" alt="">
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4 class="text-center">Empresa:</h4>
             </div>
-            <div fxFlex="100" fxFlex.gt-sm="100" fxLayoutAlign="center center" class="px-1">
-                <span class="text-muted">Nombre titular de la tarjeta: {{paymentForm.controls.cardHolderName.value}}</span>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{ okPay.empresa}}
             </div>
-            <div fxFlex="100" fxFlex.gt-sm="100" fxLayoutAlign="center center" class="px-1">
-                <span class="text-muted">Numero de la tarjeta: {{ paymentForm.controls.cardNumber.value}}</span>
+
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4 class="text-center">NIT: </h4>
             </div>
-            <div fxFlex="100" fxFlex.gt-sm="100" fxLayoutAlign="center center" class="px-1">
-                <span class="text-muted">Mes de vencimiento: {{paymentForm.controls.expiredMonth.value}}</span>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{okPay.nit}}
             </div>
-            <div fxFlex="100" fxFlex.gt-sm="100" fxLayoutAlign="center center" class="px-1">
-                <span class="text-muted">Año de vencimiento: {{paymentForm.controls.expiredYear.value}}</span>
+
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4>Fecha Transaccion:</h4>
             </div>
-            <div fxFlex="100" fxFlex.gt-sm="100" fxLayoutAlign="center center" class="px-1">
-                <span class="text-muted">CVV: {{ paymentForm.controls.cvv.value}}</span>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{okPay.fechaTrans | date:'yyyy-MM-dd HH:mm:ss'}}
             </div>
+
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4>Estado: </h4>
+            </div>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{ okPay.estado}}
+            </div>
+
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4>Referencia:</h4>
+            </div>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{ okPay.referencia}}
+            </div>
+
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4>Id Transaccion: </h4>
+            </div>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{ okPay.idTrans}}
+            </div>
+
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4>CUS: </h4>
+            </div>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{ okPay.cus}}
+            </div>
+
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4>Banco: </h4>
+            </div>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{ okPay.banco}}
+            </div>
+
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4>Valor de la Transaccion:</h4>
+            </div>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{ okPay.valor}}
+            </div>
+
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4>Moneda: </h4>
+            </div>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{ okPay.moneda}}
+            </div>
+
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4>Descripción de laTransacción: </h4>
+            </div>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{ okPay.descriptionPago}}
+            </div>
+
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4>Teléfono de contacto:</h4>
+            </div>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{ okPay.telefono}}
+            </div>
+
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="20" class="px-1">
+              <h4>IP Origen:</h4>
+            </div>
+            <div fxLayout="row" fxFlex="100" fxFlex.gt-sm="80" class="px-1">
+              {{okPay.ipOrigen}}
+            </div>
+
           </div>
-          <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
-            <button mat-raised-button matStepperNext color="primary" (click)="closeModal('custom-modal-1');">Confirmar
-              Pedido</button>
-          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" class="mt-1 p-1">
+          <button mat-raised-button matStepperNext color="primary" (click)="closeModal('custom-modal-1');">Finalizar
+            Compra</button>
         </div>
       </div>
       <div class="modal-background"></div>
