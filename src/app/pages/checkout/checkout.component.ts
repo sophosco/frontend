@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material';
-import { AppService } from '../../app.service';
+import { AppService, Data } from '../../app.service';
 import { Utils } from '../../services/utils/utils';
 import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
 import { CartService } from 'src/app/services/cart.services';
-import { PaymentService } from 'src/app/services/payment.service';
 import { Product } from 'src/app/app.models';
 import { Cart } from 'src/app/models/cart.model';
 import { Payment } from 'src/app/models/payment';
 import { OrderRequest } from 'src/app/services/models/requests/order-request';
 import { PaymentRequest } from 'src/app/services/models/requests/payment-request';
 import { ToastrService } from 'ngx-toastr';
+import { PaymentService } from 'src/app/services/payment.service';
 
 
 
@@ -43,12 +43,12 @@ export class CheckoutComponent implements OnInit {
   subModo: string;
   cart: Cart;
   productsV: Product[];
-  paymentService: PaymentService;
   authorizationId: Number;
  
 
   constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
-    public formBuilder: FormBuilder, public util: Utils, private toastr: ToastrService) { }
+    public formBuilder: FormBuilder, public util: Utils, private toastr: ToastrService, private paymentServices: PaymentService, 
+    private orderServices: OrderService) { }
 
   ngOnInit() {
     this.cartService.Data.products.forEach(product => {
@@ -128,10 +128,10 @@ export class CheckoutComponent implements OnInit {
     let orderR = new OrderRequest(order);
 
      //Crea Orden
-    /* this.orderService.createOrder(order).subscribe(approvalCode => {
+     this.orderService.createOrder(order).subscribe(approvalCode => {
       console.log(approvalCode);
       ;
-        });*/
+        });
 
     this.horizontalStepper._steps.forEach(step => step.editable = false);
     this.verticalStepper._steps.forEach(step => step.editable = false);
@@ -147,11 +147,11 @@ export class CheckoutComponent implements OnInit {
     console.log(JSON.stringify(payment));
     let paymentR = new PaymentRequest(payment);
     console.log(paymentR);
-    console.log(JSON.stringify(paymentR));
+    //console.log(JSON.stringify(paymentR));
     //Realiza Pago
-   /* this.paymentService.createPayment(payment).subscribe(data => {
-      console.log(data);
-    });*/
+   this.paymentServices.createPayment(payment).subscribe(data => 
+     console.log(data)
+    )
   
     this.successMessage();
 

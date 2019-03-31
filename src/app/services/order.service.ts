@@ -15,22 +15,36 @@ export class OrderService {
 
     let headers = new Headers({
       'Content-Type': 'application/json',
-      'X-RqUID': 'application/json', 'X-IPAddr': 'application/json'
-      , 'X-Session': 'application/json'
+      'X-RqUID': 'asd', 'X-IPAddr': 'asd',
+      'X-Sesion': 'dassdasd',
+      'X-haveToken': 'false',
+      'X-isError': 'false',
+      'X-Channel': 'asd'
     });
 
     let options = new RequestOptions({ headers: headers });
 
     let orderRequest = new OrderRequest(order);
 
+    
+
     return this._http
-      .post(environment.URLService + '/api/orden/add', orderRequest, options)
+      .post('http://SBBOGLAPPROJB14.sophos.col.com:18080//api/orden/add', orderRequest, options)
       .pipe(
         map(((response: any) => {
           return response.reponse.approvalCode;
         }),
           catchError((e: Response) => throwError(e)))
       );
+
+     /* return this._http
+      .post(environment.URLService + '/api/orden/add', orderRequest, options)
+      .pipe(
+        map(((response: any) => {
+          return response.reponse.approvalCode;
+        }),
+          catchError((e: Response) => throwError(e)))
+      );*/
       
 
 
