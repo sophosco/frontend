@@ -12,13 +12,15 @@ import { CatalogRequest, RequestPayloadCatalog, RequestHeaderCatalog } from './m
 import { SecurityService } from './security.service';
 import { ReserveRequest, ReserveRequestPayload, ProductSearch } from './models/requests/reserve-request';
 import { RequestHeaderProduct, RequestPayloadProduct, ProductRequest } from './models/requests/product-request';
+import { ReserveResponse } from './models/responses/reserve-response';
 
 @Injectable()
 export class ProductService {
 
-  public url = "assets/data/";
   private catalogResponse: CatalogResponse;
+  private reserveResponse: ReserveResponse;
   private productList: Product[];
+  private productReserveList: Product[];
   private product: Product;
   private productResponse: ProductResponse;
   private productArray: Product[]
@@ -199,11 +201,11 @@ export class ProductService {
       .post(environment.URLCatalog + environment.endPointReserveProduct, reserveRequest, options)
       .pipe(
         map(((response: any) => {
-          this.catalogResponse = response.responsePayload;
-          if (this.catalogResponse.products.length > 0) {
-            this.productList = this.catalogResponse.products;
+          this.reserveResponse = JSON.parse(response._body).responsePayload;
+          if (this.reserveResponse.products.length > 0) {
+            this.productReserveList = products;
           }
-          return this.productList;
+          return this.productReserveList;
         }),
           catchError((e: Response) => throwError(e)))
       );
@@ -249,13 +251,12 @@ export class ProductService {
     return product;
   }
 
-  public convertProductToProductSearch(productDataArray: Product[]): ProductSearch[] {
-    this.productArray = []
-    productDataArray.forEach(element => {
-      let productSearch = new ProductSearch(element.id);
-      this.productArray.push(element);
+  public convertProductToProductSearch(products: Product[]): ProductSearch[] {
+    let productsSearch: ProductSearch[];
+    products.forEach(element => {
+      productsSearch.push(new ProductSearch(element.id));
     });
-    return this.productArray;
+    return productsSearch;
   }
 
 }

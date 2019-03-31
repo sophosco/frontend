@@ -39,35 +39,5 @@
 
             </form>
         </div>
-        <div fxFlex="100" fxFlex.gt-sm="50" class="p-2" ngClass.sm="mt-2" ngClass.xs="mt-2">
-            <h2 class="text-muted text-center">¿No tienes una cuenta? Reg&iacute;strate ahora!</h2>
-            <form [formGroup]="registerForm" (ngSubmit)="onRegisterFormSubmit(registerForm.value)">
-                <mat-form-field class="w-100 mt-2">
-                  <input matInput placeholder="Nombre Completo" formControlName="name" required>
-                  <mat-error *ngIf="registerForm.controls.name.errors?.required">El Nombre completo es requerido</mat-error>
-                  <mat-error *ngIf="registerForm.controls.name.hasError('minlength')">El nombre completo no es lo suficientemente largo, el m&iacute;nimo es de 5 caracteres</mat-error>
-                </mat-form-field>
-                <mat-form-field class="w-100 mt-1">
-                    <input matInput placeholder="Email" formControlName="email" required>
-                    <mat-error *ngIf="registerForm.controls.email.errors?.required">El Email es requerido</mat-error>
-                    <mat-error *ngIf="registerForm.controls.email.hasError('invalidEmail')">El Email es invalido</mat-error>
-                </mat-form-field>
-                <mat-form-field class="w-100 mt-1">
-                    <input matInput placeholder="Password" formControlName="password" type="password" minlength="6" required>
-                    <mat-error *ngIf="registerForm.controls.password.errors?.required">La contraseña es requerida</mat-error>
-                    <mat-error *ngIf="registerForm.controls.password.hasError('minlength')">La contraseña Password no es lo suficientemente larga, el m&iacute;nimo es de 8 caracteres</mat-error>
-                </mat-form-field> 
-                <mat-form-field class="w-100 mt-1">
-                  <input matInput placeholder="Confirmar Password" formControlName="confirmPassword" type="password" required>
-                  <mat-error *ngIf="registerForm.controls.confirmPassword.errors?.required">Contraseña de confirmaci&oacute;n es requerida</mat-error>
-                  <mat-error *ngIf="registerForm.controls.confirmPassword.hasError('mismatchedPasswords')">Las contrase&ntilde;as no coinciden</mat-error>
-                </mat-form-field>
-                <div class="text-center mt-2">
-                    <button mat-fab color="primary" class="mat-elevation-z6" (click)="onRegisterFormSubmit(registerForm.value)">
-                        <mat-icon>person_add</mat-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
     </div> 
 </mat-card>

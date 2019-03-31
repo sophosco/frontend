@@ -13,7 +13,6 @@ import { User } from '../../models/user';
 })
 export class SignInComponent implements OnInit {
   loginForm: FormGroup;
-  registerForm: FormGroup;
 
   constructor(public formBuilder: FormBuilder, public router: Router, public snackBar: MatSnackBar,
     private securityService: SecurityService) { }
@@ -23,13 +22,6 @@ export class SignInComponent implements OnInit {
       'email': ['', Validators.compose([Validators.required, emailValidator])],
       'password': ['', Validators.compose([Validators.required, Validators.minLength(6)])]
     });
-
-    this.registerForm = this.formBuilder.group({
-      'name': ['', Validators.compose([Validators.required, Validators.minLength(3)])],
-      'email': ['', Validators.compose([Validators.required, emailValidator])],
-      'password': ['', Validators.required],
-      'confirmPassword': ['', Validators.required]
-    }, { validator: matchingPasswords('password', 'confirmPassword') });
 
   }
 
@@ -50,12 +42,6 @@ export class SignInComponent implements OnInit {
         this.router.navigate(['/']);
       });
 
-    }
-  }
-
-  public onRegisterFormSubmit(values: Object): void {
-    if (this.registerForm.valid) {
-      this.snackBar.open('Su registro se ha efectuado con exito!', '×', { panelClass: 'success', verticalPosition: 'top', duration: 3000 });
     }
   }
 

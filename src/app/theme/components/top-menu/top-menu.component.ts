@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Data, AppService } from '../../../app.service';
-import { CartService } from '../../../services/cart.services';
+import { AppService } from '../../../app.service';
 import { SecurityService } from '../../../services/security.service';
-import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
 
 @Component({
@@ -37,11 +35,9 @@ export class TopMenuComponent implements OnInit {
   }
 
   public logOutSession() {
-    
-    this.securityService.logOutSession();
-    this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
 
-    });
+    this.securityService.logOutSession();
+    this.securityService.getTokenAuthentication("1").subscribe(tokenData => {});
 
     this.router.navigate(['/sign-in']);
 
