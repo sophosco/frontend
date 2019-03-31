@@ -17,7 +17,7 @@ export class PaymentService {
     let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
 
-    let payment = new OrderRequest(headers.get("X-RqUID"), order);
+    let payment = new OrderRequest(order);
 
     return this._http
       .post(environment.URLPayment + environment.endPointGetPayment, payment, options)

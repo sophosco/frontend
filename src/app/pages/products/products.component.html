@@ -24,11 +24,11 @@
                     <span>Hasta: <b>${{priceTo}}</b></span>
                 </div>
                 <div fxLayout="row" fxLayoutAlign="space-between center" class="filter-price">
-                    <mat-slider (change)="onChangePrices()" color="primary" max="2000" min="1" thumb-label="true" [(ngModel)]="priceFrom"></mat-slider>
-                    <mat-slider (change)="onChangePrices()" color="warn" max="2000" min="1" thumb-label="true" [(ngModel)]="priceTo"></mat-slider>
+                    <mat-slider color="primary" max="2000000" min="1" thumb-label="true" [(ngModel)]="priceFrom"></mat-slider>
+                    <mat-slider color="warn" max="2000000" min="1" thumb-label="true" [(ngModel)]="priceTo"></mat-slider>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="space-between rigth" class="filter-price">
-                    <button mat-icon-button matTooltip="Consultar" ><mat-icon>search</mat-icon></button>
+                <div fxLayout="row" fxLayoutAlign="end end" class="filter-price">
+                    <button mat-icon-button matTooltip="Consultar" (click)="searchPrice()" ><mat-icon>search</mat-icon></button>
                 </div>
                 
             </mat-expansion-panel>
@@ -40,8 +40,11 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div fxLayout="column">
-                    <mat-checkbox color="primary" (change)="onChangeAvailability($event)">Disponible</mat-checkbox>
-                    <mat-checkbox color="primary" (change)="onChangeNotAvailability($event)">No Disponible</mat-checkbox>
+                    <mat-checkbox color="primary" (change)="onChangeAvailability($event)" [(ngModel)] = "isCheckedAvailability" >Disponible</mat-checkbox>
+                    <mat-checkbox color="primary" (change)="onChangeNotAvailability($event)" [(ngModel)] = "isCheckedNotAvailability">No Disponible</mat-checkbox>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="end end" class="filter-price">
+                    <button mat-icon-button matTooltip="Consultar" (click)="searchAvailability()"><mat-icon>search</mat-icon></button>
                 </div>
             </mat-expansion-panel>
 

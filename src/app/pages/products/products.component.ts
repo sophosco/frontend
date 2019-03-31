@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatFormFieldBase } from '@angular/material';
 import { ProductDialogComponent } from '../../shared/products-carousel/product-dialog/product-dialog.component';
 import { Product, Category } from "../../app.models";
 import { ProductService } from '../../services/product.service';
@@ -29,7 +29,8 @@ export class ProductsComponent implements OnInit {
   public priceFrom: number = 750;
   public priceTo: number = 1599;
   public page: any;
-  public isChecked: boolean = false;
+  public isCheckedAvailability: boolean = false;
+  public isCheckedNotAvailability: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute,
     public appService: ProductService,
@@ -179,7 +180,41 @@ export class ProductsComponent implements OnInit {
 
   public onChangeAvailability(event) {
     if (event.checked) {
+      this.isCheckedNotAvailability = false;
+    }
+  }
 
+  public onChangeNotAvailability(event) {
+    if (event.checked) {
+      this.isCheckedAvailability = false;
+    }
+  }
+
+  public searchPrice() {
+    
+    let validateToken = this.securityService.validateTokenBySessionUser();
+    if (validateToken) {
+
+      this.appService.getProductsByRangePrice(this.priceFrom, this.priceTo).subscribe(data => {
+        data = this.appService.convertImages64BitToImagesArray(data);
+        this.products = data;
+      });
+
+    } else {
+
+      this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
+        this.appService.getProductsByRangePrice(this.priceFrom, this.priceTo).subscribe(data => {
+          data = this.appService.convertImages64BitToImagesArray(data);
+          this.products = data;
+        });
+      });
+
+    }
+  }
+
+  public searchAvailability() {
+    
+    if (this.isCheckedAvailability) {
       let validateToken = this.securityService.validateTokenBySessionUser();
       if (validateToken) {
 
@@ -199,11 +234,8 @@ export class ProductsComponent implements OnInit {
 
       }
     }
-  }
 
-  public onChangeNotAvailability(event) {
-    if (event.checked) {
-
+    if (this.isCheckedNotAvailability) {
       let validateToken = this.securityService.validateTokenBySessionUser();
       if (validateToken) {
 
@@ -222,30 +254,7 @@ export class ProductsComponent implements OnInit {
         });
 
       }
-
     }
-  }
-
-  public onChangePrices() {
-
-    let validateToken = this.securityService.validateTokenBySessionUser();
-      if (validateToken) {
-
-        this.appService.getProductsByRangePrice(this.priceFrom, this.priceTo).subscribe(data => {
-          data = this.appService.convertImages64BitToImagesArray(data);
-          this.products = data;
-        });
-
-      } else {
-
-        this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
-          this.appService.getProductsByRangePrice(this.priceFrom, this.priceTo).subscribe(data => {
-            data = this.appService.convertImages64BitToImagesArray(data);
-            this.products = data;
-          });
-        });
-
-      }
 
   }
 
