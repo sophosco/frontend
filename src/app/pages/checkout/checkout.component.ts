@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatStepper } from '@angular/material';
+import { MatStepper, MatSnackBar } from '@angular/material';
 import { AppService, Data } from '../../app.service';
 import { Utils } from '../../services/utils/utils';
 import { Order } from 'src/app/models/order';
@@ -14,6 +14,7 @@ import { PaymentRequest } from 'src/app/services/models/requests/payment-request
 import { PaymentService } from 'src/app/services/payment.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { okPay } from 'src/app/models/okpay';
+import { ProductService } from 'src/app/services/product.service';
 
 
 
@@ -49,11 +50,12 @@ export class CheckoutComponent implements OnInit {
   productsV: Product[];
   authorizationId: Number;
   okPay: okPay;
+  
 
 
   constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
     public formBuilder: FormBuilder, public util: Utils, private paymentServices: PaymentService,
-    private orderServices: OrderService, private modalService: ModalService) { }
+    private orderServices: OrderService, private modalService: ModalService, private productService: ProductService, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.cartService.Data.products.forEach(product => {
@@ -122,16 +124,29 @@ export class CheckoutComponent implements OnInit {
 
 
   public placeOrder() {
+    let message, status;
 
-    this.cart = new Cart(null, null, this.cartService.Data.products, this.cartService.Data.totalPrice,
-      this.cartService.Data.products.length);
+    this.productService.reserveProducts(this.cartService.Data.products).subscribe(messageReserved=>{
+ 
 
-    let order = new Order(1, 1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
-
-    //Crea Orden
-    this.orderService.createOrder(order).subscribe(data => {
-      console.log(data);
+      if(messageReserved == 'Reserva exitosa'){
+        this.cart = new Cart(null, null, this.cartService.Data.products, this.cartService.Data.totalPrice,
+          this.cartService.Data.products.length);
+    
+        let order = new Order(1, 1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
+    
+        //Crea Orden
+        this.orderService.createOrder(order).subscribe(data => {
+          console.log(data);
+        });
+      }else{
+        message = messageReserved;
+        status = 'success';
+        this.snackBar.open(message, '×', { panelClass: [status], verticalPosition: 'top', duration: 3000 });
+      }
     });
+
+   
 
     // this.horizontalStepper._steps.forEach(step => step.editable = false);
     // this.verticalStepper._steps.forEach(step => step.editable = false);

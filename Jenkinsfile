@@ -48,21 +48,21 @@ podTemplate(
         
         container('node') {
             stage('Install dependencies') {
-                sh 'npm install -g @angular/cli@7.3.6'
+                sh 'npm install @angular/cli@7.3.6'
                 sh 'npm install'
             }
             stage('Build app'){
-                sh 'ng build --prod --aot=false --build-optimizer=false'
+                sh 'npm run-script build'
             }
-            stage('Test app'){
-                sh 'ng test'
+            /*stage('Test app'){
+                sh 'npm test'
             }
             stage('Scann Code') {
                 def scannerHome = tool 'SonarScanner';
                 withSonarQubeEnv('SonarQube') {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
-            }
+            }*/
 
         }//node
 
