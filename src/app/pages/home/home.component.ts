@@ -33,8 +33,7 @@ export class HomeComponent implements OnInit {
     public productService: ProductService) { }
 
   ngOnInit() {
-    console.log(this.securityService.isAuthenticated());
-    console.log(this.securityService.getUserSession());
+    //this.validateTokenSecurity();
     this.getBanners();
     this.getProductsByCategory("celulares");
     this.getBrands();
@@ -42,6 +41,12 @@ export class HomeComponent implements OnInit {
 
   public onLinkClick(e) {
     this.getProductsByCategory(e.tab.textLabel.toLowerCase());
+  }
+
+  public validateTokenSecurity(){
+    this.securityService.verificateToken().subscribe(data => {
+      console.log(data);
+    });
   }
 
   public getProductsByCategory(nameCategory: string) {
