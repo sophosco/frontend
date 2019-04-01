@@ -12,8 +12,8 @@ export const environment = {
   endPointReserveProduct: "/api/products/catalog/",
   endPointGenerateToken: "/services/security/getJwtToken/",
   endPointVerifyToken: "/services/security/verifyJwtToken/",
-  endPointUpdateCart: "/gestioncarrito/updatecart",
-  endPointGetCart: "/gestioncarrito/getcart",
+  endPointUpdateCart: "/gestioncarrito/updatecart/",
+  endPointGetCart: "/gestioncarrito/getcart/",
   endPointGetPayment: "/api/payment/add",
   endPointGetOrder: "/api/orden/add"
 };

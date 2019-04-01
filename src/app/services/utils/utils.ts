@@ -325,9 +325,9 @@ export class Utils {
 
     public getDeliveryMethods(){
         return [
-            { value: 'free', name: 'Free Delivery', desc: '$0.00 / Delivery in 7 to 14 business Days' },
-            { value: 'standard', name: 'Standard Delivery', desc: '$7.99 / Delivery in 5 to 7 business Days' },
-            { value: 'express', name: 'Express Delivery', desc: '$29.99 / Delivery in 1 business Days' }
+            { value: 'free', name: 'Entrega Gratis', desc: '$0.00 / Entrega en 7 a 14 dias habiles' },
+            { value: 'standard', name: 'Entrega Estandar', desc: '$7.99 / Entrega en 5 a 7 dias habiles' },
+            { value: 'express', name: 'Entrega Rapida', desc: '$29.99 / Entrega en 1 dia habil' }
         ]
     }
 

@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ProductResponse } from "./models/responses/product-response";
 import { CatalogResponse } from "./models/responses/catalog-response";
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject } from 'rxjs';
 import { map, catchError } from "rxjs/operators";
 import { environment } from '../../environments/environment';
 import { Product, Images, Images64Bits } from '.././app.models';
@@ -36,16 +36,18 @@ export class ProductService {
       "sentiment_very_satisfied"]
   }
 
+
   public getProductsByCategory(nameCategory: string): Observable<Product[]> {
 
     let headers = this.securityService.getHeaderTokenBySession();
-
+    
     let options = new RequestOptions({ headers: headers });
 
     let requestHeaderCatalog = new RequestHeaderCatalog(headers.get("X-Session"), '1');
     let requesPayloadCatalog = new RequestPayloadCatalog(false, null, false, nameCategory.toUpperCase(), null, null);
     let catalogRequest = new CatalogRequest(requestHeaderCatalog, requesPayloadCatalog);
 
+    
     return this._http
       .post(environment.URLCatalog + environment.endPointCatalog, catalogRequest, options)
       .pipe(
@@ -61,7 +63,7 @@ export class ProductService {
 
   }
 
-
+ 
   public getProductsByRangePrice(initialRangePrice: number, finalRangePrice: number): Observable<Product[]> {
 
     let headers = this.securityService.getHeaderTokenBySession();
@@ -76,7 +78,10 @@ export class ProductService {
       .post(environment.URLCatalog + environment.endPointCatalog, catalogRequest, options)
       .pipe(
         map(((response: any) => {
+          console.log(response)
           this.catalogResponse = JSON.parse(response._body).responsePayload;
+          console.log(this.catalogResponse)
+          console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
           if (this.catalogResponse.products.length > 0) {
             this.productList = this.catalogResponse.products;
           }
@@ -86,6 +91,7 @@ export class ProductService {
       );
 
   }
+
 
   public getProductsByAvailability(availability: boolean): Observable<Product[]> {
 
@@ -113,6 +119,7 @@ export class ProductService {
 
   }
 
+ 
   public getProductsByTopProduct(countProduct: number): Observable<Product[]> {
 
     let headers = this.securityService.getHeaderTokenBySession();
@@ -136,6 +143,7 @@ export class ProductService {
       );
 
   }
+
 
   public getProducts(): Observable<Product[]> {
 
@@ -164,7 +172,8 @@ export class ProductService {
   }
 
   public getProductById(id): Observable<Product> {
-
+    console.log(id);
+    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
 
@@ -177,6 +186,7 @@ export class ProductService {
       .pipe(
         map(((response: any) => {
           this.productResponse = JSON.parse(response._body).responsePayload;
+          console.log(this.productResponse)
           if (this.productResponse.product !== undefined || this.productResponse.product != null) {
             this.product = this.productResponse.product;
           }

@@ -50,6 +50,7 @@ export class CheckoutComponent implements OnInit {
   productsV: Product[];
   authorizationId: Number;
   okPay: okPay;
+  validarPago:boolean;
   
 
 
@@ -120,6 +121,7 @@ export class CheckoutComponent implements OnInit {
       phone: ['', Validators.required],
       email: ''
     });
+    this.validarPago=false;
   }
 
 
@@ -156,6 +158,10 @@ export class CheckoutComponent implements OnInit {
 
   }
 
+  validar(grupo:FormGroup){
+    this.validarPago=grupo.valid
+  }
+
   public placePayment(context) {
 
     let payment = new Payment(1, 1, this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
@@ -164,10 +170,13 @@ export class CheckoutComponent implements OnInit {
     this.paymentServices.createPayment(payment).subscribe(data =>
       console.log(data)
     )
-    this.horizontalStepper._steps.forEach(step => step.editable = false);
-    this.verticalStepper._steps.forEach(step => step.editable = false);
-
+    
     this.createModal();
+
+    if(this.validarPago){
+      this.horizontalStepper._steps.forEach(step => step.editable = false);
+      this.verticalStepper._steps.forEach(step => step.editable = false);
+    }
 
 
     this.openModal(context)
@@ -192,6 +201,7 @@ export class CheckoutComponent implements OnInit {
     let ip = location.host
 
     if (this.modo == 'Tarjetas') {
+      this.validar(this.paymentForm)
       let banco = ['PayPal', 'Visa', 'American Express', 'MasterCard', 'Discover']
       let bancoIndex = Math.floor(Math.random() * (4 - 0 + 1)) + 0;
       console.log(bancoIndex)
@@ -202,6 +212,7 @@ export class CheckoutComponent implements OnInit {
         valor, moneda, descripcion, telefono, ip)
     }
     if (this.modo == 'Debito') {
+      this.validar(this.debitForm)
       let referencia = Math.floor(Math.random() * (1000000000000 - 100000000000 + 1)) + 100000000000;
       let banco = this.util.getNameByEntityCode(this.debitForm.controls.entityCode.value);
       let descripcion = 'Plataforma de pago SophoStore con PSE'
@@ -209,12 +220,14 @@ export class CheckoutComponent implements OnInit {
         referencia + "", idTrans, cus, banco, valor, moneda, descripcion, telefono, ip)
     }
     if (this.subModo == 'Efecty') {
+      this.validar(this.EfectyGruop)
       let banco = 'Efety'
       let descripcion = 'Plataforma de pago SophoStore con Efecty'
       this.okPay = new okPay(this.EfectyGruop.controls.debitHolderName.value, empresa, nit, fecha, estado,
         this.EfectyGruop.controls.idCedula.value, idTrans, cus, banco, valor, moneda, descripcion, telefono, ip)
     }
     if (this.subModo == 'Portafolio') {
+      this.validar(this.customerPortfolio)
       let descripcion = 'Plataforma de pago SophoStore con Portafolio'
       let referencia = this.util.getNamePortafolioByEntityCode(this.customerPortfolio.controls.portafolio.value)
       let banco = this.util.getNameByEntityCode(this.customerPortfolio.controls.entityCode.value);
