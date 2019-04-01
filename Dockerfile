@@ -13,6 +13,9 @@ WORKDIR /ng-app
 
 COPY . .
 
+## Omite los warning de la compilacion
+RUN npm config set unsafe-perm true
+
 # GENERAR POR TESTING
 ## ARG configuration=testing
 ## RUN ng build
