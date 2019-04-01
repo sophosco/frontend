@@ -13,17 +13,15 @@ WORKDIR /ng-app
 
 COPY . .
 
-# SET ENVIRONMENT VARIABLES
+# GENERAR POR TESTING
+## ARG configuration=testing
+## RUN ng build
 
-ENV API_BASE_CATALOG="http://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:3010"
-ENV API_BASE_LOGIN="https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443"
-ENV API_BASE_SECURITY="http://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:3000"
-ENV API_BASE_CARD="https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443"
-ENV API_BASE_ORDER="https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443"
-ENV API_BASE_PAYMENT="https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443"
+# GENERAR POR TESTING
+## ARG configuration=testing
+## RUN ng build --configuration $configuration
 
 ## Build the angular app in production mode and store the artifacts in dist folder
-
 RUN ng build --prod
 
 ### STAGE 2: Setup ###
