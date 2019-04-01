@@ -52,10 +52,10 @@ podTemplate(
                 sh 'npm install'
             }
             stage('Build app'){
-                sh 'ng build --prod --aot=false --build-optimizer=false'
+                sh 'npm start-build'
             }
             stage('Test app'){
-                sh 'ng test'
+                sh 'npm test'
             }
             /*stage('Scann Code') {
                 def scannerHome = tool 'SonarScanner';
