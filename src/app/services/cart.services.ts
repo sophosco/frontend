@@ -48,7 +48,9 @@ export class CartService {
     message = 'El producto ' + product.name + ' ha sido añadido al carrito.';
     status = 'success';
     this.snackBar.open(message, '×', { panelClass: [status], verticalPosition: 'top', duration: 3000 });
-    this.updateCart(this.Data);
+    this.updateCart(this.Data).subscribe(data => {
+      console.log(data);
+    });
   }
 
   public resetProductCartCount(product: Product) {
@@ -63,22 +65,20 @@ export class CartService {
     };
   }
 
-  public updateCart(data: Cart) {
+  public updateCart(data: Cart):Observable<string>{
 
     let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
 
+    data.compareList = null;
+    data.wishList = null;
     let cartRequest = new CartRequest(headers.get("X-RqUID"), data);
 
     return this._http
       .post(environment.URLCard + environment.endPointUpdateCart, cartRequest, options)
       .pipe(
         map(((response: any) => {
-          this.cartResponse = response.json();
-          if (this.cartResponse.cart != null) {
-            this.Data = this.cartResponse.cart;
-          }
-          return this.Data;
+          return response;
         }),
           catchError((e: Response) => throwError(e)))
       );

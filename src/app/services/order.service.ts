@@ -27,9 +27,6 @@ export class OrderService {
         }),
           catchError((e: Response) => throwError(e)))
       );
-      
-
-
 
   }
 
