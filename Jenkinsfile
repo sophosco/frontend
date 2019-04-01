@@ -47,7 +47,7 @@ podTemplate(
         }
         
         container('node') {
-            stage('Install dependencies') {
+            /*stage('Install dependencies') {
                 sh 'npm install -g @angular/cli@7.3.6'
                 sh 'npm install'
             }
@@ -56,7 +56,7 @@ podTemplate(
             }
             stage('Test app'){
                 sh 'ng test'
-            }
+            }*/
             /*stage('Scann Code') {
                 def scannerHome = tool 'SonarScanner';
                 withSonarQubeEnv('SonarQube') {
