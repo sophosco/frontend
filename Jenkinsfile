@@ -54,10 +54,10 @@ podTemplate(
             stage('Build app'){
                 sh 'npm run-script build'
             }
-            stage('Test app'){
+            /*stage('Test app'){
                 sh 'npm test'
             }
-            /*stage('Scann Code') {
+            stage('Scann Code') {
                 def scannerHome = tool 'SonarScanner';
                 withSonarQubeEnv('SonarQube') {
                     sh "${scannerHome}/bin/sonar-scanner"
