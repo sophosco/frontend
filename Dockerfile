@@ -43,4 +43,4 @@ COPY --from=builder /ng-app/dist /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]
 
 # EXPOSE Port 8081
-EXPOSE 8081
+EXPOSE 4200
