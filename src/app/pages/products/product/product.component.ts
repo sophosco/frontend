@@ -71,7 +71,10 @@ export class ProductComponent implements OnInit {
   }
 
   public getProductById(id){
+    console.log(id)
+    console.log("--------------------------------------------------------------------------")
     this.appService.getProductById(id).subscribe(data=>{
+      console.log(data)
       this.product = this.appService.convertImages64BitToImages(data)
       this.product = this.appService.convertNumberToStringRating(data,true)
       this.image = this.product.images[0].medium;
