@@ -47,8 +47,8 @@ podTemplate(
         }
         
         container('node') {
-            /*stage('Install dependencies') {
-                sh 'npm install -g @angular/cli@7.3.6'
+            stage('Install dependencies') {
+                sh 'npm install @angular/cli@7.3.6'
                 sh 'npm install'
             }
             stage('Build app'){
