@@ -57,12 +57,12 @@ podTemplate(
             stage('Test app'){
                 sh 'ng test'
             }
-            stage('Scann Code') {
+            /*stage('Scann Code') {
                 def scannerHome = tool 'SonarScanner';
                 withSonarQubeEnv('SonarQube') {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
-            }
+            }*/
 
         }//node
 
