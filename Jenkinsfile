@@ -52,7 +52,7 @@ podTemplate(
                 sh 'npm install'
             }
             stage('Build app'){
-                sh 'npm start-build'
+                sh 'npm run-script build'
             }
             stage('Test app'){
                 sh 'npm test'
