@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-  URLCatalog: "http://wsrestproducto:3010",
-  URLLogin: "http://wsrestlogin:18080",
-  URLSecurity: "http://wsrestsecurity:3000",
-  URLCard: "http://wsrestgestioncarrito:18080",
-  URLOrder: "http://wsrestorden:18080",
-  URLPayment: "http://wsrestpago:18080",
+  URLCatalog: "http://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:3010",
+  URLLogin: "https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443",
+  URLSecurity: "http://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:3000",
+  URLCard: "http://SBBOGLAPPROJO7.sophos.col.com:18080",
+  URLOrder: "https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443",
+  URLPayment: "https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443",
   endPointLogin: "/api/users/login/",
   endPointCatalog: "/api/products/catalog/",
   endPointDetailProduc: "/api/products/product/",
