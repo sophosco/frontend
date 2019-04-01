@@ -50,8 +50,8 @@ export class CheckoutComponent implements OnInit {
   productsV: Product[];
   authorizationId: Number;
   okPay: okPay;
-  validarPago:boolean;
-  
+  validarPago: boolean;
+
 
 
   constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
@@ -121,34 +121,34 @@ export class CheckoutComponent implements OnInit {
       phone: ['', Validators.required],
       email: ''
     });
-    this.validarPago=false;
+    this.validarPago = false;
   }
 
 
   public placeOrder() {
     let message, status;
 
-    this.productService.reserveProducts(this.cartService.Data.products).subscribe(messageReserved=>{
- 
+    this.productService.reserveProducts(this.cartService.Data.products).subscribe(messageReserved => {
 
-      if(messageReserved == 'Reserva exitosa'){
+
+      if (messageReserved == 'Reserva exitosa') {
         this.cart = new Cart(null, null, this.cartService.Data.products, this.cartService.Data.totalPrice,
           this.cartService.Data.products.length);
-    
+
         let order = new Order(1, 1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
-    
+
         //Crea Orden
         this.orderService.createOrder(order).subscribe(data => {
           console.log(data);
         });
-      }else{
+      } else {
         message = messageReserved;
         status = 'success';
         this.snackBar.open(message, '×', { panelClass: [status], verticalPosition: 'top', duration: 3000 });
       }
     });
 
-   
+
 
     // this.horizontalStepper._steps.forEach(step => step.editable = false);
     // this.verticalStepper._steps.forEach(step => step.editable = false);
@@ -158,28 +158,26 @@ export class CheckoutComponent implements OnInit {
 
   }
 
-  validar(grupo:FormGroup){
-    this.validarPago=grupo.valid
+  validar(grupo: FormGroup) {
+    this.validarPago = grupo.valid
   }
 
   public placePayment(context) {
 
     let payment = new Payment(1, 1, this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
-            
+
     //Realiza Pago
-    this.paymentServices.createPayment(payment).subscribe(data =>
-      console.log(data)
-    )
-    
+    this.paymentServices.createPayment(payment).subscribe(data =>{});
+
     this.createModal();
 
-    if(this.validarPago){
+    if (this.validarPago) {
       this.horizontalStepper._steps.forEach(step => step.editable = false);
       this.verticalStepper._steps.forEach(step => step.editable = false);
+      this.cartService.Data = new Cart([], [], [], null, 0);
     }
 
-
-    this.openModal(context)
+    this.openModal(context);
 
     this.appService.Data.cartList.length = 0;
     this.appService.Data.totalPrice = 0;
@@ -204,8 +202,6 @@ export class CheckoutComponent implements OnInit {
       this.validar(this.paymentForm)
       let banco = ['PayPal', 'Visa', 'American Express', 'MasterCard', 'Discover']
       let bancoIndex = Math.floor(Math.random() * (4 - 0 + 1)) + 0;
-      console.log(bancoIndex)
-      console.log(banco[bancoIndex])
       let descripcion = 'Plataforma de pago SophoStore con Tarjeta de Credito'
       this.okPay = new okPay(this.paymentForm.controls.cardHolderName.value,
         empresa, nit, fecha, estado, this.paymentForm.controls.cardNumber.value, idTrans, cus, banco[bancoIndex],
@@ -267,7 +263,6 @@ export class CheckoutComponent implements OnInit {
   }
 
   public getPortafolioByBanco(banco) {
-    console.log(banco);
     this.portafolio = this.util.getPortafolioByBanco(banco);
   }
 

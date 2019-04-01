@@ -9,6 +9,8 @@ import { KeyResponse } from './models/responses/key-response';
 import { User } from '../models/user';
 import { UserRequest } from './models/requests/user-request';
 import { UserResponse } from './models/responses/user-response';
+import { RequestValidateHeader, RequestValidatePayload, ValidateKeyRequest } from './models/requests/validate-key-request.';
+import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
 
 @Injectable()
 export class SecurityService {
@@ -67,6 +69,27 @@ export class SecurityService {
 
   }
 
+  public verificateToken(): Observable<string> {
+
+    let headers = this.getHeaderTokenBySession();
+
+    let options = new RequestOptions({ headers: headers });
+
+    let requestHeader = new RequestValidateHeader(headers.get("X-Session"));
+    let requestValidatePayload = new RequestValidatePayload("1");
+    let validateKeyRequest = new ValidateKeyRequest(requestHeader, requestValidatePayload);
+
+    return this._http
+      .post(environment.URLSecurity + environment.endPointVerifyToken, validateKeyRequest, options)
+      .pipe(
+        map(((response: any) => {
+          return JSON.parse(response._body).responseHeader.status.code;
+        }),
+          catchError((e: Response) => throwError(e)))
+      );
+
+  }
+
   public validateTokenBySessionUser(): boolean {
 
     if (localStorage.getItem('access_token') == null) {
@@ -106,7 +129,7 @@ export class SecurityService {
   private setSession(authResult): void {
 
     let idSession = Math.random();
-    
+
     localStorage.setItem('access_id_session', idSession + '0');
     localStorage.setItem('access_token', authResult.token);
 

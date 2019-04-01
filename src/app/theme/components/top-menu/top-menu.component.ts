@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './top-menu.component.html'
 })
 export class TopMenuComponent implements OnInit {
-  public userSession: string = 'hola';
+  public userSession: string = 'anonimo';
   public currencies = ['USD', 'EUR'];
   public currency: any;
   public flags = [

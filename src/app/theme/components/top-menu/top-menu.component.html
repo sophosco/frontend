@@ -12,13 +12,10 @@
         <span (mouseleave)="accountMenuTrigger.closeMenu()">
             <div fxLayout="row" fxLayoutAlign="space-around center" class="user-info" *ngIf="securityService.isAuthenticated()">                   
                 <img src="assets/images/others/user.jpg" alt="user-image" width="50">
-                <p>{{userSession}} <br> <small>emilio_v (152<mat-icon class="mat-icon-xs">star</mat-icon>)</small></p>
+                <p>{{userSession}} <br> <small>{{userSession}}_v (152<mat-icon class="mat-icon-xs">star</mat-icon>)</small></p>
             </div>
             <div class="divider"></div>
-            <a mat-menu-item routerLink="/account"  *ngIf="securityService.isAuthenticated()">  
-                <mat-icon class="mat-icon-sm">settings</mat-icon>
-                <span>Configuració&oacute;n de Cuenta</span> 
-            </a>
+            
             <a mat-menu-item routerLink="/compare" fxHide="false" fxHide.gt-sm>
                 <mat-icon class="mat-icon-sm">compare</mat-icon>
                 <span>Comparar ({{appService.Data.compareList.length}})</span> 
