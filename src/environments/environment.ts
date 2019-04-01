@@ -10,10 +10,11 @@ export const environment = {
   URLCard: "http://SBBOGLAPPROJO7.sophos.col.com:18080",
   URLOrder: "https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443",
   URLPayment: "https://ec2-3-17-205-42.us-east-2.compute.amazonaws.com:9443",
+
   endPointLogin: "/api/users/login/",
   endPointCatalog: "/api/products/catalog/",
   endPointDetailProduc: "/api/products/product/",
-  endPointReserveProduct: "/api/products/catalog/",
+  endPointReserveProduct: "/api/products/reserve/",
   endPointGenerateToken: "/services/security/getJwtToken/",
   endPointVerifyToken: "/services/security/verifyJwtToken/",
   endPointUpdateCart: "/gestioncarrito/updatecart/",
