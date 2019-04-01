@@ -24,7 +24,7 @@ spec:
               cpu: "200m"
           imagePullPolicy: Always
           ports:
-          - containerPort: 8081
+          - containerPort: 80
           envFrom:
           - configMapRef:
               name: frontend-configmap

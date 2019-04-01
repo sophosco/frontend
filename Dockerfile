@@ -5,6 +5,9 @@ FROM node:10-alpine as builder
 
 COPY package.json package-lock.json ./
 
+# Instal angular dependencie
+RUN npm install -g @angular/cli@7.3.6
+
 ## Storing node modules on a separate layer will prevent unnecessary npm installs at each build
 
 RUN npm ci && mkdir /ng-app && mv ./node_modules ./ng-app
