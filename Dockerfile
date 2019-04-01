@@ -32,7 +32,7 @@ RUN ng build --prod
 FROM nginx:1.14.1-alpine
 
 ## Copy our default nginx config
-## COPY nginx/default.conf /etc/nginx/conf.d/
+COPY nginx/default.conf /etc/nginx/conf.d/
 
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
@@ -41,6 +41,3 @@ RUN rm -rf /usr/share/nginx/html/*
 COPY --from=builder /ng-app/dist /usr/share/nginx/html
 
 CMD ["nginx", "-g", "daemon off;"]
-
-# EXPOSE Port 8081
-EXPOSE 4200
