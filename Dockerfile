@@ -25,14 +25,14 @@ RUN npm config set unsafe-perm true
 ## RUN ng build --configuration $configuration
 
 ## Build the angular app in production mode and store the artifacts in dist folder
-# RUN ng build --prod
+RUN ng build --prod
 
 ### STAGE 2: Setup ###
 
 FROM nginx:1.14.1-alpine
 
 ## Copy our default nginx config
-# COPY nginx/default.conf /etc/nginx/conf.d/
+COPY nginx/default.conf /etc/nginx/conf.d/
 
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
