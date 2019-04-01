@@ -25,7 +25,8 @@ RUN npm config set unsafe-perm true
 ## RUN ng build --configuration $configuration
 
 ## Build the angular app in production mode and store the artifacts in dist folder
-RUN ng build --prod
+# RUN ng build --prod
+RUN npm run-script build --prod
 
 ### STAGE 2: Setup ###
 
