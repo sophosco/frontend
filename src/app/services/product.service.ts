@@ -197,8 +197,7 @@ export class ProductService {
 
   }
 
- 
-  public reserveProducts(products: Product[]): Observable<Product[]> {
+  public reserveProducts(products: Product[]): Observable<string> {
 
     let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
@@ -212,11 +211,9 @@ export class ProductService {
       .post(environment.URLCatalog + environment.endPointReserveProduct, reserveRequest, options)
       .pipe(
         map(((response: any) => {
-          this.reserveResponse = JSON.parse(response._body).responsePayload;
-          if (this.reserveResponse.products.length > 0) {
-            this.productReserveList = products;
-          }
-          return this.productReserveList;
+          console.log(response);
+          return JSON.parse(response._body).responseHeader.status.description;
+
         }),
           catchError((e: Response) => throwError(e)))
       );
@@ -225,7 +222,7 @@ export class ProductService {
 
   public convertImages64BitToImagesArray(productDataArray: Product[]): Product[] {
     this.productArray = []
-    
+
     if (productDataArray !== undefined || productDataArray != null) {
       productDataArray.forEach(element => {
         element.images = this.converteImage(element.images)
@@ -252,7 +249,7 @@ export class ProductService {
     return this.images;
   }
 
-  
+
 
   public convertNumberToStringRating(product: Product, numerToString: boolean): Product {
     product.comments.forEach(element => {
@@ -263,9 +260,9 @@ export class ProductService {
   }
 
   public convertProductToProductSearch(products: Product[]): ProductSearch[] {
-    let productsSearch: ProductSearch[];
+    let productsSearch: ProductSearch[]=[];
     products.forEach(element => {
-      productsSearch.push(new ProductSearch(element.id));
+      productsSearch.push(new ProductSearch(element.id, element.name, element.availibilityCount + '', true));
     });
     return productsSearch;
   }

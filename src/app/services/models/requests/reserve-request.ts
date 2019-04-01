@@ -19,7 +19,10 @@ export class ReserveRequestPayload {
 
 export class ProductSearch {
 
-    constructor(public id: number
+    constructor(public id: number,
+        name: string,
+        quantity: string,
+        availibilityCount: boolean
 
     ) {
     }
