@@ -252,7 +252,7 @@ export class ProductService {
   }
 
   public convertProductToProductSearch(products: Product[]): ProductSearch[] {
-    let productsSearch: ProductSearch[];
+    let productsSearch: ProductSearch[]=[];
     products.forEach(element => {
       productsSearch.push(new ProductSearch(element.id));
     });

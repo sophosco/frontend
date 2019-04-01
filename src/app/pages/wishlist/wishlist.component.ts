@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Data, AppService } from '../../app.service';
 import { Product } from '../../app.models';
+import { CartService } from 'src/app/services/cart.services';
 
 @Component({
   selector: 'app-wishlist',
@@ -10,7 +11,9 @@ import { Product } from '../../app.models';
 })
 export class WishlistComponent implements OnInit {
   public quantity:number = 1;
-  constructor(public appService:AppService, public snackBar: MatSnackBar) { }
+  constructor(public appService:AppService, 
+    public cartService:CartService,
+    public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.appService.Data.cartList.forEach(cartProduct=>{
@@ -44,14 +47,14 @@ export class WishlistComponent implements OnInit {
         product.cartCount = currentProduct.cartCount + this.quantity;
       }
       else{
-        this.snackBar.open('You can not add more items than available. In stock ' + product.availibilityCount + ' items and you already added ' + currentProduct.cartCount + ' item to your cart', '×', { panelClass: 'error', verticalPosition: 'top', duration: 5000 });
+        this.snackBar.open('No puedes agregar más artículos que los disponibles. En stock ' + product.availibilityCount + ' elementos y ya has agregado ' + currentProduct.cartCount + ' artículo a su carrito', '×', { panelClass: 'error', verticalPosition: 'top', duration: 5000 });
         return false;
       }
     }
     else{
       product.cartCount = this.quantity;
     }
-    this.appService.addToCart(product);
+    this.cartService.addToCart(product);
   } 
 
 }
