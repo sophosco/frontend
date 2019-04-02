@@ -9,7 +9,6 @@ import { KeyResponse } from './models/responses/key-response';
 import { User } from '../models/user';
 import { UserRequest } from './models/requests/user-request';
 import { UserResponse } from './models/responses/user-response';
-import { request } from 'http';
 
 @Injectable()
 export class SecurityService {
