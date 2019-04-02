@@ -172,8 +172,7 @@ export class ProductService {
   }
 
   public getProductById(id): Observable<Product> {
-    console.log(id);
-    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    
     let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
 
@@ -186,7 +185,6 @@ export class ProductService {
       .pipe(
         map(((response: any) => {
           this.productResponse = JSON.parse(response._body).responsePayload;
-          console.log(this.productResponse)
           if (this.productResponse.product !== undefined || this.productResponse.product != null) {
             this.product = this.productResponse.product;
           }

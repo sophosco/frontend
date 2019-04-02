@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SwiperConfigInterface, SwiperPaginationInterface } from 'ngx-swiper-wrapper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-carousel',
@@ -16,7 +17,7 @@ export class MainCarouselComponent implements OnInit {
     clickable: true
   };
   
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() { }
 
@@ -38,6 +39,10 @@ export class MainCarouselComponent implements OnInit {
       speed: 500,
       effect: "slide"
     }
+  }
+
+  public searchCategoryByNameCategory(nameCategory){
+    this.router.navigate(['/products', nameCategory]);
   }
 
 }

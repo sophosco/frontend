@@ -12,11 +12,9 @@ import { SecurityService } from '../../services/security.service';
 export class HomeComponent implements OnInit {
 
   public slides = [
-    { title: 'Nueva Colección', subtitle: 'No te la pierdas', image: 'assets/images/carousel/banner1.png' },
-    { title: 'Colección de Verano', subtitle: 'Nueva temporada en oferta', image: 'assets/images/carousel/banner2.png' },
-    { title: 'Nueva Colección', subtitle: 'No te la pierdas', image: 'assets/images/carousel/banner3.png' },
-    { title: 'Colección de Verano', subtitle: 'Nueva temporada en oferta', image: 'assets/images/carousel/banner4.png' },
-    { title: 'Nueva Colección', subtitle: 'No te la pierdas', image: 'assets/images/carousel/banner5.png' }
+    { title: 'Nuevos Celulares', subtitle: 'Nuevos dispositivos', category: 'CELULARES', image: 'assets/images/carousel/banner1.jpeg' },
+    { title: 'Nuevos Accesorios', subtitle: 'Nueva temporada en oferta', category: 'ACCESORIOS', image: 'assets/images/carousel/banner2.jpg' },
+    { title: 'Nuevos Audios', subtitle: 'No te la pierdas', category: 'AUDIO', image: 'assets/images/carousel/banner3.jpg' }
   ];
 
   public brands = [];
@@ -43,7 +41,7 @@ export class HomeComponent implements OnInit {
     this.getProductsByCategory(e.tab.textLabel.toLowerCase());
   }
 
-  public validateTokenSecurity(){
+  public validateTokenSecurity() {
     this.securityService.verificateToken().subscribe(data => {
       console.log(data);
     });

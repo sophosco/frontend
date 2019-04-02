@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: 887482798966.dkr.ecr.us-east-2.amazonaws.com/sophosstore/frontend:beta1
+          image: 887482798966.dkr.ecr.us-east-2.amazonaws.com/sophosstore/frontend:beta
           resources:
             limits:
               memory: "500Mi"
