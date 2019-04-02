@@ -20,7 +20,7 @@ import { SecurityService } from '../../../services/security.service';
 export class ProductComponent implements OnInit {
   @ViewChild('zoomViewer') zoomViewer;
   @ViewChild(SwiperDirective) directiveRef: SwiperDirective;
-  public config: SwiperConfigInterface={};
+  public config: SwiperConfigInterface = {};
   public product: Product;
   public image: any;
   public zoomImage: any;
@@ -28,37 +28,37 @@ export class ProductComponent implements OnInit {
   public form: FormGroup;
   public relatedProducts: Array<Product>;
 
-  constructor(public appService:ProductService, 
-    public appServiceCategory:CategoryService, 
+  constructor(public appService: ProductService,
+    public appServiceCategory: CategoryService,
     public securityService: SecurityService,
-    private activatedRoute: ActivatedRoute, 
-    public dialog: MatDialog, 
-    public formBuilder: FormBuilder, 
-    private _sanitizer: DomSanitizer) {  }
+    private activatedRoute: ActivatedRoute,
+    public dialog: MatDialog,
+    public formBuilder: FormBuilder,
+    private _sanitizer: DomSanitizer) { }
 
-  ngOnInit() {      
-    this.sub = this.activatedRoute.params.subscribe(params => { 
-      this.getProductById(params['id']); 
-    }); 
-    this.form = this.formBuilder.group({ 
-      'review': [null, Validators.required],            
+  ngOnInit() {
+    this.sub = this.activatedRoute.params.subscribe(params => {
+      this.getProductById(params['id']);
+    });
+    this.form = this.formBuilder.group({
+      'review': [null, Validators.required],
       'name': [null, Validators.compose([Validators.required, Validators.minLength(4)])],
       'email': [null, Validators.compose([Validators.required, emailValidator])]
-    }); 
-    this.getRelatedProducts();    
+    });
+    this.getRelatedProducts();
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.config = {
       observer: false,
       slidesPerView: 4,
-      spaceBetween: 10,      
+      spaceBetween: 10,
       keyboard: true,
       navigation: true,
-      pagination: false,       
-      loop: false, 
+      pagination: false,
+      loop: false,
       preloadImages: false,
-      lazy: true, 
+      lazy: true,
       breakpoints: {
         480: {
           slidesPerView: 2
@@ -70,66 +70,65 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  public getProductById(id){
-    console.log(id)
-    console.log("--------------------------------------------------------------------------")
-    this.appService.getProductById(id).subscribe(data=>{
-      console.log(data)
+  public getProductById(id) {
+
+    this.appService.getProductById(id).subscribe(data => {
+
       this.product = this.appService.convertImages64BitToImages(data)
-      this.product = this.appService.convertNumberToStringRating(data,true)
+      this.product = this.appService.convertNumberToStringRating(data, true)
       this.image = this.product.images[0].medium;
       this.zoomImage = this.product.images[0].big;
-      setTimeout(() => { 
+      setTimeout(() => {
         this.config.observer = true;
-       // this.directiveRef.setIndex(0);
+        // this.directiveRef.setIndex(0);
       });
     })
   }
 
-  public getRelatedProducts(){
+  public getRelatedProducts() {
 
     let validateToken = this.securityService.validateTokenBySessionUser();
-      if (validateToken) {
+    if (validateToken) {
 
+      this.appService.getProductsByTopProduct(5).subscribe(data => {
+        data = this.appService.convertImages64BitToImagesArray(data);
+        this.relatedProducts = data;
+      });
+
+    } else {
+
+      this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
         this.appService.getProductsByTopProduct(5).subscribe(data => {
           data = this.appService.convertImages64BitToImagesArray(data);
           this.relatedProducts = data;
         });
+      });
 
-      } else {
-
-        this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
-          this.appService.getProductsByTopProduct(5).subscribe(data => {
-            data = this.appService.convertImages64BitToImagesArray(data);
-            this.relatedProducts = data;
-          });
-        });
-
-      }
+    }
 
   }
 
-  public selectImage(image){
+  public selectImage(image) {
     this.image = image.medium;
     this.zoomImage = image.big
   }
 
   makeTrustedImage(item) {
-    const imageString =  JSON.stringify(item.changingThisBreaksApplicationSecurity).replace(/\\n/g, '');
+    const imageString = JSON.stringify(item.changingThisBreaksApplicationSecurity).replace(/\\n/g, '');
     const style = 'url(' + imageString + ')';
     return this._sanitizer.bypassSecurityTrustStyle(style);
   }
 
-  public onMouseMove(e){
-    if(window.innerWidth >= 1280){
+  public onMouseMove(e) {
+    if (window.innerWidth >= 1280) {
       var image, offsetX, offsetY, x, y, zoomer;
-      image = e.currentTarget; 
+      image = e.currentTarget;
       offsetX = e.offsetX;
       offsetY = e.offsetY;
-      x = offsetX/image.offsetWidth*100;
-      y = offsetY/image.offsetHeight*100;
+      x = offsetX / image.offsetWidth * 100;
+      y = offsetY / image.offsetHeight * 100;
       zoomer = this.zoomViewer.nativeElement.children[0];
-      if(zoomer){
+      if (zoomer) {
         zoomer.style.backgroundPosition = x + '% ' + y + '%';
         zoomer.style.display = "block";
         zoomer.style.height = image.height + 'px';
@@ -138,11 +137,11 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  public onMouseLeave(event){
+  public onMouseLeave(event) {
     this.zoomViewer.nativeElement.children[0].style.display = "none";
   }
 
-  public openZoomViewer(){
+  public openZoomViewer() {
     this.dialog.open(ProductZoomComponent, {
       data: this.zoomImage,
       panelClass: 'zoom-dialog'
@@ -151,9 +150,9 @@ export class ProductComponent implements OnInit {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
-  } 
+  }
 
-  public onSubmit(values:Object):void {
+  public onSubmit(values: Object): void {
     if (this.form.valid) {
       //email sent
     }
