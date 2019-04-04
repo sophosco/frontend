@@ -25,7 +25,7 @@ spec:
           imagePullPolicy: Always
           ports:
           - name: ed-port
-            containerPort: 80
+            containerPort: 443
           envFrom:
           - configMapRef:
               name: frontend-configmap
