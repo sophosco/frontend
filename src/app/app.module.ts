@@ -20,7 +20,6 @@ import { TopMenuComponent } from './theme/components/top-menu/top-menu.component
 import { MenuComponent } from './theme/components/menu/menu.component';
 import { SidenavMenuComponent } from './theme/components/sidenav-menu/sidenav-menu.component';
 import { BreadcrumbComponent } from './theme/components/breadcrumb/breadcrumb.component';
-import { ModalComponent } from '../../src/app/theme/components/Modal/modal.component';
 
 import { AppSettings } from './app.settings';
 import { AppService } from './app.service';
@@ -35,12 +34,15 @@ import { FooterComponent } from './theme/components/footer/footer.component';
 import { CartService } from './services/cart.services';
 import { Utils } from './services/utils/utils';
 import { ModalService } from './services/modal.service'
+import { EncripterService } from './services/encripter.service';
+import { AuthService } from './services/auth.service';
+import { CallbackComponent } from './pages/callback/callback.component';
 
 
 
 
 @NgModule({
-   imports: [
+  imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -61,8 +63,9 @@ import { ModalService } from './services/modal.service'
     SidenavMenuComponent,
     BreadcrumbComponent,
     OptionsComponent,
-    FooterComponent    
-  ], 
+    CallbackComponent,
+    FooterComponent
+  ],
   providers: [
     AppSettings,
     CategoryService,
@@ -71,8 +74,10 @@ import { ModalService } from './services/modal.service'
     PaymentService,
     CartService,
     SecurityService,
-    AppService,   
-    Utils,   
+    EncripterService,
+    AuthService,
+    AppService,
+    Utils,
     ModalService,
     { provide: OverlayContainer, useClass: CustomOverlayContainer },
     { provide: MAT_MENU_SCROLL_STRATEGY, useFactory: menuScrollStrategy, deps: [Overlay] },

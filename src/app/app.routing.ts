@@ -3,12 +3,14 @@ import { ModuleWithProviders } from '@angular/core';
 
 import { PagesComponent } from './pages/pages.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { CallbackComponent } from './pages/callback/callback.component';
 
 export const routes: Routes = [
     { 
         path: '', 
         component: PagesComponent, children: [
             { path: '', loadChildren: './pages/home/home.module#HomeModule' },
+            { path: 'callback', component: CallbackComponent },
             { path: 'account', loadChildren: './pages/account/account.module#AccountModule', data: { breadcrumb: 'Account Settings' } },
             { path: 'compare', loadChildren: './pages/compare/compare.module#CompareModule', data: { breadcrumb: 'Compare' } },
             { path: 'wishlist', loadChildren: './pages/wishlist/wishlist.module#WishlistModule', data: { breadcrumb: 'Wishlist' } },
