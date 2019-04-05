@@ -27,6 +27,11 @@ export class SecurityService {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': 'application/json',
+      'X-RqUID': '123',
+      'X-Channel': '123',
+      'X-IPAddr': '123',
+      'X-Sesion': '123',
+      'X-haveToken': 'false'
     });
 
     let options = new RequestOptions({ headers: headers });
