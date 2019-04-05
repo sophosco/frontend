@@ -43,6 +43,8 @@ export class ProductService {
     
     let options = new RequestOptions({ headers: headers });
 
+    console.log(headers);
+
     let requestHeaderCatalog = new RequestHeaderCatalog(headers.get("X-Session"), '1');
     let requesPayloadCatalog = new RequestPayloadCatalog(false, null, false, nameCategory.toUpperCase(), null, null);
     let catalogRequest = new CatalogRequest(requestHeaderCatalog, requesPayloadCatalog);
@@ -78,10 +80,7 @@ export class ProductService {
       .post(environment.URLCatalog + environment.endPointCatalog, catalogRequest, options)
       .pipe(
         map(((response: any) => {
-          console.log(response)
           this.catalogResponse = JSON.parse(response._body).responsePayload;
-          console.log(this.catalogResponse)
-          console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
           if (this.catalogResponse.products.length > 0) {
             this.productList = this.catalogResponse.products;
           }

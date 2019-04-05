@@ -132,16 +132,12 @@ export class SecurityService {
   }
 
   private setSession(authResult): void {
-
-    let idSession = Math.random();
-
-    localStorage.setItem('access_id_session', idSession + '0');
     localStorage.setItem('access_token', authResult.token);
-
   }
 
   public logInSession(userSession) {
     localStorage.setItem('access_user', JSON.stringify(userSession));
+    localStorage.setItem('access_id_session', userSession.sub);
   }
 
   public logOutSession() {

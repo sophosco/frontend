@@ -3,6 +3,8 @@ import { AppService } from '../../app.service';
 import { Product } from "../../app.models";
 import { ProductService } from '../../services/product.service';
 import { SecurityService } from '../../services/security.service';
+import { EncripterService } from 'src/app/services/encripter.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -27,24 +29,32 @@ export class HomeComponent implements OnInit {
 
 
   constructor(public appService: AppService,
+    public encripterService: EncripterService,
+    public authService: AuthService,
     public securityService: SecurityService,
     public productService: ProductService) { }
 
   ngOnInit() {
     //this.validateTokenSecurity();
+    this.validateUserAuthenticared();
     this.getBanners();
     this.getProductsByCategory("celulares");
     this.getBrands();
   }
 
-  public onLinkClick(e) {
-    this.getProductsByCategory(e.tab.textLabel.toLowerCase());
+  public validateUserAuthenticared() {
+
+    if (this.authService.isAuthenticated()) {
+      if (this.authService.userProfile === undefined) {
+        this.authService.getProfile((err, profile) => {
+          this.securityService.logInSession(this.authService.userProfile);
+        });
+      }
+    }
   }
 
-  public validateTokenSecurity() {
-    this.securityService.verificateToken().subscribe(data => {
-      console.log(data);
-    });
+  public onLinkClick(e) {
+    this.getProductsByCategory(e.tab.textLabel.toLowerCase());
   }
 
   public getProductsByCategory(nameCategory: string) {

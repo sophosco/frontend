@@ -13,11 +13,11 @@ export const environment = {
   endPointLogin: "/api/users/login/",
   endPointCatalog: "/api/products/catalog/",
   endPointDetailProduc: "/api/products/product/",
-  endPointReserveProduct: "/api/products/catalog/",
+  endPointReserveProduct: "/api/products/reserve/",
   endPointGenerateToken: "/services/security/getJwtToken/",
   endPointVerifyToken: "/services/security/verifyJwtToken/",
   endPointUpdateCart: "/gestioncarrito/updatecart/",
   endPointGetCart: "/gestioncarrito/getcart/",
   endPointGetPayment: "/api/payment/add",
-  endPointGetOrder: "/api/orden/add"
+  endPointGetOrder: "/api/orden/add",
 };
