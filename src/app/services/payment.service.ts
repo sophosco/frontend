@@ -24,6 +24,8 @@ export class PaymentService {
 
     let paymentRequest = new PaymentRequest(this.encripterService.encripterInformation(payment));
 
+    console.log(JSON.stringify(paymentRequest));
+
     return this._http
       .post(environment.URLPayment + environment.endPointGetPayment, paymentRequest, options)
       .pipe(

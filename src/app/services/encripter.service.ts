@@ -14,6 +14,7 @@ gwQco1KRMDSmXSMkDwIDAQAB`;
     }
 
     public encripterInformation(encryptedObject): string {
+
         let encryptor = new JSEncrypt();
         encryptor.setPublicKey(this.pemPublic);
         let encrypted = encryptor.encrypt(encryptedObject);

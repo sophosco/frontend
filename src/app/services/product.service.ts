@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from "@angular/http";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Http, Response, RequestOptions } from "@angular/http";
 import { ProductResponse } from "./models/responses/product-response";
 import { CatalogResponse } from "./models/responses/catalog-response";
-import { Observable, throwError, Subject } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map, catchError } from "rxjs/operators";
 import { environment } from '../../environments/environment';
 import { Product, Images, Images64Bits } from '.././app.models';
@@ -12,22 +11,19 @@ import { CatalogRequest, RequestPayloadCatalog, RequestHeaderCatalog } from './m
 import { SecurityService } from './security.service';
 import { ReserveRequest, ReserveRequestPayload, ProductSearch } from './models/requests/reserve-request';
 import { RequestHeaderProduct, RequestPayloadProduct, ProductRequest } from './models/requests/product-request';
-import { ReserveResponse } from './models/responses/reserve-response';
 
 @Injectable()
 export class ProductService {
 
   private catalogResponse: CatalogResponse;
-  private reserveResponse: ReserveResponse;
   private productList: Product[];
-  private productReserveList: Product[];
   private product: Product;
   private productResponse: ProductResponse;
   private productArray: Product[]
   private images: Images[];
   private rating: String[];
 
-  constructor(private _httpClient: HttpClient, private securityService: SecurityService, private _http: Http, private _sanitizer: DomSanitizer) {
+  constructor(private securityService: SecurityService, private _http: Http, private _sanitizer: DomSanitizer) {
     this.rating = [
       "sentiment_very_dissatisfied",
       "sentiment_dissatisfied",
@@ -40,16 +36,12 @@ export class ProductService {
   public getProductsByCategory(nameCategory: string): Observable<Product[]> {
 
     let headers = this.securityService.getHeaderTokenBySession();
-    
     let options = new RequestOptions({ headers: headers });
-
-    console.log(headers);
 
     let requestHeaderCatalog = new RequestHeaderCatalog(headers.get("X-Session"), '1');
     let requesPayloadCatalog = new RequestPayloadCatalog(false, null, false, nameCategory.toUpperCase(), null, null);
     let catalogRequest = new CatalogRequest(requestHeaderCatalog, requesPayloadCatalog);
 
-    
     return this._http
       .post(environment.URLCatalog + environment.endPointCatalog, catalogRequest, options)
       .pipe(
@@ -69,7 +61,6 @@ export class ProductService {
   public getProductsByRangePrice(initialRangePrice: number, finalRangePrice: number): Observable<Product[]> {
 
     let headers = this.securityService.getHeaderTokenBySession();
-
     let options = new RequestOptions({ headers: headers });
 
     let requestHeaderCatalog = new RequestHeaderCatalog(headers.get("X-Session"), '1');
@@ -95,13 +86,11 @@ export class ProductService {
   public getProductsByAvailability(availability: boolean): Observable<Product[]> {
 
     let headers = this.securityService.getHeaderTokenBySession();
-
     let options = new RequestOptions({ headers: headers });
 
     let requestHeaderCatalog = new RequestHeaderCatalog(headers.get("X-Session"), '1');
     let requesPayloadCatalog = new RequestPayloadCatalog(false, null, availability, null, null, null);
     let catalogRequest = new CatalogRequest(requestHeaderCatalog, requesPayloadCatalog);
-
 
     return this._http
       .post(environment.URLCatalog + environment.endPointCatalog, catalogRequest, options)
@@ -149,11 +138,9 @@ export class ProductService {
     let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
 
-
     let requestHeaderCatalog = new RequestHeaderCatalog(headers.get("X-Session"), '1');
     let requesPayloadCatalog = new RequestPayloadCatalog(true, null, false, null, null, null);
     let catalogRequest = new CatalogRequest(requestHeaderCatalog, requesPayloadCatalog);
-
 
     return this._http
       .post(environment.URLCatalog + environment.endPointCatalog, catalogRequest, options)
@@ -200,7 +187,6 @@ export class ProductService {
     let options = new RequestOptions({ headers: headers });
 
     let productsSearch = this.convertProductToProductSearch(products);
-
     let reserveRequestPayload = new ReserveRequestPayload(productsSearch);
     let reserveRequest = new ReserveRequest(reserveRequestPayload);
 
@@ -208,7 +194,6 @@ export class ProductService {
       .post(environment.URLCatalog + environment.endPointReserveProduct, reserveRequest, options)
       .pipe(
         map(((response: any) => {
-          console.log(response);
           return JSON.parse(response._body).responseHeader.status.description;
 
         }),

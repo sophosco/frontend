@@ -81,7 +81,9 @@ export class PagesComponent implements OnInit {
     event.preventDefault();
   }
 
-  public search(){}
+  public search(){
+    this.router.navigate(['/products', this.category.name.toLowerCase()]);
+  }
 
  
   public scrollToTop(){

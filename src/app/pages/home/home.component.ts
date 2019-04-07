@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
     public productService: ProductService) { }
 
   ngOnInit() {
-    //this.validateTokenSecurity();
+    this.securityService.setSessionRemove();
     this.validateUserAuthenticared();
     this.getBanners();
     this.getProductsByCategory("celulares");

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,7 @@ export class AuthService {
         clientID: '9bKqwjFywLBaRroDIi4bH1TYzwVssMyx',
         domain: 'dev-2tgff13e.auth0.com',
         responseType: 'token id_token',
-        redirectUri: 'https://aea870a0c542b11e9a81b0666116d3a5-1698459416.us-east-2.elb.amazonaws.com/callback',
+        redirectUri: environment.URLAmazon,
         scope: 'openid profile'
     });
 

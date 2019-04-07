@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  URLAmazon: "https://aea870a0c542b11e9a81b0666116d3a5-1698459416.us-east-2.elb.amazonaws.com/callback",
+  URLAmazonDev: "http://localhost:4200/callback",
   URLCatalog: "https://ab13b1006538611e9ba830a1db711ca4-631194424.us-east-2.elb.amazonaws.com",
   URLLogin: "https://a509c9b1d537311e9a81b0666116d3a5-342058073.us-east-2.elb.amazonaws.com",
   URLSecurity: "https://aaa01c7ec542511e9a81b0666116d3a5-63920683.us-east-2.elb.amazonaws.com",
