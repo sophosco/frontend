@@ -52,6 +52,7 @@ export class TopMenuComponent implements OnInit {
   }
 
   public login() {
+    this.securityService.getTokenAuthentication("1").subscribe(tokenData => { });
     this.authService.login();
   }
 
