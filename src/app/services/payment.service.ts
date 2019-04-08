@@ -20,7 +20,7 @@ export class PaymentService {
     let options = new RequestOptions({ headers: headers });
 
     return this._http
-      .post(environment.URLPayment + environment.endPointGetPayment, '{ "payment":' + payment + '}', options)
+      .post(environment.URLPayment + environment.endPointGetPayment, '{ "payment":"' + payment + '"}', options)
       .pipe(
         map(((response: any) => {
           return response.json();

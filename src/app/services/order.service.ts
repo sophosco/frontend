@@ -20,7 +20,7 @@ export class OrderService {
     let options = new RequestOptions({ headers: headers });
 
     return this._http
-      .post(environment.URLOrder + environment.endPointGetOrder, '{ "order":' + order + '}', options)
+      .post(environment.URLOrder + environment.endPointGetOrder, '{ "order":"' + order + '"}', options)
       .pipe(
         map(((response: any) => {
           return response.json();
