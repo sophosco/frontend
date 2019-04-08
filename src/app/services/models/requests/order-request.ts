@@ -1,7 +1,7 @@
 export class OrderRequest {
 
   constructor(
-    order: string
+    order: String
   ) {
   }
 

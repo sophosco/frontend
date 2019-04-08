@@ -9,15 +9,12 @@ import { CartService } from 'src/app/services/cart.services';
 import { Product } from 'src/app/app.models';
 import { Cart } from 'src/app/models/cart.model';
 import { Payment } from 'src/app/models/payment';
-import { OrderRequest } from 'src/app/services/models/requests/order-request';
-import { PaymentRequest } from 'src/app/services/models/requests/payment-request';
 import { PaymentService } from 'src/app/services/payment.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { okPay } from 'src/app/models/okpay';
 import { ProductService } from 'src/app/services/product.service';
-
-
-
+import { EncripterService } from 'src/app/services/encripter.service';
+import { SecurityService } from 'src/app/services/security.service';
 
 @Component({
   selector: 'app-checkout',
@@ -54,9 +51,17 @@ export class CheckoutComponent implements OnInit {
 
 
 
-  constructor(public appService: AppService, public cartService: CartService, public orderService: OrderService,
-    public formBuilder: FormBuilder, public util: Utils, private paymentServices: PaymentService,
-    private orderServices: OrderService, private modalService: ModalService, private productService: ProductService, public snackBar: MatSnackBar) { }
+  constructor(public appService: AppService,
+    public cartService: CartService,
+    public orderService: OrderService,
+    public formBuilder: FormBuilder,
+    public util: Utils,
+    public paymentServices: PaymentService,
+    private modalService: ModalService,
+    private productService: ProductService,
+    private encriterService: EncripterService,
+    private securityService: SecurityService,
+    public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.cartService.Data.products.forEach(product => {
@@ -130,25 +135,25 @@ export class CheckoutComponent implements OnInit {
 
     this.productService.reserveProducts(this.cartService.Data.products).subscribe(messageReserved => {
 
-
       if (messageReserved == 'Reserva exitosa') {
         this.cart = new Cart(null, null, this.cartService.Data.products, this.cartService.Data.totalPrice,
           this.cartService.Data.products.length);
 
-        let order = new Order(1, 1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
-
-        //Crea Orden
-        this.orderService.createOrder(order).subscribe(data => {
-          console.log(data);
-        });
+        let order = new Order(this.securityService.getIdSession(), 1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
+        
+        this.encriterService.encripterInformation(order).then(
+          (orderEncripter) => {
+            this.orderService.createOrder(orderEncripter).subscribe(data => {
+              console.log(data);
+            });
+          }
+        );
       } else {
         message = messageReserved;
         status = 'success';
         this.snackBar.open(message, '×', { panelClass: [status], verticalPosition: 'top', duration: 3000 });
       }
     });
-
-
 
     // this.horizontalStepper._steps.forEach(step => step.editable = false);
     // this.verticalStepper._steps.forEach(step => step.editable = false);
@@ -164,12 +169,17 @@ export class CheckoutComponent implements OnInit {
 
   public placePayment(context) {
 
-    let payment = new Payment(1, 1, this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
-
-    //Realiza Pago
-    this.paymentServices.createPayment(payment).subscribe(data =>{});
-
     this.createModal();
+
+    let payment = new Payment(this.securityService.getIdSession(), 1, this.paymentForm.value, this.debitForm.value, this.customerPortfolio.value);
+
+    this.encriterService.encripterInformation(payment).then(
+      (paymentEncripter) => {
+        this.paymentServices.createPayment(paymentEncripter).subscribe(data => {
+          console.log(data);
+        });
+      }
+    );
 
     if (this.validarPago) {
       this.horizontalStepper._steps.forEach(step => step.editable = false);
@@ -213,7 +223,9 @@ export class CheckoutComponent implements OnInit {
       let banco = this.util.getNameByEntityCode(this.debitForm.controls.entityCode.value);
       let descripcion = 'Plataforma de pago SophoStore con PSE'
       this.okPay = new okPay(this.debitForm.controls.debitHolderName.value, empresa, nit, fecha, estado,
-        referencia + "", idTrans, cus, banco, valor, moneda, descripcion, telefono, ip)
+        referencia + "", idTrans, cus, banco, valor, moneda, descripcion, telefono, ip);
+      this.debitForm.value.authorizationId = this.okPay.idTrans;
+      this.debitForm.value.applicationDate = this.okPay.fechaTrans;
     }
     if (this.subModo == 'Efecty') {
       this.validar(this.EfectyGruop)
@@ -228,7 +240,11 @@ export class CheckoutComponent implements OnInit {
       let referencia = this.util.getNamePortafolioByEntityCode(this.customerPortfolio.controls.portafolio.value)
       let banco = this.util.getNameByEntityCode(this.customerPortfolio.controls.entityCode.value);
       this.okPay = new okPay(this.customerPortfolio.controls.debitHolderName.value, empresa, nit, fecha, estado,
-        referencia, idTrans, cus, banco, valor, moneda, descripcion, telefono, ip)
+        referencia, idTrans, cus, banco, valor, moneda, descripcion, telefono, ip);
+
+      this.customerPortfolio.value.authorizationId = this.okPay.idTrans;
+      this.customerPortfolio.value.tokenAuthorization = this.okPay.cus;
+      this.customerPortfolio.value.applicationDate = this.okPay.fechaTrans;
     }
   }
 

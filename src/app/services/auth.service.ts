@@ -49,14 +49,14 @@ export class AuthService {
     private setSession(authResult): void {
         // Set the time that the Access Token will expire at
         const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-        localStorage.setItem('access_token', authResult.accessToken);
+        localStorage.setItem('access_token_jwt', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', expiresAt);
     }
 
     public logout(): void {
         // Remove tokens and expiry time from localStorage
-        localStorage.removeItem('access_token');
+        localStorage.removeItem('access_token_jwt');
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
         // Go back to the home route
@@ -70,7 +70,8 @@ export class AuthService {
     }
 
     public getProfile(cb): void {
-        const accessToken = localStorage.getItem('access_token');
+        const accessToken = localStorage.getItem('access_token_jwt');
+        console.log(accessToken);
         if (!accessToken) {
             throw new Error('Existe actualmente un token de seguridad asociado al perfil');
         }

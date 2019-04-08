@@ -12,22 +12,15 @@ import { PaymentRequest } from './models/requests/payment-request';
 export class PaymentService {
 
   constructor(private _http: Http,
-    private encripterService: EncripterService,
     private securityService: SecurityService) { }
 
-  public createPayment(payment: Payment): Observable<Payment> {
+  public createPayment(payment: any): Observable<Payment> {
 
     let headers = this.securityService.getHeaderTokenBySession();
     let options = new RequestOptions({ headers: headers });
 
-    payment.idSession = parseInt(headers.get("X-RqUID"));
-
-    let paymentRequest = new PaymentRequest(this.encripterService.encripterInformation(payment));
-
-    console.log(JSON.stringify(paymentRequest));
-
     return this._http
-      .post(environment.URLPayment + environment.endPointGetPayment, paymentRequest, options)
+      .post(environment.URLPayment + environment.endPointGetPayment, '{ "payment":' + payment + '}', options)
       .pipe(
         map(((response: any) => {
           return response.json();

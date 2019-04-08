@@ -4,7 +4,7 @@ import { Delivery } from "./delivery";
 import { Payment } from "./payment";
 
 export class Order {
-    constructor(public idSession: number,
+    constructor(public idSession: String,
                 public idUser: number, 
                 public billing:Billing, 
                 public delivery: Delivery,

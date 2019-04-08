@@ -1,7 +1,7 @@
 export class PaymentRequest {
 
   constructor(
-    payment: string
+    payment: String
   ) {
   }
 
