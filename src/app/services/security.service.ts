@@ -120,6 +120,10 @@ export class SecurityService {
     return true;
   }
 
+  public getIdSession(): String{
+    return localStorage.getItem('access_id_session');
+  }
+
   public getUserSession(): User {
     if (localStorage.getItem("access_user") != null) {
       return JSON.parse(localStorage.getItem("access_user"));

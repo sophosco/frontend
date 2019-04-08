@@ -5,7 +5,7 @@ import { CustomerPortfolio } from "./customerPortfolio";
   
      export class Payment{
       constructor(
-       public idSession: number,
+       public idSession: String,
        public idUser: number,    
        public cardCredit: CardCredit,
        public paymentGateway: PaymentGateway,
