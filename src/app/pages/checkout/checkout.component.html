@@ -174,9 +174,42 @@
         class="mr-1">
         <mat-icon>navigate_before</mat-icon>
       </button>
-      <button mat-raised-button matStepperNext color="primary" (click)="placeOrder()">Realizar compra</button>
+      <button mat-raised-button color="primary" (click)="ConfirmationOrder('custom-modal-12')">Confirmar Pedido</button>
     </div>
+
+    <modal id="custom-modal-12">
+      <div class="modal">
+        <div class="modal-body">
+          <div fxLayoutAlign="center" class="p-1" style="color:#b32400">
+            <h2>Confirmación de pedido </h2>
+          </div>
+          <div *ngIf="validateReserve">
+            <div fxLayoutAlign="left" class="mt-1 p-1">
+              <h3>{{messageReserve}}</h3>
+            </div>
+          </div>
+          <div *ngIf="!validateReserve">
+            <div fxLayout="row" fxLayoutAlign="center center" class="p-1">
+              <img src="assets/images/others/reserva_exitosa.jpg" alt="">
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center" class="mt-1 p-1">
+              <h3>Reserva Exitosa</h3>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="validateReserve" fxLayout="row" fxLayoutAlign="center center" class="mt-1 p-1">
+          <button mat-raised-button color="primary" (click)="closeModal('custom-modal-12');">Regresar
+            Compra</button>
+        </div>
+        <div *ngIf="!validateReserve" fxLayout="row" fxLayoutAlign="center center" class="mt-1 p-1">
+          <button mat-raised-button matStepperNext color="primary" (click)="placeOrder()">Generar pago</button>
+        </div>
+      </div>
+      <div class="modal-background"></div>
+    </modal>
+
   </mat-step>
+
   <mat-step label="Metodo de pago">
 
     <p>
@@ -571,7 +604,8 @@
         <mat-icon>check</mat-icon>
       </button>
       <h2 class="py-2">Felicidades! Su orden ha sido procesada</h2>
-      <p class="text-muted">Su orden ya está sinedo atendida por nuestro equipo de trabajo y pronto lo estará recibiendo en la puerta de su hogar</p>
+      <p class="text-muted">Su orden ya está sinedo atendida por nuestro equipo de trabajo y pronto lo estará recibiendo
+        en la puerta de su hogar</p>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
       <a [routerLink]="['/']" mat-raised-button color="primary">Regresar a la tienda</a>
@@ -835,7 +869,8 @@
         <mat-icon>check</mat-icon>
       </button>
       <h2 class="py-2">Felicidades! Su orden ha sido procesada</h2>
-      <p class="text-muted">Su orden ya está sinedo atendida por nuestro equipo de trabajo y pronto lo estará recibiendo en la puerta de su hogar</p>
+      <p class="text-muted">Su orden ya está sinedo atendida por nuestro equipo de trabajo y pronto lo estará recibiendo
+        en la puerta de su hogar</p>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
       <a [routerLink]="['/']" mat-raised-button color="primary">Regresar a la tienda</a>

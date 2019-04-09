@@ -189,7 +189,7 @@ export class ProductService {
     let productsSearch = this.convertProductToProductSearch(products);
     let reserveRequestPayload = new ReserveRequestPayload(productsSearch);
     let reserveRequest = new ReserveRequest(reserveRequestPayload);
-
+    console.log(reserveRequest);
     return this._http
       .post(environment.URLCatalog + environment.endPointReserveProduct, reserveRequest, options)
       .pipe(
@@ -244,7 +244,7 @@ export class ProductService {
   public convertProductToProductSearch(products: Product[]): ProductSearch[] {
     let productsSearch: ProductSearch[]=[];
     products.forEach(element => {
-      productsSearch.push(new ProductSearch(element.id, element.name, element.availibilityCount + '', true));
+      productsSearch.push(new ProductSearch(element.id, element.name, String(element.availibilityCount), true));
     });
     return productsSearch;
   }
