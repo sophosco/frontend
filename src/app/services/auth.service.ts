@@ -71,7 +71,7 @@ export class AuthService {
 
     public getProfile(cb): void {
         const accessToken = localStorage.getItem('access_token_jwt');
-        console.log(accessToken);
+
         if (!accessToken) {
             throw new Error('Existe actualmente un token de seguridad asociado al perfil');
         }

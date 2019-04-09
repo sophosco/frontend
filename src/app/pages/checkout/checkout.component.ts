@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper, MatSnackBar } from '@angular/material';
-import { AppService, Data } from '../../app.service';
+import { AppService} from '../../app.service';
 import { Utils } from '../../services/utils/utils';
 import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
@@ -15,6 +15,7 @@ import { okPay } from 'src/app/models/okpay';
 import { ProductService } from 'src/app/services/product.service';
 import { EncripterService } from 'src/app/services/encripter.service';
 import { SecurityService } from 'src/app/services/security.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-checkout',
@@ -52,6 +53,7 @@ export class CheckoutComponent implements OnInit {
   messageReserve: string;
 
   constructor(public appService: AppService,
+    public authService: AuthService,
     public cartService: CartService,
     public orderService: OrderService,
     public formBuilder: FormBuilder,
@@ -129,41 +131,39 @@ export class CheckoutComponent implements OnInit {
     this.validarPago = false;
   }
 
-  public ConfirmationOrder(context) {
+  public placeOrder(stepper: MatStepper) {
+    let message, status;
 
-    this.productService.reserveProducts(this.cartService.Data.products).subscribe(messageReserved => {
+    if (this.authService.isAuthenticated()) {
 
-      if (messageReserved == 'Reserva exitosa') {
-
-        this.validateReserve = false;
-      } else {
-        this.messageReserve = messageReserved;
-        this.validateReserve = true;
-      }
-    });
-
-    this.openModal(context);
-
-  }
+      this.productService.reserveProducts(this.cartService.Data.products).subscribe(messageReserved => {
 
 
-  public placeOrder() {
+        if (messageReserved == 'Reserva exitosa') {
+          this.cart = new Cart(null, null, this.cartService.Data.products, this.cartService.Data.totalPrice,
+            this.cartService.Data.products.length);
 
-    this.cart = new Cart(null, null, this.cartService.Data.products, this.cartService.Data.totalPrice,
-      this.cartService.Data.products.length);
+          let order = new Order(this.securityService.getIdSession(), 1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
 
-    let order = new Order(this.securityService.getIdSession(), 1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
+          this.encriterService.encripterInformation(order).then(
+            (orderEncripter) => {
+              this.orderService.createOrder(orderEncripter).subscribe(data => {
+                console.log(data);
+              });
+            }
+          );
+          stepper.next();
+        } else {
+          status = 'success';
+          this.snackBar.open(messageReserved, '×', { panelClass: [status], verticalPosition: 'top', duration: 5000 });
+        }
+      });
 
-    this.encriterService.encripterInformation(order).then(
-      (orderEncripter) => {
-        this.orderService.createOrder(orderEncripter).subscribe(data => {
-          console.log(data);
-        });
-      }
-    );
-    this.appService.Data.cartList.length = 0;
-    this.appService.Data.totalPrice = 0;
-    this.appService.Data.totalCartCount = 0;
+    } else {
+      let messageReserve = "Apreciado usuario para realizar su compra debe ingresar y autenticarse en nuestro portal";
+      status = 'success';
+      this.snackBar.open(messageReserve, '×', { panelClass: [status], verticalPosition: 'top', duration: 5000 });
+    }
 
   }
 
