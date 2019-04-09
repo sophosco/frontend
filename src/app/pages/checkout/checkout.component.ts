@@ -48,8 +48,8 @@ export class CheckoutComponent implements OnInit {
   authorizationId: Number;
   okPay: okPay;
   validarPago: boolean;
-
-
+  validateReserve: boolean = false;
+  messageReserve: string;
 
   constructor(public appService: AppService,
     public cartService: CartService,
@@ -129,34 +129,38 @@ export class CheckoutComponent implements OnInit {
     this.validarPago = false;
   }
 
-
-  public placeOrder() {
-    let message, status;
+  public ConfirmationOrder(context) {
 
     this.productService.reserveProducts(this.cartService.Data.products).subscribe(messageReserved => {
 
       if (messageReserved == 'Reserva exitosa') {
-        this.cart = new Cart(null, null, this.cartService.Data.products, this.cartService.Data.totalPrice,
-          this.cartService.Data.products.length);
 
-        let order = new Order(this.securityService.getIdSession(), 1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
-        
-        this.encriterService.encripterInformation(order).then(
-          (orderEncripter) => {
-            this.orderService.createOrder(orderEncripter).subscribe(data => {
-              console.log(data);
-            });
-          }
-        );
+        this.validateReserve = false;
       } else {
-        message = messageReserved;
-        status = 'success';
-        this.snackBar.open(message, '×', { panelClass: [status], verticalPosition: 'top', duration: 3000 });
+        this.messageReserve = messageReserved;
+        this.validateReserve = true;
       }
     });
 
-    // this.horizontalStepper._steps.forEach(step => step.editable = false);
-    // this.verticalStepper._steps.forEach(step => step.editable = false);
+    this.openModal(context);
+
+  }
+
+
+  public placeOrder() {
+
+    this.cart = new Cart(null, null, this.cartService.Data.products, this.cartService.Data.totalPrice,
+      this.cartService.Data.products.length);
+
+    let order = new Order(this.securityService.getIdSession(), 1, this.billingForm.value, this.deliveryForm.value, this.paymentForm.value, this.cart);
+
+    this.encriterService.encripterInformation(order).then(
+      (orderEncripter) => {
+        this.orderService.createOrder(orderEncripter).subscribe(data => {
+          console.log(data);
+        });
+      }
+    );
     this.appService.Data.cartList.length = 0;
     this.appService.Data.totalPrice = 0;
     this.appService.Data.totalCartCount = 0;
