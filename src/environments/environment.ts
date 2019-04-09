@@ -11,7 +11,7 @@ export const environment = {
   URLSecurity: "https://mdqv65vxdd.execute-api.us-east-2.amazonaws.com",
   URLCard: "https://gz3pccmad9.execute-api.us-east-2.amazonaws.com",
   URLOrder: "https://47av2kc0ya.execute-api.us-east-2.amazonaws.com",
-  URLPayment: "https://adb958412537911e9ba830a1db711ca4-1645037395.us-east-2.elb.amazonaws.com",
+  URLPayment: "https://7dfcrahihj.execute-api.us-east-2.amazonaws.com",
   endPointLogin: "/api/users/login/",
   endPointCatalog: "/prod/api/products/catalog/",
   endPointDetailProduc: "/prod/api/products/product/",
@@ -20,6 +20,6 @@ export const environment = {
   endPointVerifyToken: "/services/security/verifyJwtToken/",
   endPointUpdateCart: "/prod/gestioncarrito/updatecart/",
   endPointGetCart: "/prod/gestioncarrito/getcart/",
-  endPointGetPayment: "/api/payment/add",
+  endPointGetPayment: "/prd/api/payment/addPago/",
   endPointGetOrder: "/prd/api/orden/add/",
 };
