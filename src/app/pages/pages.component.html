@@ -40,6 +40,7 @@
         <mat-toolbar-row fxLayoutAlign="space-between center" class="logo-toolbar theme-container">
             <a class="logo" routerLink="/" (click)="closeSubMenus()">SophoStore</a>
             <div fxFlex fxFlexOffset.gt-sm="10" fxShow="false" fxShow.gt-sm>
+                <!--
                 <form method="get" class="search-form" fxLayout="row">
                     <button mat-raised-button [matMenuTriggerFor]="categoriesMenu"
                         #categoriesMenuTrigger="matMenuTrigger" type="button"
@@ -58,6 +59,7 @@
                         <mat-icon>search</mat-icon>
                     </button>
                 </form>
+                -->
             </div>
 
 
@@ -134,6 +136,7 @@
                     </button>
                     <mat-menu #searchMenu="matMenu" [overlapTrigger]="false" xPosition="before"
                         class="search-dropdown mat-elevation-z8">
+                        <!--
                         <form method="get" fxFlex class="search-form">
                             <button mat-raised-button [matMenuTriggerFor]="categories2Menu"
                                 #categories2MenuTrigger="matMenuTrigger" type="button"
@@ -154,6 +157,7 @@
                                 <mat-icon>search</mat-icon>
                             </button>
                         </form>
+                        -->
                     </mat-menu>
                 </div>
 
