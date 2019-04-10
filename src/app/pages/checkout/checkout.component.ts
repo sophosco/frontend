@@ -148,7 +148,7 @@ export class CheckoutComponent implements OnInit {
           this.encriterService.encripterInformation(order).then(
             (orderEncripter) => {
               this.orderService.createOrder(orderEncripter).subscribe(data => {
-                console.log(data);
+//                console.log(data);
               });
             }
           );
@@ -180,7 +180,7 @@ export class CheckoutComponent implements OnInit {
     this.encriterService.encripterInformation(payment).then(
       (paymentEncripter) => {
         this.paymentServices.createPayment(paymentEncripter).subscribe(data => {
-          console.log(data);
+          //console.log(data);
         });
       }
     );
@@ -192,10 +192,6 @@ export class CheckoutComponent implements OnInit {
     }
 
     this.openModal(context);
-
-    this.appService.Data.cartList.length = 0;
-    this.appService.Data.totalPrice = 0;
-    this.appService.Data.totalCartCount = 0;
 
   }
 

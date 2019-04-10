@@ -49,7 +49,7 @@ export class CartService {
     status = 'success';
     this.snackBar.open(message, '×', { panelClass: [status], verticalPosition: 'top', duration: 3000 });
     this.updateCart(this.Data).subscribe(data => {
-      console.log(data);
+      
     });
   }
 

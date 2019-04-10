@@ -189,7 +189,7 @@ export class ProductService {
     let productsSearch = this.convertProductToProductSearch(products);
     let reserveRequestPayload = new ReserveRequestPayload(productsSearch);
     let reserveRequest = new ReserveRequest(reserveRequestPayload);
-    console.log(reserveRequest);
+
     return this._http
       .post(environment.URLCatalog + environment.endPointReserveProduct, reserveRequest, options)
       .pipe(
