@@ -20,6 +20,6 @@ export const environment = {
   endPointVerifyToken: "/services/security/verifyJwtToken/",
   endPointUpdateCart: "/prod/gestioncarrito/updatecart/",
   endPointGetCart: "/prod/gestioncarrito/getcart/",
-  endPointGetPayment: "/prd/api/payment/addPago/",
+  endPointGetPayment: "/prd/api/payment/add/",
   endPointGetOrder: "/prd/api/orden/add/",
 };
