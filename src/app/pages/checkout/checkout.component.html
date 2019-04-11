@@ -668,12 +668,19 @@
   </mat-step>
 
   <mat-step [stepControl]="deliveryForm" label="M&eacute;todo de Env&iacute;o">
-    <form [formGroup]="deliveryForm" class="p-2">
-      <mat-radio-group formControlName="deliveryMethod" fxLayout="column" fxLayoutAlign="center" required
-        name="methods">
-        <mat-radio-button *ngFor="let method of deliveryMethods" color="primary" [value]="method" class="mt-1">
-          <b>{{method.name}}</b> {{method.desc}}</mat-radio-button>
-      </mat-radio-group>
+    <form [formGroup]="deliveryForm" class="p-1">
+      <div fxLayout="row wrap" fxLayoutAlign="start" class="p-1">
+
+        <mat-radio-group formControlName="deliveryMethod" required name="methods">
+
+          <mat-radio-button *ngFor="let method of deliveryMethods" color="primary" [value]="method" class="mt-1">
+            <b>{{method.name}}</b> 
+            <p>{{method.desc}}</p>
+          </mat-radio-button>
+
+        </mat-radio-group>
+
+      </div>
       <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
         <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
           class="mr-1">

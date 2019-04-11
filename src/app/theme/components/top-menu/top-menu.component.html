@@ -28,6 +28,10 @@
                 <mat-icon class="mat-icon-sm">favorite</mat-icon>
                 <span>Lista de deseo ({{appService.Data.wishList.length}})</span>
             </a>
+            <a mat-menu-item routerLink="/cart" fxHide="false" fxHide.gt-sm>
+                <mat-icon class="mat-icon-sm">shopping_cart</mat-icon>
+                <span>Carrito de Compras ({{cartService.Data.products.length}})</span>
+            </a>
             <a mat-menu-item routerLink="/" *ngIf="authService.isAuthenticated()">
                 <mat-icon class="mat-icon-sm">lock</mat-icon>
                 <span>Bloquear la pantalla</span>

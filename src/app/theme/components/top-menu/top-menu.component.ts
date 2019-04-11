@@ -3,6 +3,7 @@ import { AppService } from '../../../app.service';
 import { SecurityService } from '../../../services/security.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { CartService } from 'src/app/services/cart.services';
 
 @Component({
   selector: 'app-top-menu',
@@ -21,6 +22,7 @@ export class TopMenuComponent implements OnInit {
   public flag: any;
 
   constructor(public appService: AppService,
+    public cartService: CartService,
     public authService: AuthService,
     public router: Router,
     public securityService: SecurityService) {
