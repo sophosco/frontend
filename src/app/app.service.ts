@@ -44,12 +44,12 @@ export class AppService {
     public addToCompare(product:Product){
         let message, status;
         if(this.Data.compareList.filter(item=>item.id == product.id)[0]){
-            message = 'The product ' + product.name + ' already added to comparison list.'; 
+            message = 'El producto ' + product.name + ' ya añadido a la lista de comparación.'; 
             status = 'error';     
         }
         else{
             this.Data.compareList.push(product);
-            message = 'The product ' + product.name + ' has been added to comparison list.'; 
+            message = 'El producto ' + product.name + ' ha sido añadido a la lista de comparación.'; 
             status = 'success';  
         }
         this.snackBar.open(message, '×', { panelClass: [status], verticalPosition: 'top', duration: 3000 });
@@ -58,37 +58,16 @@ export class AppService {
     public addToWishList(product:Product){
         let message, status;
         if(this.Data.wishList.filter(item=>item.id == product.id)[0]){
-            message = 'The product ' + product.name + ' already added to wish list.'; 
+            message = 'El producto ' + product.name + ' ya añadido a la lista de deseos.'; 
             status = 'error';     
         }
         else{
             this.Data.wishList.push(product);
-            message = 'The product ' + product.name + ' has been added to wish list.'; 
+            message = 'El producto ' + product.name + ' ha sido añadido a la lista de deseos.'; 
             status = 'success';  
         }
         this.snackBar.open(message, '×', { panelClass: [status], verticalPosition: 'top', duration: 3000 });
     }
-
-    // public addToCart(product:Product){
-    //     let message, status;
-    //     if(this.Data.cartList.filter(item=>item.id == product.id)[0]){
-    //         message = 'The product ' + product.name + ' already added to cart.'; 
-    //         status = 'error'; 
-    //     }
-    //     else{
-    //         this.Data.totalPrice = null;
-    //         this.Data.totalCartCount = null;
-    //         this.Data.cartList.push(product);
-    //         this.Data.cartList.forEach(product=>{
-    //             this.Data.totalPrice = this.Data.totalPrice + (product.cartCount * product.newPrice);
-    //             this.Data.totalCartCount = this.Data.totalCartCount + product.cartCount;
-    //         })
-    //         message = 'The product ' + product.name + ' has been added to cart.'; 
-    //         status = 'success';  
-    //     }
-    //     this.snackBar.open(message, '×', { panelClass: [status], verticalPosition: 'top', duration: 3000 });
-    // }
-
 
     public addToCart(product:Product){
         let message, status;        
