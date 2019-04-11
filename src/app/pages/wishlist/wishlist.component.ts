@@ -16,7 +16,7 @@ export class WishlistComponent implements OnInit {
     public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.appService.Data.cartList.forEach(cartProduct=>{
+    this.cartService.Data.products.forEach(cartProduct=>{
       this.appService.Data.wishList.forEach(product=>{
         if(cartProduct.id == product.id){
           product.cartCount = cartProduct.cartCount;
@@ -41,7 +41,7 @@ export class WishlistComponent implements OnInit {
   }
 
   public addToCart(product:Product){
-    let currentProduct = this.appService.Data.cartList.filter(item=>item.id == product.id)[0];
+    let currentProduct = this.cartService.Data.products.filter(item=>item.id == product.id)[0];
     if(currentProduct){
       if((currentProduct.cartCount + this.quantity) <= product.availibilityCount){
         product.cartCount = currentProduct.cartCount + this.quantity;

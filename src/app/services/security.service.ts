@@ -21,29 +21,6 @@ export class SecurityService {
 
   }
 
-  public getvalidateUserAccount(email: string, password: string): Observable<UserResponse> {
-
-    let headers = new Headers({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'application/json',
-    });
-
-    let options = new RequestOptions({ headers: headers });
-
-    let userRequest = new UserRequest(localStorage.key + 'id_Session', email, password);
-
-    return this._http
-      .post(environment.URLLogin + environment.endPointLogin, userRequest, options)
-      .pipe(
-        map(((response: any) => {
-          return JSON.parse(response);
-        }),
-          catchError((e: Response) => throwError(e)))
-      );
-
-  }
-
   public getTokenAuthentication(idKey: string): Observable<KeyResponse> {
 
     let headers = new Headers({
@@ -120,7 +97,7 @@ export class SecurityService {
     return true;
   }
 
-  public getIdSession(): String{
+  public getIdSession(): String {
     return localStorage.getItem('access_id_session');
   }
 

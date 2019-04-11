@@ -28,14 +28,6 @@ export class SignInComponent implements OnInit {
   public onLoginFormSubmit(values: Object): void {
     if (this.loginForm.valid) {
 
-      this.securityService.getvalidateUserAccount(this.loginForm.value.email, this.loginForm.value.password).subscribe(data => {
-        this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
-          let user = new User(1, 'Johnathan', 'Camelo', 'Gabriel', this.loginForm.value.email, this.loginForm.value.password);
-          this.securityService.logInSession(user);
-          this.router.navigate(['/']);
-        });
-      });
-
       this.securityService.getTokenAuthentication("1").subscribe(tokenData => {
         let user = new User(1, 'Johnathan', 'Camelo', 'Gabriel', this.loginForm.value.email, this.loginForm.value.password);
         this.securityService.logInSession(user);

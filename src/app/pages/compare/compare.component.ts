@@ -16,7 +16,7 @@ export class CompareComponent implements OnInit {
     public snackBar: MatSnackBar) { }
 
   ngOnInit() { 
-    this.appService.Data.cartList.forEach(cartProduct=>{
+    this.cartService.Data.products.forEach(cartProduct=>{
       this.appService.Data.compareList.forEach(product=>{
         if(cartProduct.id == product.id){
           product.cartCount = cartProduct.cartCount;
