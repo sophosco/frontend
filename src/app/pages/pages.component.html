@@ -84,7 +84,7 @@
                     </button>
                     <mat-menu #cartMenu="matMenu" [overlapTrigger]="false" xPosition="before"
                         class="top-menu-dropdown cart-dropdown">
-                        <span class="d-block">
+                        <span (mouseleave)="cartMenuTrigger.closeMenu()">
                             <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
                                 <b><span>{{cartService.Data.totalCartCount}} ITEM<span
                                             *ngIf="cartService.Data.totalCartCount > 1">S</span></span></b>
