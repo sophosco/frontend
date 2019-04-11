@@ -38,40 +38,23 @@
             <app-top-menu></app-top-menu>
         </mat-toolbar-row>
         <mat-toolbar-row fxLayoutAlign="space-between center" class="logo-toolbar theme-container">
-            <a class="logo" routerLink="/" (click)="closeSubMenus()">SophoStore</a>
+            <a class="logo" routerLink="/" (click)="closeSubMenus()">SophosStore</a>
             <div fxFlex fxFlexOffset.gt-sm="10" fxShow="false" fxShow.gt-sm>
-                <!--
-                <form method="get" class="search-form" fxLayout="row">
-                    <button mat-raised-button [matMenuTriggerFor]="categoriesMenu"
-                        #categoriesMenuTrigger="matMenuTrigger" type="button"
-                        class="mat-elevation-z0 categories text-truncate text-muted">{{category?.name}}<mat-icon>
-                            arrow_drop_down</mat-icon></button>
-                    <mat-menu #categoriesMenu="matMenu" [overlapTrigger]="false" xPosition="before"
-                        class="categories-dropdown">
-                        <span (mouseleave)="categoriesMenuTrigger.closeMenu()">
-                            <app-category-list [categories]="categories" [categoryParentId]="0"
-                                (change)="changeCategory($event)"></app-category-list>
-                        </span>
-                    </mat-menu>
-                    <input type="text" placeholder="Escribe para buscar..." fxFlex>
-                    <button mat-mini-fab (click)="search()" type="button"
-                        class="search-btn mat-elevation-z0 text-muted">
-                        <mat-icon>search</mat-icon>
-                    </button>
-                </form>
-                -->
+
             </div>
-
-
 
             <div fxFlexOffset="10" fxLayout="row" fxLayoutAlign="center center">
 
                 <div fxLayoutAlign="center center">
+
                     <button mat-button [matMenuTriggerFor]="cartMenu" #cartMenuTrigger="matMenuTrigger"
                         class="flex-row-button">
+
                         <mat-icon class="mat-icon-lg">shopping_cart</mat-icon>
+
                         <span *ngIf="cartService.Data.totalCartCount > 0"
                             class="cart-items-count">{{cartService.Data.totalCartCount}}</span>
+
                         <div fxLayout="column" fxLayoutAlign="center center" fxShow="false" fxShow.gt-xs
                             class="top-cart">
                             <span>Carrito de compras</span>
@@ -82,8 +65,10 @@
                         </div>
                         <mat-icon class="mat-icon-sm">arrow_drop_down</mat-icon>
                     </button>
+
                     <mat-menu #cartMenu="matMenu" [overlapTrigger]="false" xPosition="before"
                         class="top-menu-dropdown cart-dropdown">
+
                         <span (mouseleave)="cartMenuTrigger.closeMenu()">
                             <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
                                 <b><span>{{cartService.Data.totalCartCount}} ITEM<span
@@ -126,41 +111,9 @@
                                 </div>
                             </div>
                         </span>
+                        
                     </mat-menu>
                 </div>
-
-                <div fxLayoutAlign="center center" fxHide="false" fxHide.gt-sm>
-                    <button mat-icon-button [matMenuTriggerFor]="searchMenu" #searchMenuTrigger="matMenuTrigger"
-                        class="search-toggle-btn">
-                        <mat-icon class="mat-icon-lg">search</mat-icon>
-                    </button>
-                    <mat-menu #searchMenu="matMenu" [overlapTrigger]="false" xPosition="before"
-                        class="search-dropdown mat-elevation-z8">
-                        <!--
-                        <form method="get" fxFlex class="search-form">
-                            <button mat-raised-button [matMenuTriggerFor]="categories2Menu"
-                                #categories2MenuTrigger="matMenuTrigger" type="button"
-                                class="mat-elevation-z0 categories text-muted"
-                                (click)="stopClickPropagate($event)">{{category?.name}}<mat-icon>arrow_drop_down
-                                </mat-icon></button>
-                            <mat-menu #categories2Menu="matMenu" [overlapTrigger]="false" xPosition="before"
-                                class="categories-dropdown">
-                                <span (mouseleave)="categories2MenuTrigger.closeMenu()">
-                                    <app-category-list [categories]="categories" [categoryParentId]="0"
-                                        (change)="changeCategory($event)"></app-category-list>
-                                </span>
-                            </mat-menu>
-                            <input type="text" placeholder="Escriba para buscar..." fxFlex
-                                (click)="stopClickPropagate($event)">
-                            <button mat-mini-fab (click)="search()" type="button"
-                                class="search-btn mat-elevation-z0 text-muted">
-                                <mat-icon>search</mat-icon>
-                            </button>
-                        </form>
-                        -->
-                    </mat-menu>
-                </div>
-
             </div>
 
         </mat-toolbar-row>
