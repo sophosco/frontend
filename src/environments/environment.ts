@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  URLAmazon: "https://sophosstore.net/callback",
+  URLAmazon: "https://www.sophosstore.net/callback",
   URLAmazonDev: "http://localhost:4200/callback",
   URLCatalog: "https://iofb7ey9ig.execute-api.us-east-2.amazonaws.com",
   URLSecurity: "https://mdqv65vxdd.execute-api.us-east-2.amazonaws.com",
