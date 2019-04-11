@@ -58,10 +58,6 @@
                 <button mat-raised-button *ngFor="let color of product?.color"
                     [style.background]="color">&nbsp;</button>
             </div>
-            <div *ngIf="product?.size" class="size" ngClass.xs="mt-1">
-                <span class="fw-500">Selecciona la Talla:</span>
-                <button mat-raised-button *ngFor="let size of product?.size">{{size}}</button>
-            </div>
         </div>
 
         <div class="py-1">
