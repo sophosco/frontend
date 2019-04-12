@@ -53,9 +53,7 @@ podTemplate(
             }
             stage('Test app'){
                 try {
-                    withEnv(["CHROME_BIN=/usr/bin/chromium-browser"]) {
-                        sh 'npm test --code-coverage=true --progress=false --watch false'
-                    }
+                    sh ('./node_modules/karma/bin/karma start karma.conf.js')
                 }
                 finally {
                     junit '**/target/surefire-reports/TEST-*.xml'
