@@ -58,9 +58,9 @@ podTemplate(
             //stage('Scann code') {
             //    sh "node_modules/sonar-scanner/bin/sonar-scanner"
             //}
-            stage('Test app'){
-                  sh 'npm test --progress=false --watch=false'
-            }
+            //stage('Test app'){
+            //      sh 'npm test --progress=false --watch=false'
+            //}
         }//node
 
         container('docker') {
