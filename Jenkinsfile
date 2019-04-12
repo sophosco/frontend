@@ -54,7 +54,7 @@ podTemplate(
             stage('Build app'){
                 sh 'npm run-script build --prod --build-optimizer'
             }
-            //tage('Test app'){
+            //stage('Test app'){
             //    try {
             //        sh 'npm test --code-coverage=true --progress=false --watch=false'
             //    }
@@ -62,9 +62,6 @@ podTemplate(
             //        junit '**/target/surefire-reports/TEST-*.xml'
             //    }
             //}
-            stage('Code quality') {
-                sh 'npm run-script lint'
-            }
         }//node
 
         stage('Scann code') {
