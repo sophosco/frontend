@@ -51,14 +51,21 @@ podTemplate(
                 sh 'npm install @angular/cli@7.3.6'
                 sh 'npm install'
             }
-            stage('Build app'){
-                sh 'npm run-script build --prod --build-optimizer'
-            }
             stage('Test app'){
-                sh 'npm test --code-coverage=true --single-run=true --progress=false'
+                try {
+                    withEnv(["CHROME_BIN=/usr/bin/chromium-browser"]) {
+                        sh 'npm test --code-coverage=true --single-run=true --progress=false'
+                    }
+                }
+                finally {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                }
             }
             stage('Code quality') {
                 sh 'npm lint'
+            }
+            stage('Build app'){
+                sh 'npm run-script build --prod --build-optimizer'
             }
         }//node
 
