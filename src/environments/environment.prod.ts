@@ -6,6 +6,7 @@ export const environment = {
   URLCard: "https://gz3pccmad9.execute-api.us-east-2.amazonaws.com",
   URLOrder: "https://47av2kc0ya.execute-api.us-east-2.amazonaws.com",
   URLPayment: "https://7dfcrahihj.execute-api.us-east-2.amazonaws.com",
+  URLNotification: "https://rocvv27qe2.execute-api.us-east-2.amazonaws.com",
   endPointCatalog: "/prod/api/products/catalog/",
   endPointDetailProduc: "/prod/api/products/product/",
   endPointReserveProduct: "/prod/api/products/reserve/",
@@ -15,4 +16,5 @@ export const environment = {
   endPointGetCart: "/prod/gestioncarrito/getcart/",
   endPointGetPayment: "/prd/api/payment/add",
   endPointGetOrder: "/prd/api/orden/add",
+  endPointNotification: "/prod/api/sendMail",
 };

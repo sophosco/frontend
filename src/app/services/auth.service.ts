@@ -41,7 +41,7 @@ export class AuthService {
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);
             } else if (err) {
-                this.logout();
+                //this.logout();
             }
         });
     }

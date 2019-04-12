@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper, MatSnackBar } from '@angular/material';
-import { AppService} from '../../app.service';
+import { AppService } from '../../app.service';
 import { Utils } from '../../services/utils/utils';
 import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
@@ -148,7 +148,7 @@ export class CheckoutComponent implements OnInit {
           this.encriterService.encripterInformation(order).then(
             (orderEncripter) => {
               this.orderService.createOrder(orderEncripter).subscribe(data => {
-//                console.log(data);
+                //                console.log(data);
               });
             }
           );
@@ -180,7 +180,9 @@ export class CheckoutComponent implements OnInit {
     this.encriterService.encripterInformation(payment).then(
       (paymentEncripter) => {
         this.paymentServices.createPayment(paymentEncripter).subscribe(data => {
-          //console.log(data);
+          this.securityService.notificateUserEmail(this.billingForm.value.phone).subscribe(dataEmail => {
+            //console.log(dataEmail);
+          });
         });
       }
     );
