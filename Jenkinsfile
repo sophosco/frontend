@@ -65,9 +65,12 @@ podTemplate(
         }//node
 
         stage('Scann code') {
-            def scannerHome = tool 'SonarScanner'
-            withSonarQubeEnv('SonarQube') {
-                sh "$scannerHome/bin/sonar-scanner"
+            withEnv(['scannerHome' = tool 'SonarScanner']) {
+                withSonarQubeEnv('SonarQube') {
+                    container('node') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
             }
         }
 
