@@ -52,10 +52,13 @@ podTemplate(
                 sh 'npm install'
             }
             stage('Build app'){
-                sh 'npm run-script build'
+                sh 'npm run-script build --prod --build-optimizer'
             }
             stage('Test app'){
-                sh 'npm test'
+                sh 'npm test --single-run --browsers Chrome_no_sandbox'
+            }
+            stage('Code quality') {
+                sh 'npm lint'
             }
         }//node
 
