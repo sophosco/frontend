@@ -9,6 +9,6 @@ export class Settings {
 export class AppSettings {
     public settings = new Settings(
         'Sophostore',  // theme name
-        'red'     // green, blue, red, pink, purple, grey
+        'blue'     // green, blue, red, pink, purple, grey
     )
 }
