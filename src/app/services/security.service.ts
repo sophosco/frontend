@@ -1,23 +1,55 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
-import { HttpClient } from "@angular/common/http";
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from "rxjs/operators";
 import { environment } from '../../environments/environment';
 import { RequestPayload, KeyRequest } from './models/requests/key-request';
 import { KeyResponse } from './models/responses/key-response';
 import { User } from '../models/user';
-import { UserRequest } from './models/requests/user-request';
-import { UserResponse } from './models/responses/user-response';
-import { RequestValidateHeader, RequestValidatePayload, ValidateKeyRequest } from './models/requests/validate-key-request.';
-import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
+import { RequestValidateHeader, RequestValidatePayload, ValidateKeyRequest } from './models/requests/validate-key-request.'; import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
+import { Email, EmailRequestPayload, EmailRequestHeader, EmailRequest } from './models/requests/email-request';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class SecurityService {
 
   public userSession: User;
 
-  constructor(private _httpClient: HttpClient, private _http: Http) {
+  constructor(private _http: Http,
+    public authService: AuthService) {
+
+  }
+
+  public notificateUserEmail(cellPhone: String): Observable<String> {
+
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'application/json',
+    });
+
+    let options = new RequestOptions({ headers: headers });
+
+    let from: String = 'cristiandaviddallosbustos@gmail.com';
+    let to: String = this.authService.userProfile.nickname + '@gmail.com';
+    let subject: String = 'Compras SophosStore';
+    let text: String = 'Apreciado ' + this.authService.userProfile.name
+      + ' gracias por comprar en nuestro portal, su orden ha sido procesada exitosamente';
+
+    let emailUser = new Email(from, to, subject, text);
+
+    let emailRequestPayload = new EmailRequestPayload("57" + cellPhone, emailUser);
+    let emailRequestHeader = new EmailRequestHeader(0, true);
+    let emailRequest = new EmailRequest(emailRequestHeader, emailRequestPayload);
+
+    return this._http
+      .post(environment.URLNotification + environment.endPointNotification, emailRequest, options)
+      .pipe(
+        map(((response: any) => {
+          return JSON.parse(response._body).responsePayload.resumeMail;
+        }),
+          catchError((e: Response) => throwError(e)))
+      );
 
   }
 
