@@ -50,9 +50,14 @@ podTemplate(
             stage('Install dependencies') {
                 sh 'npm install @angular/cli@7.3.6'
                 sh 'npm install'
+                sh 'npm install sonar-scanner --save-dev'
             }
             stage('Build app'){
                 sh 'npm run-script build --prod --build-optimizer'
+            }
+
+            stage('Scann code') {
+                sh "node_modules/sonar-scanner/bin/sonar-scanner"
             }
             //stage('Test app'){
             //    try {
@@ -63,15 +68,6 @@ podTemplate(
             //    }
             //}
         }//node
-
-        stage('Scann code') {
-            // requires SonarQube Scanner 2.8+
-            def scannerHome = tool 'SonarScanner'
-            withSonarQubeEnv('SonarQube') {
-                sh "npm install node"
-                sh "$scannerHome/bin/sonar-scanner"
-            }
-        }
 
         container('docker') {
             stage('Create image') {
