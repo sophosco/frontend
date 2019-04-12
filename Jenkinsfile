@@ -68,6 +68,7 @@ podTemplate(
             // requires SonarQube Scanner 2.8+
             def scannerHome = tool 'SonarScanner'
             withSonarQubeEnv('SonarQube') {
+                sh "npm install node"
                 sh "$scannerHome/bin/sonar-scanner"
             }
         }
