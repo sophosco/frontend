@@ -54,7 +54,7 @@ podTemplate(
             stage('Test app'){
                 try {
                     withEnv(["CHROME_BIN=/usr/bin/chromium-browser"]) {
-                        sh 'npm test --code-coverage=true --single-run=true --progress=false'
+                        sh 'npm test --code-coverage=true --progress=false --watch false'
                     }
                 }
                 finally {
