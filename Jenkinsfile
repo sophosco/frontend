@@ -55,7 +55,7 @@ podTemplate(
                 sh 'npm run-script build --prod --build-optimizer'
             }
             stage('Test app'){
-                sh 'npm test --single-run --browsers Chrome_no_sandbox'
+                sh 'npm test --browser=Headless_Chrome --code-coverage=true --single-run=true'
             }
             stage('Code quality') {
                 sh 'npm lint'
