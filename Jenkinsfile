@@ -68,11 +68,7 @@ podTemplate(
             // requires SonarQube Scanner 2.8+
             def scannerHome = tool 'SonarScanner'
             withSonarQubeEnv('SonarQube') {
-                container('node') {
-                    ws('/home/jenkins/workspace/frontend') {
-                        sh "${scannerHome}/bin/sonar-scanner"
-                    }
-                }
+                sh "$scannerHome/bin/sonar-scanner"
             }
         }
 
