@@ -63,7 +63,7 @@ podTemplate(
             //    }
             //}
             stage('Code quality') {
-                sh 'npm lint'
+                sh 'npm run-script lint'
             }
         }//node
 
