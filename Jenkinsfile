@@ -51,19 +51,19 @@ podTemplate(
                 sh 'npm install @angular/cli@7.3.6'
                 sh 'npm install'
             }
-            stage('Test app'){
-                try {
-                    sh ('./node_modules/karma/bin/karma start karma.conf.js')
-                }
-                finally {
-                    junit '**/target/surefire-reports/TEST-*.xml'
-                }
-            }
-            stage('Code quality') {
-                sh 'npm lint'
-            }
             stage('Build app'){
                 sh 'npm run-script build --prod --build-optimizer'
+            }
+            //tage('Test app'){
+            //    try {
+            //        sh 'npm test --code-coverage=true --progress=false --watch=false'
+            //    }
+            //    finally {
+            //        junit '**/target/surefire-reports/TEST-*.xml'
+            //    }
+            //}
+            stage('Code quality') {
+                sh 'npm lint'
             }
         }//node
 
