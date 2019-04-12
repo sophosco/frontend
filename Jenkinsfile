@@ -64,14 +64,17 @@ podTemplate(
             //}
         }//node
 
-        /*stage('Scann code') {
+        stage('Scann code') {
+            // requires SonarQube Scanner 2.8+
             def scannerHome = tool 'SonarScanner'
             withSonarQubeEnv('SonarQube') {
                 container('node') {
-                    sh "${scannerHome}/bin/sonar-scanner"
+                    ws('/home/jenkins/workspace/frontend') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
                 }
             }
-        }*/
+        }
 
         container('docker') {
             stage('Create image') {
