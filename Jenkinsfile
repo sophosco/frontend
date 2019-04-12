@@ -50,23 +50,17 @@ podTemplate(
             stage('Install dependencies') {
                 sh 'npm install @angular/cli@7.3.6'
                 sh 'npm install'
-                sh 'npm install sonar-scanner --save-dev'
+                //sh 'npm install sonar-scanner --save-dev'
             }
             stage('Build app'){
                 sh 'npm run-script build --prod --build-optimizer'
             }
-
-            stage('Scann code') {
-                sh "node_modules/sonar-scanner/bin/sonar-scanner"
-            }
-            //stage('Test app'){
-            //    try {
-            //        sh 'npm test --code-coverage=true --progress=false --watch=false'
-            //    }
-            //    finally {
-            //        junit '**/target/surefire-reports/TEST-*.xml'
-            //    }
+            //stage('Scann code') {
+            //    sh "node_modules/sonar-scanner/bin/sonar-scanner"
             //}
+            stage('Test app'){
+                  sh 'npm test --progress=false --watch=false'
+            }
         }//node
 
         container('docker') {
